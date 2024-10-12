@@ -1,6 +1,6 @@
-package hospitalManagementSystem;
+package SC2002.src.HospitalManagementSystem;
 
-import hospitalManagementSystem.Users.role;
+import HospitalManagementSystem.Users.role;
 
 public class Test {
 	public static void main(String[] args) {

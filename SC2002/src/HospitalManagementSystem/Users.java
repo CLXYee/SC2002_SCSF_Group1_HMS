@@ -1,4 +1,4 @@
-package hospitalManagementSystem;
+package SC2002.src.HospitalManagementSystem;
 
 public class Users {
 	private String hospitalId;
