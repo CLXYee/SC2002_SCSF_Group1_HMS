@@ -2,7 +2,7 @@ package SC2002.src.HospitalManagementSystem;
 
 import java.util.ArrayList;
 
-public class Patient extends Users{
+public class Patient extends User{
     private String patientID;
     private String name;
     private String dateOfBirth;
