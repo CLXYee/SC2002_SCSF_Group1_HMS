@@ -1,6 +1,6 @@
 package SC2002.src.HospitalManagementSystem;
 
-public class Users {
+public class User {
 	private String hospitalId;
     private String password;
     private enum role {
@@ -11,9 +11,9 @@ public class Users {
     }
     private role roleOfUsers;
 
-    public Users(String hospitalId, String password, int choice){
+    public User(String hospitalId, int choice){
         this.hospitalId = hospitalId;
-        this.password = password;
+        this.password = "password";
         switch(choice) {
         	case 0: 
         		this.roleOfUsers = role.ADMINISTRATOR;
