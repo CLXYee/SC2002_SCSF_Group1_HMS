@@ -5,31 +5,36 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.io.IOException;
+import java.util.Scanner;
+
 
 public class HospitalApp{
     public static void main(String[] args){
-        try {
-            List<List<String>> data = new ArrayList<>();
-            String filePath = "SC2002/Patient_List.xlsx"; // replace with the path to your own CSV file
-            FileReader fr = new FileReader(filePath);
-            CSVReader reader = new CSVReader(fr);
-
-            String[] lineData = reader.readNext();
-            while (lineData != null) {
-                data.add(Arrays.asList(lineData));
-                lineData = reader.readNext();
-            }
-
-            for (List<String> list : data) {
-                for (String str : list) {
-                    System.out.print(str + " ");
-                }
-                System.out.println();
-            }
-
-            reader.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+    	Scanner sc = new Scanner(System.in);
+    	
+    	System.out.println("Input ID:");
+    	String inputID = sc.next();
+    	System.out.println("Input password");
+    	String inputPass = sc.next();
+    	
+		String csvFile = "./Patient_List.csv"; // Specify the correct path to your file 
+		String line;
+		String csvSplitBy = ","; // Delimiter for CSV columns
+		 
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {		    
+			while ((line = br.readLine()) != null) {
+		        // Split the line into columns using the delimiter
+		        String[] data = line.split(csvSplitBy);
+		        
+		        if (inputID.equals(data[1]) && inputPass.equals(data[0])) {
+		        	System.out.println("Login successful");
+		        	break;
+		        }
+		    }
+		    
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
     }
 }
