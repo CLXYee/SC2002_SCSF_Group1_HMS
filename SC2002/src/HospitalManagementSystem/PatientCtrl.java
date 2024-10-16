@@ -1,6 +1,6 @@
 package HospitalManagementSystem;
 
-public class PatientCtrl implements MedicalRecordCtrl {
+public class PatientCtrl implements MedicalRecordCtrl, Perform {
 	private MedicalRecord medicalRecord;
 	
 	public PatientCtrl(String hospitalID) {
@@ -12,5 +12,12 @@ public class PatientCtrl implements MedicalRecordCtrl {
 		System.out.println("Patient ID 	| " + medicalRecord.getPatientID());
 		System.out.println("Name 		| " + medicalRecord.getName());
 		System.out.println("Gender 		| " + medicalRecord.getGender());
+	}
+	
+	public void perform(int i) {
+		switch(i) {
+		case 1:
+			showMedicalRecord();
+		}
 	}
 }

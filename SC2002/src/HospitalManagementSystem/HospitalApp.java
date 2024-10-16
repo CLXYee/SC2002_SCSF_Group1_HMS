@@ -4,11 +4,20 @@ import java.util.Scanner;
 
 public class HospitalApp{
 	public static void main(String[] args){
+		boolean isLogin = false;
+		int input = 0;
+		
 		String[] data;
 		data = getLoginInput();
-		MainCtrl mainCtrl = new MainCtrl(data[1], data[2], data[3]);
+		if (data!=null) {isLogin = true;}
 		
+		MainCtrl mainCtrl = new MainCtrl(data[0], data[1], data[2]);
 		
+		do {
+			mainCtrl.showOperation();
+			input = getOperationInput();
+			mainCtrl.getOperationInput(input);
+		} while (isLogin);
     }
 	
 	public static String[] getLoginInput() {
@@ -32,5 +41,12 @@ public class HospitalApp{
     	} while (data==null);
     	// Return the data of user with ID and Name
     	return data;
+	}
+	
+	public static int getOperationInput() {
+		System.out.println("Enter input for operation: ");
+		Scanner sc = new Scanner(System.in);
+		
+		return sc.nextInt();
 	}
 }
