@@ -6,8 +6,9 @@ public class HospitalApp{
 	public static void main(String[] args){
 		String[] data;
 		data = getLoginInput();
-		MainCtrl mainCtrl = new MainCtrl(data[0], data[1], data[2]);
-		System.out.println(mainCtrl.getID());
+		MainCtrl mainCtrl = new MainCtrl(data[1], data[2], data[3]);
+		
+		
     }
 	
 	public static String[] getLoginInput() {

@@ -1,17 +1,21 @@
 package HospitalManagementSystem;
 
 public class MainCtrl {
-	private String hospitalID;
 	private Role role;
+	private String hospitalID;
 	private String name;
+	private MedicalRecordCtrl medicalRecordCtrl; 
 	
-	public MainCtrl(String role, String hospitalID, String name) {
+	public MainCtrl(String inputRole, String hospitalID, String name) {
+		this.role = Role.valueOf(inputRole);
 		this.hospitalID = hospitalID;
-		this.role = Role.valueOf(role);
 		this.name = name;
+		switch (role) {
+		case Role.PATIENT: 
+			medicalRecordCtrl = new PatientCtrl(this.hospitalID);
+			break;
+		}
 	}
 	
-	public String getID() {
-		return hospitalID;
-	}
+	
 }
