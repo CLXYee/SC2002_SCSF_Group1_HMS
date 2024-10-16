@@ -1,40 +1,35 @@
 package HospitalManagementSystem;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
-import java.io.IOException;
 import java.util.Scanner;
 
-
 public class HospitalApp{
-    public static void main(String[] args){
-    	Scanner sc = new Scanner(System.in);
-    	
-    	System.out.println("Input ID:");
-    	String inputID = sc.next();
-    	System.out.println("Input password");
-    	String inputPass = sc.next();
-    	
-		String csvFile = "./Patient_List.csv"; // Specify the correct path to your file 
-		String line;
-		String csvSplitBy = ","; // Delimiter for CSV columns
-		 
-		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {		    
-			while ((line = br.readLine()) != null) {
-		        // Split the line into columns using the delimiter
-		        String[] data = line.split(csvSplitBy);
-		        
-		        if (inputID.equals(data[1]) && inputPass.equals(data[0])) {
-		        	System.out.println("Login successful");
-		        	break;
-		        }
-		    }
-		    
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
+	public static void main(String[] args){
+		String[] data;
+		data = getLoginInput();
+		MainCtrl mainCtrl = new MainCtrl(data[0], data[1], data[2]);
+		System.out.println(mainCtrl.getID());
     }
+	
+	public static String[] getLoginInput() {
+		String loginRole;
+		String loginHospitalID;
+		String loginPassword;
+		String[] data;
+		
+		Scanner sc = new Scanner(System.in);	
+    	
+    	do {
+	    	System.out.print("Input Role: ");
+	    	loginRole = sc.next();
+	    	System.out.print("Input ID: ");
+	    	loginHospitalID = sc.next();
+	    	System.out.print("Input password: ");
+	    	loginPassword = sc.next();
+	    	
+			loginRole = loginRole.toUpperCase();
+	    	data = LoginCtrl.authenticate(loginRole, loginHospitalID, loginPassword);
+    	} while (data==null);
+    	// Return the data of user with ID and Name
+    	return data;
+	}
 }
