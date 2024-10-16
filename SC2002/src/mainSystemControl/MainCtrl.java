@@ -1,26 +1,23 @@
 package mainSystemControl;
 
 import ShowUserMenu.*;
+import userInfo.User;
 import userInfoControl.GetOperationInput;
 import userInfoControl.MedicalRecordCtrl;
 import userInfoControl.PatientCtrl;
 
 public class MainCtrl {
-	private Role role;
-	private String hospitalID;
-	private String name;
+	private User user;
 	private PatientCtrl patientCtrl = null;
 	private MedicalRecordCtrl medicalRecordCtrl; 
 	private GetOperationInput operationInput;
 	ShowMenu showMenu = null;
 	
 	public MainCtrl(String inputRole, String hospitalID, String name) {
-		this.role = Role.valueOf(inputRole);
-		this.hospitalID = hospitalID;
-		this.name = name;
-		switch (role) {
+		user = new User(Role.valueOf(inputRole), hospitalID, name);
+		switch (user.getRole()) {
 		case Role.PATIENT: 
-			this.patientCtrl = new PatientCtrl(this.hospitalID);
+			this.patientCtrl = new PatientCtrl(user.getHospitalId());
 			this.medicalRecordCtrl = this.patientCtrl;
 			this.operationInput = this.patientCtrl;
 			this.showMenu = new ShowPatientMenu();
@@ -32,7 +29,7 @@ public class MainCtrl {
 		showMenu.showMenu();
 	}
 	
-	public void getOperationInput(int i) {
-		operationInput.getOperationInput(i);
+	public void getOperationInput(int input) {
+		operationInput.getOperationInput(input);
 	}
 }

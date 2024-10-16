@@ -13,11 +13,15 @@ public class User {
         this.name = name;
     }
 
+    public Role getRole() {
+    	return role;
+    }
+    
     public String getHospitalId(){
         return hospitalID;
     }
     
-    public Role getRole() {
-    	return role;
+    public String getName() {
+    	return name;
     }
 }

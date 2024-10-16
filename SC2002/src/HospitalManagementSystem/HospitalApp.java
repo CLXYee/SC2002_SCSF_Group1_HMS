@@ -9,6 +9,9 @@ public class HospitalApp{
 		boolean isLogin = false;
 		int input = 0;
 		
+		System.out.println("Welcome to Hospital NTU.");
+		System.out.println("Please login to system to continue.");
+		System.out.println("===================================");
 		String[] data;
 		data = getLoginInput();
 		if (data!=null) {isLogin = true;}
