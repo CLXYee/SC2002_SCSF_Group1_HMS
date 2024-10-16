@@ -2,6 +2,8 @@ package HospitalManagementSystem;
 
 import java.util.Scanner;
 
+import mainSystemControl.*;
+
 public class HospitalApp{
 	public static void main(String[] args){
 		boolean isLogin = false;
@@ -14,7 +16,7 @@ public class HospitalApp{
 		MainCtrl mainCtrl = new MainCtrl(data[0], data[1], data[2]);
 		
 		do {
-			mainCtrl.showOperation();
+			mainCtrl.showMenu();
 			input = getOperationInput();
 			mainCtrl.getOperationInput(input);
 		} while (isLogin);

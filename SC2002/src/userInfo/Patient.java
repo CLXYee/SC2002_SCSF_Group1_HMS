@@ -1,6 +1,8 @@
-package HospitalManagementSystem;
+package userInfo;
 
 import java.util.ArrayList;
+
+import mainSystemControl.Role;
 
 public class Patient extends User{
     MedicalRecord medicalRecord;

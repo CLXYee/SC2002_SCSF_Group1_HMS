@@ -1,6 +1,8 @@
-package HospitalManagementSystem;
+package userInfoControl;
 
-public class PatientCtrl implements MedicalRecordCtrl, Perform {
+import userInfo.MedicalRecord;
+
+public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput {
 	private MedicalRecord medicalRecord;
 	
 	public PatientCtrl(String hospitalID) {
@@ -14,7 +16,7 @@ public class PatientCtrl implements MedicalRecordCtrl, Perform {
 		System.out.println("Gender 		| " + medicalRecord.getGender());
 	}
 	
-	public void perform(int i) {
+	public void getOperationInput(int i) {
 		switch(i) {
 		case 1:
 			showMedicalRecord();

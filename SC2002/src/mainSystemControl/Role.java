@@ -1,4 +1,4 @@
-package HospitalManagementSystem;
+package mainSystemControl;
 
 public enum Role {
 	PATIENT,

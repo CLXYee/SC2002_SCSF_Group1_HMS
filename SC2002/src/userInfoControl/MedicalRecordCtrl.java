@@ -1,4 +1,4 @@
-package HospitalManagementSystem;
+package userInfoControl;
 
 public interface MedicalRecordCtrl {
 	public abstract void showMedicalRecord();

@@ -1,6 +1,9 @@
-package HospitalManagementSystem;
+package mainSystemControl;
 
-import operations.*;
+import ShowUserMenu.*;
+import userInfoControl.GetOperationInput;
+import userInfoControl.MedicalRecordCtrl;
+import userInfoControl.PatientCtrl;
 
 public class MainCtrl {
 	private Role role;
@@ -8,8 +11,8 @@ public class MainCtrl {
 	private String name;
 	private PatientCtrl patientCtrl = null;
 	private MedicalRecordCtrl medicalRecordCtrl; 
-	private Perform performOperation;
-	Operation operation = null;
+	private GetOperationInput operationInput;
+	ShowMenu showMenu = null;
 	
 	public MainCtrl(String inputRole, String hospitalID, String name) {
 		this.role = Role.valueOf(inputRole);
@@ -19,17 +22,17 @@ public class MainCtrl {
 		case Role.PATIENT: 
 			this.patientCtrl = new PatientCtrl(this.hospitalID);
 			this.medicalRecordCtrl = this.patientCtrl;
-			this.performOperation = this.patientCtrl;
-			this.operation = new PatientOperation();
+			this.operationInput = this.patientCtrl;
+			this.showMenu = new ShowPatientMenu();
 			break;
 		}
 	}
 	
-	public void showOperation() {
-		operation.showOperation();
+	public void showMenu() {
+		showMenu.showMenu();
 	}
 	
 	public void getOperationInput(int i) {
-		performOperation.perform(i);
+		operationInput.getOperationInput(i);
 	}
 }

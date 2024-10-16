@@ -1,4 +1,4 @@
-package HospitalManagementSystem;
+package mainSystemControl;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -1,4 +1,4 @@
-package HospitalManagementSystem;
+package userInfo;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
