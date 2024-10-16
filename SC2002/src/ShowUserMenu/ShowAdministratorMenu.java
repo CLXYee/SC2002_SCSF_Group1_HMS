@@ -1,9 +1,11 @@
-package operations;
+package ShowUserMenu;
 
-public class AdministratorOperation implements Operation {
+
+//show the admin menu to the admin
+public class ShowAdministratorMenu implements ShowMenu {
 
 	@Override
-	public void showOperation() {
+	public void showMenu() {
 		// TODO Auto-generated method stub
 		System.out.println("1. View and Manage Hospital Staff");
 		System.out.println("2. View Appointments details");

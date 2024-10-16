@@ -1,9 +1,11 @@
-package operations;
+package ShowUserMenu;
 
-public class PatientOperation implements Operation {
+
+//show the patient menu to the patient
+public class ShowPatientMenu implements ShowMenu {
 
 	@Override
-	public void showOperation() {
+	public void showMenu() {
 		// TODO Auto-generated method stub
 		System.out.println("1. View Medical Record");
 		System.out.println("2. Update Personal Information");

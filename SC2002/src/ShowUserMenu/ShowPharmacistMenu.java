@@ -1,9 +1,11 @@
-package operations;
+package ShowUserMenu;
 
-public class PharmacistOperation implements Operation {
+
+//show the pharmacist menu to the pharmacist
+public class ShowPharmacistMenu implements ShowMenu {
 
 	@Override
-	public void showOperation() {
+	public void showMenu() {
 		// TODO Auto-generated method stub
 		System.out.println("1. View Appointment Outcome Record");
 		System.out.println("2. Update Prescription Status");
