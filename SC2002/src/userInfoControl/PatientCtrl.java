@@ -6,7 +6,7 @@ import userInfo.AppointmentOutcomeRecord;
 import java.io.*;
 import java.util.*;
 
-public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, EntityUpdate  {
+public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, EntityUpdate {
 	private MedicalRecord medicalRecord;
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
@@ -434,4 +434,6 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 			break;
 		}
 	}
+
+	
 }
