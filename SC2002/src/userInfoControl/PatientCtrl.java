@@ -6,7 +6,7 @@ import userInfo.AppointmentOutcomeRecord;
 import java.io.*;
 import java.util.*;
 
-public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, EntityUpdate {
+public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	private MedicalRecord medicalRecord;
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
@@ -381,59 +381,5 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 		
 		return true;
 	}
-	
-	public void getOperationInput(int input) {
-		Scanner sc = new Scanner(System.in);
-		switch(input) {
-		case 1:
-			showMedicalRecord();
-			System.out.print("Press <Enter> to continue:");
-			// Dummy scanner to let the system stop for user to check information
-			sc.nextLine();
-			break;
-		case 2:
-			updateMedicalRecord();
-			System.out.print("Press <Enter> to continue:");
-			// Dummy scanner to let the system stop for user to check information
-			sc.nextLine();
-		case 3:
-			//View Available Appointment Slots
-			break;
-		case 4:
-			//Schedule an Appointment
-			scheduleAppointment();
-			System.out.print("Press <Enter> to continue:");
-			sc.nextLine();
-			break;
-		case 5:
-			//Reschedule an Appointment
-			rescheduleAppointment();
-			System.out.print("Press <Enter> to continue:");
-			sc.nextLine();
-			break;
-		case 6:
-			//Cancel an Appointment
-			cancelAppointment();
-			System.out.print("Press <Enter> to continue:");
-			sc.nextLine();
-			break;
-		case 7:
-			//View Scheduled Appointments
-			viewScheduledAppointment();
-			System.out.print("Press <Enter> to continue:");
-			sc.nextLine();
-			break;
-		case 8:
-			//View Past Appointment Outcome Records
-			viewPastRecords();
-			System.out.print("Press <Enter> to continue:");
-			sc.nextLine();
-			break;
-		case 9:
-			//Logout
-			break;
-		}
-	}
 
-	
 }
