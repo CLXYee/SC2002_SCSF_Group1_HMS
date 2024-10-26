@@ -15,9 +15,14 @@ public class AppointmentOutcomeRecord
 	private String[] prescriptionStatus;
 	private String consultationNotes;
 
-    public AppointmentOutcomeRecord(String patientID) 
+    public AppointmentOutcomeRecord(String dA, String tS, String[] pM, String[] pS, String cN) 
     {
-        List<String> lines = new ArrayList<>();
+    	this.dateOfAppointment = dA;
+    	this.typeOfService = tS;
+    	this.prescribedMedications = pM;
+    	this.prescriptionStatus = pS;
+    	this.consultationNotes = cN;
+        /*List<String> lines = new ArrayList<>();
         
         try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
         {
@@ -56,39 +61,34 @@ public class AppointmentOutcomeRecord
         catch (IOException e) 
         {
             e.printStackTrace();
-        }
-    }
-
-    // Split a CSV line into the proper format
-    private String[] splitCSVLine(String line) 
-    {
-        List<String> tokens = new ArrayList<>();
-        StringBuilder currentToken = new StringBuilder();
-        boolean inQuotes = false;
-
-        for (int i = 0; i < line.length(); i++) 
-        {
-            char currentChar = line.charAt(i);
-            
-            if (currentChar == '"') 
-            {
-                inQuotes = !inQuotes; 
-            } 
-            else if (currentChar == ',' && !inQuotes) 
-            {
-                tokens.add(currentToken.toString());
-                currentToken.setLength(0);
-            } 
-            else 
-            {
-                currentToken.append(currentChar);
-            }
-        }
-        
-        tokens.add(currentToken.toString());
-        return tokens.toArray(new String[0]);
+        }*/
     }
     
+    public String getDateOfAppointment()
+    {
+    	return this.dateOfAppointment;
+    }
+    
+    public String getTypeOfService()
+    {
+    	return this.typeOfService;
+    }
+    
+    public String[] getPrescribedMedications()
+    {
+    	return this.prescribedMedications;
+    }
+    
+    public String[] getPrescriptionStatus()
+    {
+    	return this.prescriptionStatus;
+    }
+    
+    public String getConsultationNotes()
+    {
+    	return this.consultationNotes;
+    }
+
     // Set the Prescription Status of a specific Medication from "Pending" to "Dispensed"
     public void updatePrescriptionStatus(String medication)
     {
