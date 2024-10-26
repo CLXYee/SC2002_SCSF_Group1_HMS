@@ -15,9 +15,14 @@ public class AppointmentOutcomeRecord
 	private String[] prescriptionStatus;
 	private String consultationNotes;
 
-    public AppointmentOutcomeRecord(String patientID) 
+    public AppointmentOutcomeRecord(String dA, String tS, String[] pM, String[] pS, String cN) 
     {
-        List<String> lines = new ArrayList<>();
+    	this.dateOfAppointment = dA;
+    	this.typeOfService = tS;
+    	this.prescribedMedications = pM;
+    	this.prescriptionStatus = pS;
+    	this.consultationNotes = cN;
+        /*List<String> lines = new ArrayList<>();
         
         try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
         {
@@ -32,23 +37,23 @@ public class AppointmentOutcomeRecord
             for (String currentLine : lines) 
             {
                 String[] columns = splitCSVLine(currentLine); 
-                String csvPatientID = columns[0];
-                String appointmentStatus = columns[2];
+                String csvPatientID = columns[1];
+                String appointmentStatus = columns[3];
                 
                 if (csvPatientID.equals(patientID) && appointmentStatus.equals("Completed")) 
                 {
-                    this.dateOfAppointment = columns[3];
-                    this.typeOfService = columns[5];
+                    this.dateOfAppointment = columns[4];
+                    this.typeOfService = columns[6];
 
-                    this.prescribedMedications = (columns.length > 6 && !columns[6].isEmpty()) 
+                    this.prescribedMedications = (columns.length > 7 && !columns[7].isEmpty()) 
                         ? columns[6].split("\\s*,\\s*") 
                         : new String[0];
 
-                    this.prescriptionStatus = (columns.length > 7 && !columns[7].isEmpty()) 
+                    this.prescriptionStatus = (columns.length > 8 && !columns[8].isEmpty()) 
                         ? columns[7].split("\\s*,\\s*") 
                         : new String[0];
                     
-                    this.consultationNotes = columns.length > 8 ? columns[8] : "";
+                    this.consultationNotes = columns.length > 9 ? columns[9] : "";
                     break; 
                 }
             }
@@ -56,39 +61,34 @@ public class AppointmentOutcomeRecord
         catch (IOException e) 
         {
             e.printStackTrace();
-        }
-    }
-
-    // Split a CSV line into the proper format
-    private String[] splitCSVLine(String line) 
-    {
-        List<String> tokens = new ArrayList<>();
-        StringBuilder currentToken = new StringBuilder();
-        boolean inQuotes = false;
-
-        for (int i = 0; i < line.length(); i++) 
-        {
-            char currentChar = line.charAt(i);
-            
-            if (currentChar == '"') 
-            {
-                inQuotes = !inQuotes; 
-            } 
-            else if (currentChar == ',' && !inQuotes) 
-            {
-                tokens.add(currentToken.toString());
-                currentToken.setLength(0);
-            } 
-            else 
-            {
-                currentToken.append(currentChar);
-            }
-        }
-        
-        tokens.add(currentToken.toString());
-        return tokens.toArray(new String[0]);
+        }*/
     }
     
+    public String getDateOfAppointment()
+    {
+    	return this.dateOfAppointment;
+    }
+    
+    public String getTypeOfService()
+    {
+    	return this.typeOfService;
+    }
+    
+    public String[] getPrescribedMedications()
+    {
+    	return this.prescribedMedications;
+    }
+    
+    public String[] getPrescriptionStatus()
+    {
+    	return this.prescriptionStatus;
+    }
+    
+    public String getConsultationNotes()
+    {
+    	return this.consultationNotes;
+    }
+
     // Set the Prescription Status of a specific Medication from "Pending" to "Dispensed"
     public void updatePrescriptionStatus(String medication)
     {

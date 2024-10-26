@@ -3,23 +3,17 @@ package userInfoControl;
 import userInfo.MedicalRecord;
 import userInfo.Appointment;
 import userInfo.AppointmentOutcomeRecord;
+import java.io.*;
+import java.util.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOperationInput {
+public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, EntityUpdate {
 	private MedicalRecord medicalRecord;
+	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<Integer> rows = new ArrayList<>();
 	private int counter = 0; 
 	
-	public PatientCtrl(String hospitalID) 
-	{
+	public PatientCtrl(String hospitalID) {
 		this.medicalRecord = new MedicalRecord(hospitalID);
 		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
 		{		    
@@ -27,12 +21,17 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOpera
     		while ((line = br.readLine()) != null) 
     		{
 		        // Split the line into columns using the delimiter
-		        String[] data = line.split(",");
-		        if (data[0].equals(this.medicalRecord.getPatientID()) && !data[2].equals("Completed")) 
+		        String[] data = splitCSVLine(line);
+		        if (data[1].equals(this.medicalRecord.getPatientID()) && !data[3].equals("Completed")) 
 		        {
-		        	Appointment appointment = new Appointment(data[0], data[1], data[2], data[3], data[4]);
+		        	Appointment appointment = new Appointment(Integer.valueOf(data[0]), data[1], data[2], data[3], data[4], data[5]);
 		        	this.appointments.add(appointment);
 		        	this.rows.add(counter);
+		        }
+		        else if (data[1].equals(this.medicalRecord.getPatientID()) && data[3].equals("Completed"))
+		        {
+		        	AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(data[4], data[6], data[7].split("\\s*,\\s*"), data[8].split("\\s*,\\s*"), data[9]);
+		        	this.appointmentOutcomeRecords.add(appointmentOutcomeRecord);
 		        }
 		        this.counter++;
 		    }
@@ -40,6 +39,7 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOpera
 		    e.printStackTrace();
 		}
 	}
+	
 	
 	public void showMedicalRecord() {
 		System.out.println("Show medical record for patient");
@@ -52,8 +52,7 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOpera
 		System.out.println("===============================");
 	}
 	
-	public void updateMedicalRecord() 
-	{
+	public void updateMedicalRecord() {
 		Scanner sc = new Scanner(System.in);
 		int input;
 		boolean checker;
@@ -89,6 +88,13 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOpera
 					System.out.println("Email Address has been updated successfully!");
 					System.out.println();
 					break;
+				case 3:
+					if(updateSpecificInfo(medicalRecord.getPatientID())) {
+						System.out.println("Exiting.......");
+					}else {
+						System.out.println("System updated failed!");
+					}
+					break;
 				default:
 					System.out.println("Please enter a valid option!");
 					System.out.println();
@@ -110,7 +116,7 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOpera
 		System.out.print("Time of Appointment: ");
 		timeOfAppointment = sc.nextLine();
 		System.out.println("=========================================================");
-		Appointment appointment = new Appointment(this.medicalRecord.getPatientID(), doctorID, "Pending", dateOfAppointment, timeOfAppointment);
+		Appointment appointment = new Appointment(counter, this.medicalRecord.getPatientID(), doctorID, "Pending", dateOfAppointment, timeOfAppointment);
 		this.appointments.add(appointment);
 		this.rows.add(this.counter);
 		this.counter++;
@@ -134,7 +140,8 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOpera
         }
         
         //Make changes to the appointment in the appointment list
-        String updatedLine = newAppointment.getPatientID() + "," +
+        String updatedLine = newAppointment.getAppointmentID() + "," +
+        					 newAppointment.getPatientID() + "," +
                              newAppointment.getDoctorID() + "," +
                              newAppointment.getAppointmentStatus() + "," +
                              newAppointment.getDateOfAppointment() + "," +
@@ -246,6 +253,136 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOpera
 		System.out.println("============================================================================================");
 	}
 	
+	public void viewPastRecords()
+	{
+		if (this.appointmentOutcomeRecords.size() == 0)
+		{
+			System.out.println();
+			System.out.println("=========================================================================");
+			System.out.println("You don't have any completed appointments");
+			System.out.println("=========================================================================");
+			return;
+		}
+		System.out.println();
+		System.out.println("Your appointment outcome records");
+		System.out.println("============================================================================================");
+		for (int i = 0; i < this.appointmentOutcomeRecords.size(); i++)
+		{
+			AppointmentOutcomeRecord rec = this.appointmentOutcomeRecords.get(i);
+			System.out.print((i+1) + ".");
+			System.out.println("\tDate of Appointment: " + rec.getDateOfAppointment());
+			System.out.println("\tType of Service: " + rec.getTypeOfService());
+			System.out.println("\tPrescribed Medications:");
+			for (int j = 0; j < rec.getPrescribedMedications().length; j++)
+			{
+				System.out.println("\t\t" + (j+1) + ". " + rec.getPrescribedMedications()[j]);
+			}
+			System.out.println("\tConsultation Notes:");
+			System.out.println("\t\t" + rec.getConsultationNotes());
+			System.out.println();
+		}
+		System.out.println("============================================================================================");
+	}
+	
+	// Split a CSV line into the proper format (used for Appointment)
+    private String[] splitCSVLine(String line) 
+    {
+        List<String> tokens = new ArrayList<>();
+        StringBuilder currentToken = new StringBuilder();
+        boolean inQuotes = false;
+
+        for (int i = 0; i < line.length(); i++) 
+        {
+            char currentChar = line.charAt(i);
+            
+            if (currentChar == '"') 
+            {
+                inQuotes = !inQuotes; 
+            } 
+            else if (currentChar == ',' && !inQuotes) 
+            {
+                tokens.add(currentToken.toString());
+                currentToken.setLength(0);
+            } 
+            else 
+            {
+                currentToken.append(currentChar);
+            }
+        }
+        
+        tokens.add(currentToken.toString());
+        return tokens.toArray(new String[0]);
+    }
+    
+	public boolean updateSpecificInfo(String target) {
+		String filePath = "./Patient_List.csv"; // original file
+		String tempFile = "./temp.csv"; // temporary file for the data changing
+		
+		BufferedReader reader = null;
+		BufferedWriter writer = null;
+		
+		try {
+			// Initialize BufferedReader and BufferedWriter inside a try block to catch exceptions
+            reader = new BufferedReader(new FileReader(filePath));
+            writer = new BufferedWriter(new FileWriter(tempFile));
+            
+            String line;
+            
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(","); // Split the row into columns
+
+                if(medicalRecord.getPatientID().equals(data[2])) {
+                	if(!medicalRecord.getPhoneNumber().equals(data[6])) {
+                		data[6] = medicalRecord.getPhoneNumber();
+                	}
+                	
+                	if(!medicalRecord.getEmailAddress().equals(data[7])) {
+                		data[7] = medicalRecord.getEmailAddress();
+                	}
+                }
+                
+                writer.write(String.join(",", data));
+                writer.newLine();
+            }
+		} catch (FileNotFoundException e) {
+            System.out.println("Error: File not found. Please check the file path.");
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            System.out.println("Error: An I/O error occurred while reading or writing the file.");
+            e.printStackTrace();
+            return false;
+        } finally {
+            // Close the resources in the finally block to ensure they are closed even if an exception occurs
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                System.out.println("Error: Failed to close the file.");
+                e.printStackTrace();
+            }
+        }
+		
+		try {
+			File originalFile = new File(filePath);
+			File newFile = new File(tempFile);
+			
+			if(originalFile.delete()) {
+				newFile.renameTo(originalFile);
+			}
+		}catch(Exception e) {
+			System.out.println("Error: unable to delet or rename file.");
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public void getOperationInput(int input) {
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
@@ -257,7 +394,9 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOpera
 			break;
 		case 2:
 			updateMedicalRecord();
-			break;
+			System.out.print("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 		case 3:
 			//View Available Appointment Slots
 			break;
@@ -287,10 +426,15 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl, GetOpera
 			break;
 		case 8:
 			//View Past Appointment Outcome Records
+			viewPastRecords();
+			System.out.print("Press <Enter> to continue:");
+			sc.nextLine();
 			break;
 		case 9:
 			//Logout
 			break;
 		}
 	}
+
+	
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Appointment 
 {
+	private int appointmentID;
 	private String patientID;
     private String doctorID;
     private String appointmentStatus;
@@ -59,13 +60,19 @@ public class Appointment
     	a. Check if Appointment Status == "Completed"
     		i. Create an AppointmentOutcomeRecord object and 
     */
-    public Appointment(String pID, String dID, String aS, String dA, String tA)
+    public Appointment(int aID, String pID, String dID, String aS, String dA, String tA)
     {
+    	this.appointmentID = aID;
     	this.patientID = pID;
     	this.doctorID = dID;
     	this.appointmentStatus = aS;
     	this.dateOfAppointment = dA;
     	this.timeOfAppointment = tA;
+    }
+    
+    public int getAppointmentID()
+    {
+    	return this.appointmentID;
     }
     
     public String getPatientID()
@@ -123,7 +130,7 @@ public class Appointment
         try (FileWriter writer = new FileWriter(filePath, true)) 
         {
             // Create the CSV string from the appointment object
-            String newLine = patientID + "," + doctorID + "," + appointmentStatus + "," + dateOfAppointment + "," + timeOfAppointment + ",,," + "\n";
+            String newLine = appointmentID + "," +  patientID + "," + doctorID + "," + appointmentStatus + "," + dateOfAppointment + "," + timeOfAppointment + ",,," + "\n";
             writer.write(newLine);
             System.out.println("Appointment has been made successfully!"); 
         } 
