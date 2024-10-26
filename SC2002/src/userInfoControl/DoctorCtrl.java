@@ -2,10 +2,14 @@ package userInfoControl;
 
 import java.util.Scanner;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import userInfo.MedicalRecord;
 import userInfo.Doctor;
 
@@ -17,7 +21,7 @@ public class DoctorCtrl{
 	
 	public static int[] getPatientList(String doctorID) {
 		ArrayList<Integer> patientIDs = new ArrayList<>();
-		String filePath = "./Patient_List.csv";  // Ensure this path is correct relative to your project
+		String filePath = "./Patient_List.csv"; 
 
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 			String line;
@@ -26,11 +30,11 @@ public class DoctorCtrl{
 			br.readLine();
 			
 			while ((line = br.readLine()) != null) {
-				String[] values = line.split(",");  // Assuming CSV is comma-separated
+				String[] values = line.split(","); 
 				
-				String csvDoctorID = values[1].trim();  // Assuming "Doctor ID" is the second column
+				String csvDoctorID = values[10].trim(); //Doctor ID
 				if (csvDoctorID.equals(doctorID)) {
-					int patientID = Integer.parseInt(values[0].trim());  // Assuming "Patient ID" is the first column
+					int patientID = Integer.parseInt(values[2].trim());  //Patient ID
 					patientIDs.add(patientID);
 				}
 			}
@@ -90,8 +94,78 @@ public class DoctorCtrl{
 		
 	}
 	
-	public void updateAppointmentRequest() {
-		
+	public void updateAppointmentRequest(String doctorID) {
+	    Scanner sc = new Scanner(System.in);
+	    
+	    // File path for the appointment list
+	    String filePath = "./Appointment_List.csv";
+	    List<String[]> appointments = new ArrayList<>();
+
+	    // Reading the CSV file
+	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            String[] appointment = line.split(",");
+	            appointments.add(appointment);
+	        }
+	    } catch (IOException e) {
+	        System.out.println("Error reading file: " + e.getMessage());
+	        return;
+	    }
+
+	    System.out.println("=====Showing Appointment Requests and Status=====");
+
+	    // Display relevant appointments
+	    for (String[] appointment : appointments) {
+	        if (appointment[2].equals(doctorID)) {  // Assuming Doctor ID is at index 1
+	            System.out.printf("Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n", 
+	                              appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
+	        }
+	    }
+
+	    System.out.println("\nUpdating Appointment Status for Patient ID:");
+	    String patientID = sc.next();
+	    
+	    System.out.println("Choose status to update:");
+	    System.out.println("1. Confirmed");
+	    System.out.println("2. Cancelled");
+	    System.out.println("3. Pending");
+	    int choice = sc.nextInt();
+	    
+	    String status;
+	    switch (choice) {
+	        case 1 -> status = "Confirmed";
+	        case 2 -> status = "Cancelled";
+	        default -> status = "Pending";
+	    }
+
+	    // Update the appointment status in the list
+	    boolean updated = false;
+	    for (String[] appointment : appointments) {
+	        if (appointment[0].equals(patientID) && appointment[1].equals(doctorID)) {  // Check patient and doctor IDs
+	            appointment[3] = status;  // Assuming Status is at index 3
+	            updated = true;
+	            break;
+	        }
+	    }
+
+	    if (!updated) {
+	        System.out.println("Appointment not found for the given Patient ID and Doctor ID.");
+	        return;
+	    }
+
+	    // Write updated data back to the CSV file
+	    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+	        for (String[] appointment : appointments) {
+	            bw.write(String.join(",", appointment));
+	            bw.newLine();
+	        }
+	    } catch (IOException e) {
+	        System.out.println("Error writing to file: " + e.getMessage());
+	        return;
+	    }
+
+	    System.out.println("Appointment Request Updated!");
 	}
 	
 	public void viewUpcomingAppointment() {
@@ -144,7 +218,9 @@ public class DoctorCtrl{
 			break;
 		case 5:
 			//Accept or Decline Appointment Requests
-			updateAppointmentRequest();
+			System.out.println("Enter the patient ID to update medical record: ");
+			String id2 = sc.next();
+			updateAppointmentRequest(id2);
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			break;
