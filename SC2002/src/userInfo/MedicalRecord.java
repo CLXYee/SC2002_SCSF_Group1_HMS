@@ -64,10 +64,16 @@ public class MedicalRecord {
     public boolean setPhoneNumber(String holder) {
     	if(holder.length() != 8) {
     		return false;
-    	}else {
-    		this.phoneNumber = holder;
-    		return true;
     	}
+    	
+    	for (int i=0; i<8; i++) {
+    		if (!Character.isDigit(holder.charAt(i))) {
+    			return false;
+    		}
+    	}
+    	
+    	this.phoneNumber = holder;
+    	return true;
     }
     
     public boolean setEmailAddress(String holder) {
