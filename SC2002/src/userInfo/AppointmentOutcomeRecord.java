@@ -32,23 +32,23 @@ public class AppointmentOutcomeRecord
             for (String currentLine : lines) 
             {
                 String[] columns = splitCSVLine(currentLine); 
-                String csvPatientID = columns[0];
-                String appointmentStatus = columns[2];
+                String csvPatientID = columns[1];
+                String appointmentStatus = columns[3];
                 
                 if (csvPatientID.equals(patientID) && appointmentStatus.equals("Completed")) 
                 {
-                    this.dateOfAppointment = columns[3];
-                    this.typeOfService = columns[5];
+                    this.dateOfAppointment = columns[4];
+                    this.typeOfService = columns[6];
 
-                    this.prescribedMedications = (columns.length > 6 && !columns[6].isEmpty()) 
+                    this.prescribedMedications = (columns.length > 7 && !columns[7].isEmpty()) 
                         ? columns[6].split("\\s*,\\s*") 
                         : new String[0];
 
-                    this.prescriptionStatus = (columns.length > 7 && !columns[7].isEmpty()) 
+                    this.prescriptionStatus = (columns.length > 8 && !columns[8].isEmpty()) 
                         ? columns[7].split("\\s*,\\s*") 
                         : new String[0];
                     
-                    this.consultationNotes = columns.length > 8 ? columns[8] : "";
+                    this.consultationNotes = columns.length > 9 ? columns[9] : "";
                     break; 
                 }
             }
