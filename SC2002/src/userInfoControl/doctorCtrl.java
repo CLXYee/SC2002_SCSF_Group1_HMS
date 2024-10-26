@@ -26,11 +26,11 @@ public class doctorCtrl{
 			br.readLine();
 			
 			while ((line = br.readLine()) != null) {
-				String[] values = line.split(" ");  // Assuming CSV is space-separated
+				String[] values = line.split(",");  // Assuming CSV is comma-separated
 				
-				String csvDoctorID = values[3].trim();  // "Doctor ID" in 4th column
+				String csvDoctorID = values[1].trim();  // Assuming "Doctor ID" is the second column
 				if (csvDoctorID.equals(doctorID)) {
-					int patientID = Integer.parseInt(values[2].trim());  // "Patient ID" in 3rd column
+					int patientID = Integer.parseInt(values[0].trim());  // Assuming "Patient ID" is the first column
 					patientIDs.add(patientID);
 				}
 			}
