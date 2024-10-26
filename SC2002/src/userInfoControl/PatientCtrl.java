@@ -21,7 +21,7 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
     		while ((line = br.readLine()) != null) 
     		{
 		        // Split the line into columns using the delimiter
-		        String[] data = splitCSVLine(line);
+		        String[] data = splitAppointmentCSVLine(line);
 		        if (data[1].equals(this.medicalRecord.getPatientID()) && !data[3].equals("Completed")) 
 		        {
 		        	Appointment appointment = new Appointment(Integer.valueOf(data[0]), data[1], data[2], data[3], data[4], data[5]);
@@ -40,15 +40,14 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 		}
 	}
 	
-	
 	public void showMedicalRecord() {
 		System.out.println("Show medical record for patient");
 		System.out.println("===============================");
-		System.out.println("Patient ID 	| " + medicalRecord.getPatientID());
-		System.out.println("Name 		| " + medicalRecord.getName());
-		System.out.println("Gender 		| " + medicalRecord.getGender());
-		System.out.println("Phone No. 	| " + medicalRecord.getPhoneNumber());
-		System.out.println("Email Address | " + medicalRecord.getEmailAddress());
+		System.out.println("Patient ID\t| " + medicalRecord.getPatientID());
+		System.out.println("Name\t\t| " + medicalRecord.getName());
+		System.out.println("Gender\t\t| " + medicalRecord.getGender());
+		System.out.println("Phone No.\t| " + medicalRecord.getPhoneNumber());
+		System.out.println("Email Address\t| " + medicalRecord.getEmailAddress());
 		System.out.println("===============================");
 	}
 	
@@ -89,7 +88,7 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 					System.out.println();
 					break;
 				case 3:
-					if(updateSpecificInfo(medicalRecord.getPatientID())) {
+					if(updateSpecificInfo()) {
 						System.out.println("Exiting.......");
 					}else {
 						System.out.println("System updated failed!");
@@ -120,10 +119,10 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 		this.appointments.add(appointment);
 		this.rows.add(this.counter);
 		this.counter++;
-		appointment.appendLineToCSV("./Appointment_List.csv");
+		appointment.addNewAppointmentToCSV("./Appointment_List.csv");
 	}
 	
-	public void updateCSVFile(int lineNumber, Appointment newAppointment)
+	public void updateAppointmentCSVFile(int lineNumber, Appointment newAppointment)
 	{
 		List<String> allAppointments = new ArrayList<>();
         
@@ -193,7 +192,7 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 		this.appointments.set(appNum-1, newAppointment);
 		
 		//Update the csv file
-		updateCSVFile(rows.get(appNum-1), newAppointment);
+		updateAppointmentCSVFile(rows.get(appNum-1), newAppointment);
 		System.out.println("Appointment has been rescheduled successfully!");
 	}
 	
@@ -222,7 +221,7 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 		this.appointments.set(appNum-1, newAppointment);
 		
 		//Update the csv file
-		updateCSVFile(rows.get(appNum-1), newAppointment);
+		updateAppointmentCSVFile(rows.get(appNum-1), newAppointment);
 		System.out.println("Appointment has been canceled successfully!");
 	}
 	
@@ -283,9 +282,8 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 		}
 		System.out.println("============================================================================================");
 	}
-	
-	// Split a CSV line into the proper format (used for Appointment)
-    private String[] splitCSVLine(String line) 
+
+    private String[] splitAppointmentCSVLine(String line) // Split a CSV line into the proper format (used for Appointment)
     {
         List<String> tokens = new ArrayList<>();
         StringBuilder currentToken = new StringBuilder();
@@ -314,7 +312,8 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
         return tokens.toArray(new String[0]);
     }
     
-	public boolean updateSpecificInfo(String target) {
+	public boolean updateSpecificInfo() // Update a specific information for patient
+	{
 		String filePath = "./Patient_List.csv"; // original file
 		String tempFile = "./temp.csv"; // temporary file for the data changing
 		
@@ -375,7 +374,7 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 				newFile.renameTo(originalFile);
 			}
 		}catch(Exception e) {
-			System.out.println("Error: unable to delet or rename file.");
+			System.out.println("Error: unable to delete or rename file.");
 			e.printStackTrace();
 			return false;
 		}

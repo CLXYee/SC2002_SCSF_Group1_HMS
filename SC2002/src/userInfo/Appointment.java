@@ -125,7 +125,7 @@ public class Appointment
     	this.appointmentStatus = Status;
     }
     
-    public void appendLineToCSV(String filePath) 
+    public void addNewAppointmentToCSV(String filePath) 
     {
         try (FileWriter writer = new FileWriter(filePath, true)) 
         {
