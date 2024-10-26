@@ -1,0 +1,13 @@
+﻿Appointment ID,Patient ID,Doctor ID,Appointment Status,Date of Appointment,Time of Appointment,Type of Service,Prescribed Medications,Prescription Status,Consultation Notes
+1,P1001,D1002,Confirmed,14/11/2024,14:50-15:50,,,,
+2,P1002,D1003,Canceled,21/10/2024,12:30-13:00,Blood Test,,,
+3,P1003,D1001,Completed,1/10/2024,16:30-17:30,Body Check Up,"Paracetemol, Amoxicillin","Pending, Pending","Drink more water, and stop staying up until 2am every day."
+4,P1004,D1004,Pending,20/10/2024,08:30-09:30,MRI Body Scan,,,
+5,P1005,D1003,Completed,2/10/2024,09:00-10:00,Body Check Up,"Amoxicillin, Ibuprofen, Aspirin, Antibiotic","Dispensed, Dispensed, Dispensed, Dispensed",Do not consume seafood until all the medicine have been consumed.
+6,P1001,D1001,Pending,31/10/2024,07:00-08:00,,,,
+7,P1001,D1002,Canceled,11/11/2024,07:30-08:00,,,,
+8,P1001,D1004,Canceled,12/11/2024,12:00-12:30,,,,
+9,P1001,D1005,Canceled,13/11/2024,15:00-16:00,,,,
+10,P1001,D1008,Pending,13/11/2024,10:30-12:30,,,,
+11,P1001,D1010,Pending,28/11/2024,11:30-12:00,,,
+12,P1001,D1012,Pending,28/11/2024,09:00-09:30,,,
