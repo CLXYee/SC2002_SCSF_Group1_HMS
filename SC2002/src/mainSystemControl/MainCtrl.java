@@ -22,6 +22,10 @@ public class MainCtrl {
 			this.operationInput = this.patientCtrl;
 			this.showMenu = new ShowPatientMenu();
 			break;
+			
+		case Role.DOCTOR:
+			//this.doctorCtrl = new doctorCtrl(user.getHospitalId());
+			break;
 		}
 	}
 	
