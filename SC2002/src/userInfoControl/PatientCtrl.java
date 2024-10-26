@@ -5,11 +5,10 @@ import userInfo.Appointment;
 import userInfo.AppointmentOutcomeRecord;
 import java.io.*;
 import java.util.*;
-import java.util.Scanner;
 
 public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, EntityUpdate {
 	private MedicalRecord medicalRecord;
-	private List<Integer> appointmentOutcomeRecords = new ArrayList<>();
+	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<Integer> rows = new ArrayList<>();
 	private int counter = 0; 
@@ -22,16 +21,20 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
     		while ((line = br.readLine()) != null) 
     		{
 		        // Split the line into columns using the delimiter
-		        String[] data = line.split(",");
+		        String[] data = splitCSVLine(line);
+		        for (int i = 0; i < data.length; i++) 
+		        {
+		        	System.out.println(data[i]);
+		        }
 		        if (data[1].equals(this.medicalRecord.getPatientID()) && !data[3].equals("Completed")) 
 		        {
 		        	Appointment appointment = new Appointment(Integer.valueOf(data[0]), data[1], data[2], data[3], data[4], data[5]);
 		        	this.appointments.add(appointment);
 		        	this.rows.add(counter);
 		        }
-		        else if (data[1].equals(this.medicalRecord.getPatientID()) && !data[3].equals("Completed"))
+		        else if (data[1].equals(this.medicalRecord.getPatientID()) && data[3].equals("Completed"))
 		        {
-		        	
+		        	AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(data[4], data[6], data[7].split("\\s*,\\s*"), data[8].split("\\s*,\\s*"), data[9]);
 		        }
 		        this.counter++;
 		    }
@@ -39,6 +42,7 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 		    e.printStackTrace();
 		}
 	}
+	
 	
 	public void showMedicalRecord() {
 		System.out.println("Show medical record for patient");
@@ -257,6 +261,36 @@ public class PatientCtrl implements MedicalRecordCtrl, GetOperationInput, Entity
 		
 	}
 	
+	// Split a CSV line into the proper format (used for Appointment)
+    private String[] splitCSVLine(String line) 
+    {
+        List<String> tokens = new ArrayList<>();
+        StringBuilder currentToken = new StringBuilder();
+        boolean inQuotes = false;
+
+        for (int i = 0; i < line.length(); i++) 
+        {
+            char currentChar = line.charAt(i);
+            
+            if (currentChar == '"') 
+            {
+                inQuotes = !inQuotes; 
+            } 
+            else if (currentChar == ',' && !inQuotes) 
+            {
+                tokens.add(currentToken.toString());
+                currentToken.setLength(0);
+            } 
+            else 
+            {
+                currentToken.append(currentChar);
+            }
+        }
+        
+        tokens.add(currentToken.toString());
+        return tokens.toArray(new String[0]);
+    }
+    
 	public boolean updateSpecificInfo(String target) {
 		String filePath = "./Patient_List.csv"; // original file
 		String tempFile = "./temp.csv"; // temporary file for the data changing
