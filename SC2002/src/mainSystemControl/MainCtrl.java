@@ -9,7 +9,6 @@ import userInfoControl.PatientCtrl;
 public class MainCtrl {
 	private User user;
 	private PatientCtrl patientCtrl = null;
-	private PharmacistCtrl pharmacistCtrl = null;
 	private MedicalRecordCtrl medicalRecordCtrl; 
 	private GetOperationInput operationInput;
 	ShowMenu showMenu = null;
@@ -23,17 +22,6 @@ public class MainCtrl {
 			this.operationInput = this.patientCtrl;
 			this.showMenu = new ShowPatientMenu();
 			break;
-		case Role.PHARMACIST: 
-			this.pharmacistCtrl = new PharmacistCtrl();
-			this.AppointmentOutcomeRecordCtrl = this.pharmacistCtrl;
-			this.operationInput = this.pharmacistCtrl;
-			this.showMenu = new ShowPharmacistMenu();
-			break;
-		case Role.DOCTOR: 
-			break;
-		case Role.ADMINISTRATOR: 
-			break;
-
 		}
 	}
 	
