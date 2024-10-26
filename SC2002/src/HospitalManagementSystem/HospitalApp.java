@@ -7,7 +7,6 @@ import mainSystemControl.*;
 public class HospitalApp{
 	public static void main(String[] args){
 		boolean isLogin = false;
-		int input = 0;
 		
 		System.out.println("Welcome to Hospital NTU.");
 		System.out.println("Please login to system to continue.");
@@ -19,9 +18,7 @@ public class HospitalApp{
 		MainCtrl mainCtrl = new MainCtrl(data[0], data[1], data[2]);
 		
 		do {
-			mainCtrl.showMenu();
-			input = getOperationInput();
-			mainCtrl.getOperationInput(input);
+			mainCtrl.getInput();
 		} while (isLogin);
     }
 	
@@ -46,12 +43,5 @@ public class HospitalApp{
     	} while (data==null);
     	// Return the data of user with ID and Name
     	return data;
-	}
-	
-	public static int getOperationInput() {
-		System.out.println("Enter input for operation: ");
-		Scanner sc = new Scanner(System.in);
-		
-		return sc.nextInt();
-	}
+	}	
 }

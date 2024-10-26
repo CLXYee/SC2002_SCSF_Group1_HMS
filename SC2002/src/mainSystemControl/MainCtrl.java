@@ -1,35 +1,31 @@
 package mainSystemControl;
 
-import ShowUserMenu.*;
+import java.util.Scanner;
+
 import userInfo.User;
-import userInfoControl.GetOperationInput;
-import userInfoControl.MedicalRecordCtrl;
-import userInfoControl.PatientCtrl;
 
 public class MainCtrl {
 	private User user;
-	private PatientCtrl patientCtrl = null;
-	private MedicalRecordCtrl medicalRecordCtrl; 
-	private GetOperationInput operationInput;
-	ShowMenu showMenu = null;
+	private GetOperationInput operationInput = null;
 	
 	public MainCtrl(String inputRole, String hospitalID, String name) {
 		user = new User(Role.valueOf(inputRole), hospitalID, name);
 		switch (user.getRole()) {
 		case Role.PATIENT: 
-			this.patientCtrl = new PatientCtrl(user.getHospitalId());
-			this.medicalRecordCtrl = this.patientCtrl;
-			this.operationInput = this.patientCtrl;
-			this.showMenu = new ShowPatientMenu();
+			this.operationInput = new PatientInput(user.getHospitalId());
 			break;
 		}
 	}
 	
-	public void showMenu() {
-		showMenu.showMenu();
+	public void getInput() {
+		operationInput.showMenu();
+		operationInput.getOperationInput(getOperationInput());
 	}
 	
-	public void getOperationInput(int input) {
-		operationInput.getOperationInput(input);
+	public static int getOperationInput() {
+		System.out.println("Enter input for operation: ");
+		Scanner sc = new Scanner(System.in);
+		
+		return sc.nextInt();
 	}
 }
