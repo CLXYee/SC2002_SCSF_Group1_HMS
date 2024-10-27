@@ -1,6 +1,9 @@
 /bin/
+<<<<<<< HEAD
+=======
 /.gitignore
 /.project
 /mainSystemControl/
 /userInfo/
 /userInfoControl/
+>>>>>>> 51d4b4ffeb356cfef79b0e5e93ef020d24838a2e
