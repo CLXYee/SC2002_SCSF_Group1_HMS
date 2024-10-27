@@ -15,6 +15,8 @@ public class MedicalRecord {
     private String gender;
     private String phoneNumber;
     private String emailAddress;
+    private String bloodType;
+    private String doctorInCharge;
     /*
     private String bloodType;
     */
@@ -23,6 +25,7 @@ public class MedicalRecord {
     
 
     public MedicalRecord(String hospitalID){
+<<<<<<< HEAD
     	List<String> data = csv.readFile(hospitalID);
     	
     	this.patientID = data.get(2);
@@ -31,6 +34,28 @@ public class MedicalRecord {
     	this.gender = data.get(5);
     	this.phoneNumber = data.get(6);
     	this.emailAddress = data.get(7);
+=======
+    	this.patientID = hospitalID;
+    	try (BufferedReader br = new BufferedReader(new FileReader("./Patient_List.csv"))) {		    
+			String line;
+    		while ((line = br.readLine()) != null) {
+		        // Split the line into columns using the delimiter
+		        String[] data = line.split(",");
+		        
+		        if (hospitalID.equals(data[2])) {
+		        	this.name = data[3];
+		        	this.dateOfBirth = data[6];
+		        	this.gender = data[4];
+		        	this.phoneNumber = data[7];
+		        	this.emailAddress = data[8];
+		        	this.bloodType = data[9];
+		        	this.doctorInCharge = data[10];
+		        }
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+>>>>>>> a56e640af0de99be1544d2a9adf5be6ce6ae1c1c
     }
 
     public String getPatientID(){
@@ -53,6 +78,14 @@ public class MedicalRecord {
     
     public String getEmailAddress(){
         return emailAddress;
+    }
+    
+    public String getBloodType() {
+    	return bloodType;
+    }
+    
+    public String getDoctor() {
+    	return doctorInCharge;
     }
     
     public boolean setPhoneNumber(String holder) {

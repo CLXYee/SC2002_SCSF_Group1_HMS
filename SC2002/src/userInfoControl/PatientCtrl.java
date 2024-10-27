@@ -49,6 +49,8 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 		System.out.println("Gender\t\t| " + medicalRecord.getGender());
 		System.out.println("Phone No.\t| " + medicalRecord.getPhoneNumber());
 		System.out.println("Email Address\t| " + medicalRecord.getEmailAddress());
+		System.out.println("Blood Type\t| " + medicalRecord.getBloodType());
+		System.out.println("Doctor In Charge\t| " + medicalRecord.getDoctor());
 		System.out.println("===============================");
 	}
 	
