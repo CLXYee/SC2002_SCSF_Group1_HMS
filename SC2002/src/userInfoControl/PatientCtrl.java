@@ -98,13 +98,13 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 					System.out.println();
 					break;
 				case 3:
-					//put all the changes into an arraylist for the function changing the specific information
+					//put all the changes into an array list for the function changing the specific information
 					ArrayList<String> changes = new ArrayList<String>();
 					ArrayList<Integer> index = new ArrayList<Integer>();
 					Collections.addAll(changes, medicalRecord.getPhoneNumber(), medicalRecord.getEmailAddress());
 					Collections.addAll(index, 7, 8);
 					
-					//for the changeSpecificInformation function, u need to put in the patientid, the index to change and the relevant changes u want to make
+					//for the changeSpecificInformation function, u need to put in the patient id, the index to change and the relevant changes u want to make
 					if(csv.changeSpecificInformation(medicalRecord.getPatientID(), index, changes)) {
 						System.out.println("Exiting.......");
 					}else {

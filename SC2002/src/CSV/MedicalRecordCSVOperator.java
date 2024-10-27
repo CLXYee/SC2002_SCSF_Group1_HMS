@@ -54,16 +54,11 @@ public class MedicalRecordCSVOperator extends CSVoperator{
             while ((line = reader.readLine()) != null) {
             	System.out.println(line);
                 String[] tempData = line.split(","); // Split the row into columns
+                
                 if(tempData[2].equals(id)) {
                 	int counterOfChanges = 0;
                 	for(int i: changesIndex) {
                 		tempData[i] = changes.get(counterOfChanges++);
-                	} if(!tempData[7].equals(changes.get(0))) {
-                		tempData[7] = changes.get(0);
-                	}
-                	
-                	if(!tempData[8].equals(changes.get(1))) {
-                		tempData[8] = changes.get(1);
                 	}
                 }
                 
