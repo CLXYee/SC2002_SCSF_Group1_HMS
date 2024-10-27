@@ -15,8 +15,9 @@ public class MedicalRecord {
     private String emailAddress;
     /*
     private String bloodType;
-    private ArrayList<String> pastDiagnosesAndTreatment;
     */
+    private ArrayList<String> pastDiagnosesAndTreatment = new ArrayList<>();
+    
 
     public MedicalRecord(String hospitalID){
     	this.patientID = hospitalID;
@@ -79,8 +80,14 @@ public class MedicalRecord {
     public String getBloodType(){
         return bloodType;
     }
-    public ArrayList<String> getPastDiagnosesAndTreatment(){
+    */
+    public void addPastDiagnosisAndTreatment(String diagnose, String prescription, String plan) {
+        String record = String.format("[%s, %s, %s]", diagnose, prescription, plan);
+        pastDiagnosesAndTreatment.add(record);
+    }
+
+    // Optional: Add a method to get pastDiagnosesAndTreatment if needed for display
+    public ArrayList<String> getPastDiagnosesAndTreatment() {
         return pastDiagnosesAndTreatment;
     }
-    */
 }
