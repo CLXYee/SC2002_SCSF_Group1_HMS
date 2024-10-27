@@ -20,6 +20,8 @@ public class MainCtrl {
 		case Role.PHARMACIST: 
 			this.operationInput = new PharmacistInput();
 			break;
+		case Role.ADMINISTRATOR: 
+			break;
 		}
 	}
 	

@@ -1,19 +1,19 @@
 package userInfoControl;
 
 import userInfo.MedicalRecord;
-import CSV.medicalRecordCSVOperator;
 import userInfo.Appointment;
+import CSV.MedicalRecordCSVOperator;
 import userInfo.AppointmentOutcomeRecord;
 import java.io.*;
 import java.util.*;
 
 public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, AppointmentCtrl {
 	private MedicalRecord medicalRecord;
-	private medicalRecordCSVOperator csv = new medicalRecordCSVOperator();
+	private MedicalRecordCSVOperator csv = new MedicalRecordCSVOperator();
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<Integer> rows = new ArrayList<>();
-	private int counter = 0; // use to remark the most bottom line in the CSV file of appointment
+	private int counter = 0; 
 	
 	public PatientCtrl(String hospitalID) {
 		this.medicalRecord = new MedicalRecord(hospitalID);
@@ -24,7 +24,6 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
     		{
 		        // Split the line into columns using the delimiter
 		        String[] data = splitAppointmentCSVLine(line);
-		        // Only if the appointment is completed, system will only print the appointment outcome record
 		        if (data[1].equals(this.medicalRecord.getPatientID()) && !data[3].equals("Completed")) 
 		        {
 		        	Appointment appointment = new Appointment(Integer.valueOf(data[0]), data[1], data[2], data[3], data[4], data[5]);
@@ -45,15 +44,13 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 	
 	public void showMedicalRecord() {
 		System.out.println("Show medical record for patient");
-		System.out.println("=================================================");
-		System.out.println("Patient ID\t\t| " + medicalRecord.getPatientID());
-		System.out.println("Name\t\t\t| " + medicalRecord.getName());
-		System.out.println("Gender\t\t\t| " + medicalRecord.getGender());
-		System.out.println("Phone No.\t\t| " + medicalRecord.getPhoneNumber());
-		System.out.println("Email Address\t\t| " + medicalRecord.getEmailAddress());
-		System.out.println("Blood Type\t\t| " + medicalRecord.getBloodType());
-		System.out.println("Doctor In Charge\t| " + medicalRecord.getDoctor());
-		System.out.println("=================================================");
+		System.out.println("===============================");
+		System.out.println("Patient ID\t| " + medicalRecord.getPatientID());
+		System.out.println("Name\t\t| " + medicalRecord.getName());
+		System.out.println("Gender\t\t| " + medicalRecord.getGender());
+		System.out.println("Phone No.\t| " + medicalRecord.getPhoneNumber());
+		System.out.println("Email Address\t| " + medicalRecord.getEmailAddress());
+		System.out.println("===============================");
 	}
 	
 	public void updateMedicalRecord() {
@@ -76,17 +73,17 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 					System.out.println("Please enter a new phone number");
 					checker = medicalRecord.setPhoneNumber(sc.next());
 					while(!checker) {
-						System.out.println("Please enter a valid phone number:");
+						System.out.println("Please enter a valid phone number");
 						checker = medicalRecord.setPhoneNumber(sc.next());
 					}
 					System.out.println("Phone number has been updated successfully!");
 					System.out.println();
 					break;
 				case 2:
-					System.out.println("Please enter a new email address:");
+					System.out.println("Please enter a new email address");
 					checker = medicalRecord.setEmailAddress(sc.next());
 					while(!checker) {
-						System.out.println("Please enter a valid email address:");
+						System.out.println("Please enter a valid email address");
 						checker = medicalRecord.setEmailAddress(sc.next());
 					}
 					System.out.println("Email Address has been updated successfully!");
@@ -119,15 +116,11 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 		System.out.println("Please fill in the following information:");
 		System.out.print("The Doctor's ID    : ");
 		doctorID = sc.nextLine();
-		
 		System.out.print("Date of Appointment: ");
 		dateOfAppointment = sc.nextLine();
-		
 		System.out.print("Time of Appointment: ");
 		timeOfAppointment = sc.nextLine();
-		
 		System.out.println("=========================================================");
-		
 		Appointment appointment = new Appointment(counter, this.medicalRecord.getPatientID(), doctorID, "Pending", dateOfAppointment, timeOfAppointment);
 		this.appointments.add(appointment);
 		this.rows.add(this.counter);

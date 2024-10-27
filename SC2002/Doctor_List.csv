@@ -1,5 +1,13 @@
-﻿Password,Role,Doctor ID,Name,Date of Birth,Gender,Phone Number,Contact Information,Blood Type
-password,DOCTOR,D1001,Levy Rozman,5/12/1995,Male,12345678,levy.rozman@example.com,A+
-password,DOCTOR,D1002,Daniel Naroditsky,9/11/1995,Male,87654321,daniel.naro@example.com,B+
-password,DOCTOR,D1003,Magnus Carlsen,30/11/1990,Male,77112233,magnuscarlsen@example.com,O-
-password,DOCTOR,D1004,Anna Cramling,27/9/1998,Female,29356239,anna.cramling@example.com,AB-
+﻿Password,Role,Doctor ID,Name,Date of Birth,Gender,Phone Number,Contact Information,Blood Type,Personal Schedule
+password,DOCTOR,D1001,Levy Rozman,5/12/1995,Male,12345678,levy.rozman@example.com,A+,"0,4,5,B,0,6,7,M,1,0,15,S,2,0,2,T,2,4,5,B,3,4,5,B,4,0,15,S,5,4,5,B,5,6,7,M,6,4,5,B,6,11,13,P"
+password,DOCTOR,D1002,Daniel Naroditsky,9/11/1995,Male,87654321,daniel.naro@example.com,B+,"0,0,15,S,1,0,1,M,1,6,7,B,2,6,7,B,3,0,15,S,4,0,2,T,4,6,7,B,5,0,1,M,5,6,7,B,6,0,15,S"
+password,DOCTOR,D1003,Magnus Carlsen,30/11/1990,Male,77112233,magnuscarlsen@example.com,O-,"0,4,5,B,0,6,7,M,1,4,5,B,2,0,15,S,3,0,2,T,3,4,5,B,4,4,5,B,5,4,5,B,5,6,7,M,6,4,5,B"
+password,DOCTOR,D1004,Anna Cramling,27/9/1998,Female,29356239,anna.cramling@example.com,AB-,"0,7,7,4,1,0,1,M,1,6,7,B,2,0,2,T,2,6,7,B,3,6,7,B,4,6,7,B,4,9,11,P,5,0,15,S,6,0,15,S"
+password,DOCTOR,D1005,Alexander Botez,28/10/1991,Female,42462616,botez.alexander@example.com,O+,"0,0,2,T,0,6,7,B,1,0,1,M,1,6,7,B,2,6,7,B,3,6,7,B,4,6,7,B,5,0,15,S,6,6,7,B"
+password,DOCTOR,D1006,Judit Polgar,19/5/1987,Female,35837463,judy.polgar@example.com,O-,"0,2,3,B,1,0,15,S,2,0,2,T,2,2,3,B,3,2,3,B,4,2,3,B,5,2,3,B,5,3,5,P,6,0,15,S"
+password,DOCTOR,D1007,Fabiano Caruana,10/2/1988,Male,35748365,fabiano.caruana@example.com,A-,"0,4,5,B,0,6,7,M,1,4,5,B,2,0,2,T,2,4,5,B,3,0,15,S,4,0,15,S,5,4,5,B,5,6,7,M,6,4,5,B"
+password,DOCTOR,D1008,Elizabeth Harmon,23/7/1994,Female,96767631,bethharmon@example.com,B-,"0,2,3,B,1,1,2,10,2,2,3,B,3,0,15,S,4,0,2,T,4,2,3,B,5,0,15,S,6,2,3,B"
+password,DOCTOR,D1009,Vaishali Rameshbabu,11/11/1996,Female,46327451,vaishali.ramesh@example.com,B+,"0,2,3,B,1,0,15,S,2,0,2,T,2,2,3,B,3,0,15,S,4,2,3,B,5,0,15,S,6,2,3,B"
+password,DOCTOR,D1010,Garry Kasparov,21/4/1978,Male,61252355,garry.kasparov@example.com,AB-,"0,0,2,T,0,7,8,B,1,3,3,11,2,7,8,B,3,0,15,S,4,7,8,B,5,0,15,S,6,0,15,S"
+password,DOCTOR,D1011,Viswanathan Anand,14/2/1979,Male,53562732,vishy.anand@example.com,A+,"0,2,3,B,1,0,15,S,2,2,3,B,2,10,12,P,3,0,15,S,4,2,3,B,5,2,3,B,6,0,2,T,6,2,3,B"
+password,DOCTOR,D1012,Hikaru Nakamura,19/8/1989,Male,46272872,nakamura.hikaru@example.com,A+,"0,6,7,B,1,0,1,M,1,6,7,B,2,6,7,B,3,0,0,12,4,6,7,B,5,0,15,S,6,0,2,T,6,6,7,B"
