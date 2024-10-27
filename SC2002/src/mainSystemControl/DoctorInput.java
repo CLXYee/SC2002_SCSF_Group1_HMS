@@ -25,6 +25,7 @@ public class DoctorInput implements IGetOperationInput{
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
 		case 1:
+			DoctorCtrl.viewPatientIDs();
 			//View patient medical record
 			System.out.println("Enter the patient ID to view: ");
 			String id = sc.next();

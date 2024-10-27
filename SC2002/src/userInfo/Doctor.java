@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Doctor extends User{
-	static int[] myPatientID;
+	static String[] myPatientID;
 	
 	public Doctor(String hospitalID, String name) {
 		super(Role.DOCTOR, hospitalID, name);
 		Doctor.myPatientID = DoctorCtrl.getPatientList(hospitalID); 
 	}
 	
-	public static int[] getPatientID() {
+	public static String[] getPatientID() {
 		return myPatientID;
 	}
 }

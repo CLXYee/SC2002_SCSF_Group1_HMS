@@ -33,11 +33,11 @@ public class DoctorCtrl{
 	        br.readLine();
 	        
 	        while ((line = br.readLine()) != null) {
-	            String[] values = line.split(",");  // Assuming CSV is comma-separated
+	            String[] values = line.split(",");  
 	            
-	            String csvDoctorID = values[1].trim();  // Assuming "Doctor ID" is the second column
+	            String csvDoctorID = values[9].trim();  //DoctorID in 10th column
 	            if (csvDoctorID.equals(doctorID)) {
-	                String patientID = values[0].trim();  // Assuming "Patient ID" is the first column
+	                String patientID = values[2].trim();  // Patient ID in 3rd column
 	                patientIDs.add(patientID);
 	            }
 	        }
@@ -48,6 +48,20 @@ public class DoctorCtrl{
 	    // Convert ArrayList to an array
 	    return patientIDs.toArray(new String[0]);
 	}
+	
+	public void viewPatientIDs() {
+	    System.out.println("These are patients under your record:");
+
+	    if (myPatientID == null) {
+	        System.out.println("No patients found under your record.");
+	    } else {
+	        // Print each patient ID
+	        for (String patientID : myPatientID) {
+	            System.out.println("- " + patientID);
+	        }
+	    }
+	}
+
 
 	
 	public void showMedicalRecord(String patientID) {
@@ -81,12 +95,7 @@ public class DoctorCtrl{
 		System.out.println("Enter treatment plans");
 		String plan = sc.next();
 		
-		//store [diagnose,prescription,plan] as an array and append into ArrayList<String> pastDiagnosesAndTreatment
-		String record = String.format("[%s, %s, %s]", diagnose, prescription, plan);
-
-	    // Append to the ArrayList
-	    //medicalRecord.pastDiagnosesAndTreatment.add(record);
-	    
+		medicalRecord.addPastDiagnosisAndTreatment(diagnose, prescription, plan);
 		System.out.println("New record added successfully");
 	}
 	
