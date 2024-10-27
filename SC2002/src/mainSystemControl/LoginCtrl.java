@@ -18,8 +18,6 @@ public class LoginCtrl {
 			csvFile = "./Patient_List.csv";
 			break;
 		case DOCTOR:
-			csvFile = "./Doctor_List.csv";
-			break;
 		case PHARMACIST:
 		case ADMINISTRATOR:
 			csvFile = "./Staff_List.csv";
