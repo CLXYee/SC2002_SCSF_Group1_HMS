@@ -7,16 +7,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import userInfo.MedicalRecord;
-import userInfo.Doctor;
+import userInfo.*;
+import userInfoControl.MedicalRecordCtrl;
 
-public class DoctorCtrl{
+public class DoctorCtrl implements MedicalRecordCtrl{
 	private String doctorID;
 	private String[] myPatientID;
 	
@@ -69,8 +68,10 @@ public class DoctorCtrl{
 	}
 
 
-	
-	public void showMedicalRecord(String patientID) {
+	public void showMedicalRecord() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the patient ID to view: ");
+		String patientID = sc.next();
 		//patient ID found in the doctor's record
 		if (Arrays.stream(myPatientID)
 	              .anyMatch(ID -> ID.equals(patientID))) {
@@ -92,11 +93,13 @@ public class DoctorCtrl{
 
 	
 	
-	public void updateMedicalRecord(String patientID) { 
+	public void updateMedicalRecord() { 
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the patient ID to update: ");
+		String patientID = sc.next();
 		if (Arrays.stream(myPatientID)
 	              .anyMatch(ID -> ID.equals(patientID))) {
 			MedicalRecord medicalRecord = new MedicalRecord(patientID);
-			Scanner sc = new Scanner(System.in);
 			System.out.println("You are now adding new diagnoses, presecription, and treatment plan under the patient");
 			System.out.println("Enter new diagnoses");
 			String diagnose = sc.next();
@@ -153,13 +156,13 @@ public class DoctorCtrl{
 	    // Display relevant appointments
 	    for (String[] appointment : appointments) {
 	        if (appointment[2].equals(this.doctorID)) {  
-	            System.out.printf("Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n", 
-	                              appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
+	            System.out.printf("Appointment ID: %s, Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n", 
+	                              appointment[0], appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
 	        }
 	    }
 
-	    System.out.println("\nUpdating Appointment Status for Patient ID:");
-	    String patientID = sc.next();
+	    System.out.println("\nUpdating Appointment Status for Appointment ID:");
+	    String appointmentID = sc.next();
 	    
 	    System.out.println("Choose status to update:");
 	    System.out.println("1. Confirmed");
@@ -177,7 +180,7 @@ public class DoctorCtrl{
 	    // Update the appointment status in the list
 	    boolean updated = false;
 	    for (String[] appointment : appointments) {
-	        if (appointment[1].equals(patientID) && appointment[2].equals(doctorID)) {  // Check patient and doctor IDs
+	        if (appointment[0].equals(appointmentID) && appointment[2].equals(doctorID)) {  // Check patient and doctor IDs
 	            appointment[3] = status; 
 	            updated = true;
 	            break;
@@ -237,8 +240,8 @@ public class DoctorCtrl{
 
 	                // Display only if the appointment date is in the future
 	                if (appointmentDate.isAfter(today)) {
-	                    System.out.printf("Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n",
-	                            appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
+	                    System.out.printf("Appointment ID: %s, Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n",
+	                            appointment[0], appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
 	                }
 	            }
 	        } catch (Exception e) {
@@ -251,12 +254,13 @@ public class DoctorCtrl{
 	
 	public void recordAppointmentOutcome() { //还没改好
 		Scanner sc = new Scanner(System.in);
+		//choose appointment ID to update
 		System.out.println("Enter Date of Appointment (d/M/yyyy): "); //or choose date of appointment?
-		//scan
+		String appointmentDate = sc.next();
 		System.out.println("Type of service provided: ");
 		String serviceType = sc.next();
 		System.out.println("Prescribed medication: ");
-		//scan
+		String prescribedMedication = sc.next();
 		System.out.println("Consultation notes: ");
 		String notes = sc.next();
 		//store into database

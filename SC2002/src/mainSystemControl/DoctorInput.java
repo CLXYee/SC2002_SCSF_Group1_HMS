@@ -26,11 +26,8 @@ public class DoctorInput implements IGetOperationInput{
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
 		case 1: //DONE
-			//View patient medical record
 			DoctorCtrl.viewPatientIDs();
-			System.out.println("Enter the patient ID to view: ");
-			String id = sc.next();
-			DoctorCtrl.showMedicalRecord(id); 
+			DoctorCtrl.showMedicalRecord(); 
 			System.out.print("Press <Enter> to continue:");
 			// Dummy scanner to let the system stop for user to check information
 			sc.nextLine();
@@ -38,10 +35,8 @@ public class DoctorInput implements IGetOperationInput{
 			
 		case 2: //Pending confirmation on data type of pastDiagnosesAndTreatment
 			//update patient medical record
-			System.out.println("Enter the patient ID to update medical record: ");
-			String id1 = sc.next();
-			DoctorCtrl.showMedicalRecord(id1); 
-			DoctorCtrl.updateMedicalRecord(id1); 
+			DoctorCtrl.viewPatientIDs();
+			DoctorCtrl.updateMedicalRecord(); 
 			System.out.print("Press <Enter> to continue:");
 			// Dummy scanner to let the system stop for user to check information
 			sc.nextLine();
@@ -65,18 +60,21 @@ public class DoctorInput implements IGetOperationInput{
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			break;
+			
 		case 6: //DONE
 			//View Upcoming Appointments
 			DoctorCtrl.viewUpcomingAppointment();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			break;
+			
 		case 7:
 			//Record Appointment Outcome
 			DoctorCtrl.recordAppointmentOutcome();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			break;
+			
 		case 8:
 			//Logout
 			System.out.println("Loging out...\n");
