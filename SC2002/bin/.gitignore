@@ -1,4 +1,5 @@
-/userInfoControl/
-/HospitalManagementSystem/
+/bin/
+/.gitignore
 /mainSystemControl/
+/userInfoControl/
 /userInfo/

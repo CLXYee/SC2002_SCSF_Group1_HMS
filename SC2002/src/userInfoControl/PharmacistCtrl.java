@@ -8,16 +8,16 @@ import java.util.regex.Pattern;
 import userInfo.Appointment;
 import userInfo.MedicalRecord;
 import userInfo.AppointmentOutcomeRecord;
+import userInfo.Medicine;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.*;
+import java.util.*;
 
-public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, GetOperationInput{
+public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl{
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<AppointmentOutcomeRecord> appointmentsOutcomeRecord = new ArrayList<>();
+	private List<Medicine> medicines = new ArrayList<>();
+
 	private List<Integer> rows = new ArrayList<>();
 	private int counter = 0; 
 
@@ -41,6 +41,26 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, GetOperatio
 
 		        this.appointments.add(appointment);
 				this.appointmentsOutcomeRecord.add(appointmentOutcomeRecord);
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		
+		counter = 0;
+		try (BufferedReader br = new BufferedReader(new FileReader("./Medicine_List.csv"))) 
+		{		    
+			String line;
+    		while ((line = br.readLine()) != null) 
+    		{
+		        // Split the line into columns using the delimiter
+		        String[] data = splitCSVLine(line);
+				if (counter == 0){
+					counter = 1;
+					continue;
+				}
+		        Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+
+		        this.medicines.add(medicine);
 		    }
 		} catch (IOException e) {
 		    e.printStackTrace();
@@ -77,27 +97,17 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, GetOperatio
         return tokens.toArray(new String[0]);
     }
 
-	private List<String> parseCsvLine(String line) {
-        List<String> fields = new ArrayList<>();
-        Matcher matcher = CSV_PATTERN.matcher(line);
-        while (matcher.find()) {
-            if (matcher.group(1) != null) {
-                fields.add(matcher.group(1)); // Quoted value
-            } else {
-                fields.add(matcher.group(2)); // Unquoted value
-            }
-        }
-        return fields;
-    }
-
-	public void viewAppointmentOutcome() {		
-		System.out.println();
-    	System.out.println("=========================================================");
-   		System.out.println("This is the list of appointments with unfulfilled medication prescription orders.");
+	public void viewAppointmentOutcomeRecord() {		
+    	int counter = 0;
+		System.out.println("================================================================================");
 
         // Check if Prescription Status is empty or unfulfilled
-		for (int i = 0; i < this.appointmentsOutcomeRecord.size(); i++)	
-		if (appointmentsOutcomeRecord.get(i).getPrescriptionStatus().equals("Pending")) {
+		for (int i = 0; i < this.appointmentsOutcomeRecord.size(); i++) {	
+			if (appointmentsOutcomeRecord.get(i).getPrescriptionStatus().equals("Pending")) {
+				if (counter == 0){
+			   		System.out.println("This is the list of appointments with unfulfilled medication prescription orders.");
+			   		counter = 1;
+				}
 				// Print the appointment outcome record details (modify based on your class structure)
 				System.out.println("Appointment ID: " + appointmentsOutcomeRecord.get(i).getAppointmentID()); // Example
 				System.out.println("Prescription Status: " + appointmentsOutcomeRecord.get(i).getPrescriptionStatus());
@@ -108,40 +118,131 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, GetOperatio
 				}
 				System.out.println(" ");
 				System.out.println("Consultation Notes: " + appointmentsOutcomeRecord.get(i).getConsultationNotes());
-				System.out.println("---------------------------------------------------------");
+				System.out.println("------------------------------------------------------------------------");
 			}
-
-    System.out.println("=========================================================");
-    System.out.println();
+		}
+		if (counter == 0) {
+	   		System.out.println("All appointments have fufilled medication prescription orders.");
+		}
+		System.out.println("================================================================================");
+		System.out.println();
+		
 	}
 	
 	public void updateAppointmentOutcomeRecord() {
+		int Found = 0;
+		System.out.println();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Please input the appointment ID for the appointment to change: ");
+		int appointmentID = sc.nextInt();
+		for (int i = 0; i < appointmentsOutcomeRecord.size(); i++) {
+			if (appointmentsOutcomeRecord.get(i).getAppointmentID() == appointmentID && appointmentsOutcomeRecord.get(i).getPrescriptionStatus().equals("Pending")) {
+				String[] prescribedMedicines = appointmentsOutcomeRecord.get(i).getPrescribedMedications();
+				for (int j = 0; j < prescribedMedicines.length; j++)
+				{
+					Found = 0;
+					for (int k = 0; k < medicines.size(); k++) {
+						if (prescribedMedicines[j].equals(medicines.get(k).getName())){
+							if (medicines.get(k).getInitialStock() > 0) {
+								Found = 1;
+								break;
+							}
+							else {
+								System.out.println(prescribedMedicines[j] + " is out of stock.");
+								return;
+							}
+						}
+					}
+					if (Found == 0) {
+						System.out.println(prescribedMedicines[j] + " not found.");
+						return;
+					}
+				}
+				
+				for (int j = 0; j < prescribedMedicines.length; j++)
+				{
+					for (int k = 0; k < medicines.size(); k++) {
+						if (prescribedMedicines[j].equals(medicines.get(k).getName())){
+							medicines.get(k).setInitialStock(medicines.get(k).getInitialStock() - 1);
+							break;
+						}
+					}
+				}
+				appointmentsOutcomeRecord.get(i).updatePrescriptionStatus();
+				System.out.println("Updated Prescription Status for appointment ID " + appointmentID + ": " + appointmentsOutcomeRecord.get(i).getPrescriptionStatus() );
+				return;
+			}
+		}
+		System.out.println("Appointment ID " + appointmentID + " not found or prescription status not pending ");
 	}
+	
+	// Method to save updated medicines to Medicine_List.csv
+	private void saveMedicinesToCSV() {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Medicine_List.csv"))) {
+			// Write header for CSV file
+			writer.write("Medicine Name,Stock,Low Stock Level Alert\n");
+			for (Medicine medicine : medicines) {
+				writer.write(String.format("%s,%d,%d\n",
+					medicine.getName(),
+					medicine.getInitialStock(),
+					medicine.getLowStockLevelAlert()));
+			}
+			System.out.println("Medicine inventory updated in Medicine_List.csv.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Method to save updated appointment records to Appointment_List.csv
+	private void saveAppointmentsToCSV() {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Appointment_List.csv"))) {
+	        // Write headers for the CSV file
+	        writer.write("Appointment ID, Patient ID, Doctor ID, Appointment Status, Date of Appointment, Time of Appointment, Type of Service, Prescribed Medications, Prescription Status, Consultation Notes\n");
+
+	        // Iterate through appointments and find corresponding outcome records
+	        for (int i = 0; i < appointments.size(); i++) {
+	            Appointment a = appointments.get(i);
+	            AppointmentOutcomeRecord b = appointmentsOutcomeRecord.get(i);
+                String prescribedMedications = "\"" + String.join(", ", b.getPrescribedMedications()) + "\"";
+	            
+	            writer.write(String.format("%d,%s,%s,%s,%s,%s,\"%s\",%s,%s,\"%s\"\n",
+                    a.getAppointmentID(),
+                    a.getPatientID(),
+                    a.getDoctorID(),
+                    a.getAppointmentStatus(),
+                    a.getDateOfAppointment(),
+                    a.getTimeOfAppointment(),
+                    b.getTypeOfService(),
+                    prescribedMedications,
+                    b.getPrescriptionStatus(),
+                    b.getConsultationNotes()));	 
+	        }
+
+	        System.out.println("Appointments and outcomes updated in Appointment_List.csv.");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	
 	public void viewMedicationInventory() {
+		System.out.println("================================================================================");
+   		System.out.println("List of medicines");
+		System.out.println("");
+   		for (int i = 0; i < this.medicines.size(); i++) {
+   			System.out.println("Medicine name: " + medicines.get(i).getName());
+   			System.out.println("Initial Stock: " + medicines.get(i).getInitialStock());
+   			System.out.println("Low Stock Level Alert: " + medicines.get(i).getLowStockLevelAlert());
+			System.out.println("--------------------------");
+   		}
+		System.out.println("================================================================================");
+
 	}
 	public void submitReplenishRequest() {
 	}
 	
-	public void getOperationInput(int input) {
-		Scanner sc = new Scanner(System.in);
-		switch(input) {
-		case 1:
-			viewAppointmentOutcome();
-			System.out.print("Press <Enter> to continue:");
-			// Dummy scanner to let the system stop for user to check information
-			sc.nextLine();
-			break;
-		case 2:
-			updateAppointmentOutcomeRecord();
-			break;
-		case 3:
-			viewMedicationInventory();
-			break;
-		case 4:
-			submitReplenishRequest();
-			System.out.print("Press <Enter> to continue:");
-			sc.nextLine();
-			break;
-		}
+	public void EntityUpdate() {
+		saveMedicinesToCSV();
+		saveAppointmentsToCSV();
 	}
 }

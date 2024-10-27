@@ -96,20 +96,12 @@ public class AppointmentOutcomeRecord
     	return this.consultationNotes;
     }
 
-    // Set the Prescription Status of a specific Medication from "Pending" to "Dispensed"
-    /*
-    public void updatePrescriptionStatus(String medication)
+    // Set the Prescription Status from "Pending" to "Dispensed"
+    public void updatePrescriptionStatus()
     {
-    	for (int i = 0; i < this.prescribedMedications.length; i++)
-    	{
-    		if (this.prescribedMedications[i] == medication)
-    		{
-    			this.prescriptionStatus[i] = "Dispensed";
-    			break;
-    		}
-    	}
+    	this.prescriptionStatus = "Dispensed";
     }
-    */
+    
     
     public void setTypeOfService(String service)
     {
