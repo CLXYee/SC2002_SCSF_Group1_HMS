@@ -97,11 +97,6 @@ public class MedicalRecord {
     	return false;
     }
     
-    /*
-    public String getBloodType(){
-        return bloodType;
-    }
-    */
     public void addPastDiagnosisAndTreatment(String diagnose, String prescription, String plan) {
         String record = String.format("[%s, %s, %s]", diagnose, prescription, plan);
         pastDiagnosesTreatment.add(record);

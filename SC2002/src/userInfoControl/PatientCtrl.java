@@ -49,14 +49,16 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	public void showMedicalRecord() {
 		System.out.println("Show medical record for patient");
 		System.out.println("=================================================");
-		System.out.println("Patient ID\t\t| " + medicalRecord.getPatientID());
-		System.out.println("Name\t\t\t| " + medicalRecord.getName());
-		System.out.println("Gender\t\t\t| " + medicalRecord.getGender());
-		System.out.println("Phone No.\t\t| " + medicalRecord.getPhoneNumber());
-		System.out.println("Email Address\t\t| " + medicalRecord.getEmailAddress());
-		System.out.println("Blood Type\t\t| " + medicalRecord.getBloodType());
-		System.out.println("Doctor In Charge\t| " + medicalRecord.getDoctor());
+		System.out.println("Patient ID		| " + medicalRecord.getPatientID());
+		System.out.println("Name			| " + medicalRecord.getName());
+		System.out.println("Gender			| " + medicalRecord.getGender());
+		System.out.println("Phone No.		| " + medicalRecord.getPhoneNumber());
+		System.out.println("Email Address	| " + medicalRecord.getEmailAddress());
+		System.out.println("Blood Type		| " + medicalRecord.getBloodType());
+		System.out.println("Doctor In Charge| " + medicalRecord.getDoctor());
 		System.out.println("=================================================");
+		System.out.println("Past Diagnoses and Treatment:");
+		// Add past diagnoses and treatment
 	}
 	
 	public void updateMedicalRecord() {

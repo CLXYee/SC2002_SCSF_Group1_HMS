@@ -87,6 +87,7 @@ public class DoctorCtrl implements MedicalRecordCtrl{
 			System.out.println("Doctor In Charge| " + medicalRecord.getDoctor());
 		    System.out.println("===============================");
 			System.out.println("Past Diagnoses and Treatment:");
+			// Add past diagnoses and treatment
 		}
 		//if patient id not found
 		else {
