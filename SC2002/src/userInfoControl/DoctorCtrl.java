@@ -252,23 +252,100 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	
 	
 	
-	public void recordAppointmentOutcome() { //还没改好
+	public void recordAppointmentOutcome() {
 		Scanner sc = new Scanner(System.in);
-		//choose appointment ID to update
-		System.out.println("Enter Date of Appointment (d/M/yyyy): "); //or choose date of appointment?
+		// File path for the appointment list
+	    String filePath = "./Appointment_List.csv";
+	    List<String[]> appointments = new ArrayList<>();
+
+	    // Reading the CSV file
+	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            String[] appointment = line.split(",");
+	            appointments.add(appointment);
+	        }
+	    } catch (IOException e) {
+	        System.out.println("Error reading file: " + e.getMessage());
+	        return;
+	    }
+
+	    System.out.println("=====Showing Appointment Requests and Status=====");
+	    // Display relevant appointments
+	    for (String[] appointment : appointments) {
+	        if (appointment[2].equals(this.doctorID)) {  
+	            System.out.printf("Appointment ID: %s, Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n", 
+	                              appointment[0], appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
+	        }
+	    }
+	    //choose appointment ID to update
+	    System.out.println("\nUpdating Appointment Status for Appointment ID:");
+	    String appointmentID = sc.next();
+		
+		System.out.println("Enter Date of Appointment (d/M/yyyy): "); 
 		String appointmentDate = sc.next();
 		System.out.println("Type of service provided: ");
-		String serviceType = sc.next();
-		System.out.println("Prescribed medication: ");
-		String prescribedMedication = sc.next();
+		String serviceType = sc.nextLine();
+		System.out.println("Choose Prescribed medication: ");
+		System.out.println("1. Paracetamol");
+		System.out.println("2. Ibuprofen");
+		System.out.println("3. Amoxicillin");
+		int choice1 = sc.nextInt();
+		String prescribedMedication;
+		switch (choice1) {
+		case 1 -> prescribedMedication = "Paracetamol";
+		case 2 -> prescribedMedication = "Ibuprofen";
+		default -> prescribedMedication = "Amoxicillin";
+		}
+				System.out.println("Choose Prescription Status: ");
+		System.out.println("1. Completed");
+		System.out.println("2. Cancelled");
+		System.out.println("3. Pending");
+		int choice2 = sc.nextInt();
+		String prescriptionStatus;
+		switch (choice2) {
+		case 1 -> prescriptionStatus = "Completed";
+		case 2 -> prescriptionStatus = "Cancelled";
+		default -> prescriptionStatus = "Pending";
+		}
+		
 		System.out.println("Consultation notes: ");
 		String notes = sc.next();
-		//store into database
+		
+		// Update the appointment outcome in the list
+	    boolean updated = false;
+	    for (String[] appointment : appointments) {
+	        if (appointment[0].equals(appointmentID) && appointment[2].equals(doctorID)) {  // Check patient and doctor IDs
+	            appointment[4] = appointmentDate;
+	            appointment[6] = serviceType;
+	            appointment[7] = prescribedMedication;
+	            appointment[8] = prescriptionStatus;
+	            appointment[9] = notes;
+	            updated = true;
+	            break;
+	        }
+	    }
+	    if (!updated) {
+	        System.out.println("Appointment not found for the given Patient ID and Doctor ID.");
+	        return;
+	    }
+
+	    // Write updated data back to the CSV file
+	    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+	        for (String[] appointment : appointments) {
+	            bw.write(String.join(",", appointment));
+	            bw.newLine();
+	        }
+	    } catch (IOException e) {
+	        System.out.println("Error writing to file: " + e.getMessage());
+	        return;
+	    }
+
+	    System.out.println("Appointment Outcome Updated!");
+		
 	}
 
 
-
-	@Override
 	public void viewAppointmentOutcomeRecord() {
 		// TODO Auto-generated method stub
 		
@@ -276,7 +353,6 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 
 
 
-	@Override
 	public void updateAppointmentOutcomeRecord() {
 		// TODO Auto-generated method stub
 		

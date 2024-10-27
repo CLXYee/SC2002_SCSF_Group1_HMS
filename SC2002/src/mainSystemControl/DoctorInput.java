@@ -68,7 +68,7 @@ public class DoctorInput implements IGetOperationInput{
 			sc.nextLine();
 			break;
 			
-		case 7:
+		case 7: //DONE
 			//Record Appointment Outcome
 			DoctorCtrl.recordAppointmentOutcome();
 			System.out.print("Press <Enter> to continue:");
