@@ -25,9 +25,11 @@ public class DoctorCtrl{
 		this.myPatientID = getPatientList(hospitalID);
 	}
 	
+	
+	
 	public static String[] getPatientList(String doctorID) {
 	    ArrayList<String> patientIDs = new ArrayList<>();
-	    String filePath = "./Patient_List.csv";  // Ensure this path is correct relative to your project
+	    String filePath = "./Patient_List.csv";  
 
 	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 	        String line;
@@ -47,10 +49,11 @@ public class DoctorCtrl{
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-
 	    // Convert ArrayList to an array
 	    return patientIDs.toArray(new String[0]);
 	}
+	
+	
 	
 	public void viewPatientIDs() {
 	    System.out.println("These are patients under your record:");
@@ -87,6 +90,8 @@ public class DoctorCtrl{
 		}
 	}
 
+	
+	
 	public void updateMedicalRecord(String patientID) { 
 		if (Arrays.stream(myPatientID)
 	              .anyMatch(ID -> ID.equals(patientID))) {
@@ -108,16 +113,22 @@ public class DoctorCtrl{
 			}
 	}
 	
+	
+	
 	public void viewPersonalSchedule() {
 		System.out.println("=====Showing Personal Schedule=====");
+		//pending personal schedule
 		
 	}
 	
 	public void setAvailability() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Select time slot to set availability: ");
+		//pending personal schedule
 		
 	}
+	
+	
 	
 	public void updateAppointmentRequest() {
 	    Scanner sc = new Scanner(System.in);
@@ -139,7 +150,6 @@ public class DoctorCtrl{
 	    }
 
 	    System.out.println("=====Showing Appointment Requests and Status=====");
-
 	    // Display relevant appointments
 	    for (String[] appointment : appointments) {
 	        if (appointment[2].equals(this.doctorID)) {  
@@ -173,7 +183,6 @@ public class DoctorCtrl{
 	            break;
 	        }
 	    }
-
 	    if (!updated) {
 	        System.out.println("Appointment not found for the given Patient ID and Doctor ID.");
 	        return;
@@ -192,6 +201,8 @@ public class DoctorCtrl{
 
 	    System.out.println("Appointment Request Updated!");
 	}
+	
+	
 	
 	public void viewUpcomingAppointment() {
 		String filePath = "./Appointment_List.csv";
@@ -236,16 +247,18 @@ public class DoctorCtrl{
 	    }
 	}
 	
+	
+	
 	public void recordAppointmentOutcome() { //还没改好
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter Date of Appointment (dd/mm/yy): "); //or choose date of appointment?
+		System.out.println("Enter Date of Appointment (d/M/yyyy): "); //or choose date of appointment?
 		//scan
 		System.out.println("Type of service provided: ");
-		//scan
+		String serviceType = sc.next();
 		System.out.println("Prescribed medication: ");
 		//scan
 		System.out.println("Consultation notes: ");
-		//scan
+		String notes = sc.next();
 		//store into database
 	}
 	
