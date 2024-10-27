@@ -14,8 +14,8 @@ public class PatientInput implements IGetOperationInput {
 	private MedicalRecordCtrl medicalRecordCtrl; 
 	private AppointmentCtrl appointmentCtrl;
 
-	public PatientInput(String hospitalID) {
-		this.patientCtrl = new PatientCtrl(hospitalID);
+	public PatientInput(String hospitalID, String name, String gender, int age) {
+		this.patientCtrl = new PatientCtrl(hospitalID, name, gender, age);
 		this.medicalRecordCtrl = this.patientCtrl;
 		this.appointmentCtrl = this.patientCtrl;
 		this.menu = new ShowPatientMenu();

@@ -1,6 +1,7 @@
 package userInfoControl;
 
 import userInfo.MedicalRecord;
+import userInfo.Patient;
 import CSV.MedicalRecordCSVOperator;
 import userInfo.Appointment;
 import userInfo.AppointmentOutcomeRecord;
@@ -8,6 +9,7 @@ import java.io.*;
 import java.util.*;
 
 public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
+	private Patient patient;
 	private MedicalRecord medicalRecord;
 	private MedicalRecordCSVOperator csv = new MedicalRecordCSVOperator();
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
@@ -15,7 +17,8 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	private List<Integer> rows = new ArrayList<>();
 	private int counter = 0; // use to remark the most bottom line in the CSV file of appointment
 	
-	public PatientCtrl(String hospitalID) {
+	public PatientCtrl(String hospitalID, String name, String gender, int age) {
+		this.patient = new Patient(hospitalID, name, gender, age);
 		this.medicalRecord = new MedicalRecord(hospitalID);
 		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
 		{		    

@@ -18,10 +18,7 @@ public class MedicalRecord {
     private String emailAddress;
     private String bloodType;
     private String doctorInCharge;
-    /*
-    private String bloodType;
-    */
-    private ArrayList<String> pastDiagnosesAndTreatment = new ArrayList<>();
+    private ArrayList<String> pastDiagnosesTreatment = null;
     private MedicalRecordCSVOperator csv = new MedicalRecordCSVOperator();
     
 
@@ -37,6 +34,10 @@ public class MedicalRecord {
     	this.emailAddress = data.get(8);
     	this.bloodType = data.get(9);
     	this.doctorInCharge = data.get(10);
+    	
+    	String diagnosesTreatmentData = data.get(10);
+    	
+    	this.pastDiagnosesTreatment = new ArrayList<String>(Arrays.asList(diagnosesTreatmentData.split("; ")));
     }
 
     public String getPatientID(){
@@ -103,11 +104,11 @@ public class MedicalRecord {
     */
     public void addPastDiagnosisAndTreatment(String diagnose, String prescription, String plan) {
         String record = String.format("[%s, %s, %s]", diagnose, prescription, plan);
-        pastDiagnosesAndTreatment.add(record);
+        pastDiagnosesTreatment.add(record);
     }
 
     // Optional: Add a method to get pastDiagnosesAndTreatment if needed for display
     public ArrayList<String> getPastDiagnosesAndTreatment() {
-        return pastDiagnosesAndTreatment;
+        return pastDiagnosesTreatment;
     }
 }

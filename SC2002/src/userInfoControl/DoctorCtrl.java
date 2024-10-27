@@ -39,7 +39,7 @@ public class DoctorCtrl implements MedicalRecordCtrl{
 	        while ((line = br.readLine()) != null) {
 	            String[] values = line.split(",");  
 	            
-	            String csvDoctorID = values[9].trim();  //DoctorID in 10th column
+	            String csvDoctorID = values[10].trim();  //DoctorID in 11th column
 	            if (csvDoctorID.equals(doctorID)) {
 	                String patientID = values[2].trim();  // Patient ID in 3rd column
 	                patientIDs.add(patientID);
@@ -78,12 +78,15 @@ public class DoctorCtrl implements MedicalRecordCtrl{
 		    MedicalRecord medicalRecord = new MedicalRecord(patientID);
 		    System.out.println("Show medical record for patient");
 		    System.out.println("===============================");
-		    System.out.println("Patient ID     | " + medicalRecord.getPatientID());
-		    System.out.println("Name           | " + medicalRecord.getName());
-		    System.out.println("Gender         | " + medicalRecord.getGender());
-		    System.out.println("Phone No.      | " + medicalRecord.getPhoneNumber());
-		    System.out.println("Email Address  | " + medicalRecord.getEmailAddress());
+		    System.out.println("Patient ID		| " + medicalRecord.getPatientID());
+		    System.out.println("Name			| " + medicalRecord.getName());
+		    System.out.println("Gender			| " + medicalRecord.getGender());
+		    System.out.println("Phone No.		| " + medicalRecord.getPhoneNumber());
+		    System.out.println("Email Address	| " + medicalRecord.getEmailAddress());
+			System.out.println("Blood Type		| " + medicalRecord.getBloodType());
+			System.out.println("Doctor In Charge| " + medicalRecord.getDoctor());
 		    System.out.println("===============================");
+			System.out.println("Past Diagnoses and Treatment:");
 		}
 		//if patient id not found
 		else {
