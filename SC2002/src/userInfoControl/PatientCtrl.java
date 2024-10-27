@@ -1,6 +1,7 @@
 package userInfoControl;
 
 import userInfo.MedicalRecord;
+import CSV.medicalRecordCSVOperator;
 import userInfo.Appointment;
 import userInfo.AppointmentOutcomeRecord;
 import java.io.*;
@@ -8,6 +9,7 @@ import java.util.*;
 
 public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, AppointmentCtrl {
 	private MedicalRecord medicalRecord;
+	private medicalRecordCSVOperator csv = new medicalRecordCSVOperator();
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<Integer> rows = new ArrayList<>();
@@ -91,7 +93,11 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 					System.out.println();
 					break;
 				case 3:
-					if(updateSpecificInfo()) {
+					//put all the changes into an arraylist for the function changing the specific information
+					ArrayList<String> changes = new ArrayList<String>();
+					Collections.addAll(changes, medicalRecord.getPhoneNumber(), medicalRecord.getEmailAddress());
+					
+					if(csv.changeSpecificInformation(medicalRecord.getPatientID(), changes)) {
 						System.out.println("Exiting.......");
 					}else {
 						System.out.println("System updated failed!");
