@@ -1,7 +1,7 @@
 package userInfoControl;
 
 import userInfo.MedicalRecord;
-import CSV.medicalRecordCSVOperator;
+import CSV.MedicalRecordCSVOperator;
 import userInfo.Appointment;
 import userInfo.AppointmentOutcomeRecord;
 import java.io.*;
@@ -9,7 +9,7 @@ import java.util.*;
 
 public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	private MedicalRecord medicalRecord;
-	private medicalRecordCSVOperator csv = new medicalRecordCSVOperator();
+	private MedicalRecordCSVOperator csv = new MedicalRecordCSVOperator();
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<Integer> rows = new ArrayList<>();

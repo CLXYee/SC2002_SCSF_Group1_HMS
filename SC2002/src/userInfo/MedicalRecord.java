@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import CSV.medicalRecordCSVOperator;
+import CSV.MedicalRecordCSVOperator;
 
 public class MedicalRecord {
     private String patientID;
@@ -22,7 +22,7 @@ public class MedicalRecord {
     private String bloodType;
     */
     private ArrayList<String> pastDiagnosesAndTreatment = new ArrayList<>();
-    private medicalRecordCSVOperator csv = new medicalRecordCSVOperator();
+    private MedicalRecordCSVOperator csv = new MedicalRecordCSVOperator();
     
 
     public MedicalRecord(String hospitalID){
