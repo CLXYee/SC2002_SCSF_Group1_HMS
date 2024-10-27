@@ -1,8 +1,4 @@
-﻿Password,Role,Patient ID,Name,Date of Birth,Gender,Phone Number,Contact Information,Blood Type,Doctor ID
-password,PATIENT,P1001,Alice Brown,5/14/1980,Female,12345678,patient123@gmail.com,A+,D1001
-password,PATIENT,P1002,Bob Stone,11/22/1975,Male,87654321,bob.stone@example.com,B+,D1002
-password,PATIENT,P1003,Charlie White,7/8/1990,Male,112233,charlie.white@example.com,O-,D1001
-﻿Password,Role,Patient ID,Name,Gender,Age,Date of Birth,Phone Number,Contact Information,Blood Type,Doctor ID
+﻿﻿Password,Role,Patient ID,Name,Gender,Age,Date of Birth,Phone Number,Contact Information,Blood Type,Doctor ID
 password,PATIENT,P1001,Alice Brown,Female,44,5/14/1980,12345678,patient123@gmail.com,A+,D1001
 password,PATIENT,P1002,Bob Stone,Male,49,11/22/1975,87654321,bob.stone@example.com,B+,D1002
 password,PATIENT,P1003,Charlie White,Male,34,7/8/1990,112233,charlie.white@example.com,O-,D1001

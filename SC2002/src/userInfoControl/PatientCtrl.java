@@ -43,15 +43,15 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 	
 	public void showMedicalRecord() {
 		System.out.println("Show medical record for patient");
-		System.out.println("===============================");
-		System.out.println("Patient ID\t| " + medicalRecord.getPatientID());
-		System.out.println("Name\t\t| " + medicalRecord.getName());
-		System.out.println("Gender\t\t| " + medicalRecord.getGender());
-		System.out.println("Phone No.\t| " + medicalRecord.getPhoneNumber());
-		System.out.println("Email Address\t| " + medicalRecord.getEmailAddress());
-		System.out.println("Blood Type\t| " + medicalRecord.getBloodType());
+		System.out.println("=================================================");
+		System.out.println("Patient ID\t\t| " + medicalRecord.getPatientID());
+		System.out.println("Name\t\t\t| " + medicalRecord.getName());
+		System.out.println("Gender\t\t\t| " + medicalRecord.getGender());
+		System.out.println("Phone No.\t\t| " + medicalRecord.getPhoneNumber());
+		System.out.println("Email Address\t\t| " + medicalRecord.getEmailAddress());
+		System.out.println("Blood Type\t\t| " + medicalRecord.getBloodType());
 		System.out.println("Doctor In Charge\t| " + medicalRecord.getDoctor());
-		System.out.println("===============================");
+		System.out.println("=================================================");
 	}
 	
 	public void updateMedicalRecord() {
