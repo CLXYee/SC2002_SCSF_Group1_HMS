@@ -1,5 +1,6 @@
 /bin/
 /.gitignore
+/.project
 /mainSystemControl/
-/userInfoControl/
 /userInfo/
+/userInfoControl/
