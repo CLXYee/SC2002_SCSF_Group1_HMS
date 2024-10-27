@@ -3,12 +3,10 @@ package CSV;
 import java.util.*;
 import java.io.*;
 
-public class medicalRecordCSVOperator extends CSVoperator{
 public class MedicalRecordCSVOperator extends CSVoperator{
 	private String filePath;
 	private ArrayList<String> data = new ArrayList<>();
 	
-	public medicalRecordCSVOperator() {
 	public MedicalRecordCSVOperator() {
 		this.filePath = "./Patient_List.csv";
 	}
@@ -40,7 +38,6 @@ public class MedicalRecordCSVOperator extends CSVoperator{
 	}
 	
 	// changing a specific block in CSV
-	public boolean changeSpecificInformation(String id,ArrayList<Integer> changesIndex, ArrayList<String> changes) {
 	public boolean changeSpecificInformation(String id,ArrayList<String> changes) {
 		String tempFile = "./temp.csv"; // temporary file for the data changing
 		
@@ -58,9 +55,6 @@ public class MedicalRecordCSVOperator extends CSVoperator{
             	System.out.println(line);
                 String[] tempData = line.split(","); // Split the row into columns
                 if(tempData[2].equals(id)) {
-                	int counterOfChanges = 0;
-                	for(int i: changesIndex) {
-                		tempData[i] = changes.get(counterOfChanges++);
                 	if(!tempData[7].equals(changes.get(0))) {
                 		tempData[7] = changes.get(0);
                 	}
@@ -108,7 +102,6 @@ public class MedicalRecordCSVOperator extends CSVoperator{
 			e.printStackTrace();
 			return false;
 		}
-		
 		return true;
 	}
 	
@@ -119,5 +112,4 @@ public class MedicalRecordCSVOperator extends CSVoperator{
 	
 	
 	
-}
 }

@@ -1,7 +1,11 @@
 /bin/
+/userInfoControl/
 /CSV/
+<<<<<<< HEAD
+=======
 /HospitalManagementSystem/
 /ShowUserMenu/
 /mainSystemControl/
 /userInfo/
 /userInfoControl/
+>>>>>>> d23680b9375e9efe2fba3cceb1d172b5e2606a32
