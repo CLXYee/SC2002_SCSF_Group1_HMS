@@ -2,6 +2,7 @@ package mainSystemControl;
 
 import java.util.Scanner;
 
+import HospitalManagementSystem.HospitalApp;
 import ShowUserMenu.ShowMenu;
 import ShowUserMenu.ShowDoctorMenu;
 import userInfoControl.*;
@@ -24,9 +25,9 @@ public class DoctorInput implements IGetOperationInput{
 	public void getOperationInput(int input) {
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
-		case 1:
-			DoctorCtrl.viewPatientIDs();
+		case 1: //DONE
 			//View patient medical record
+			DoctorCtrl.viewPatientIDs();
 			System.out.println("Enter the patient ID to view: ");
 			String id = sc.next();
 			DoctorCtrl.showMedicalRecord(id); 
@@ -34,7 +35,8 @@ public class DoctorInput implements IGetOperationInput{
 			// Dummy scanner to let the system stop for user to check information
 			sc.nextLine();
 			break;
-		case 2:
+			
+		case 2: //Pending confirmation on data type of pastDiagnosesAndTreatment
 			//update patient medical record
 			System.out.println("Enter the patient ID to update medical record: ");
 			String id1 = sc.next();
@@ -43,25 +45,27 @@ public class DoctorInput implements IGetOperationInput{
 			System.out.print("Press <Enter> to continue:");
 			// Dummy scanner to let the system stop for user to check information
 			sc.nextLine();
+			
 		case 3:
 			//view personal schedule
 			DoctorCtrl.viewPersonalSchedule();
 			break;
+			
 		case 4:
 			//Set availability for appointment
+			DoctorCtrl.viewPersonalSchedule();
 			DoctorCtrl.setAvailability();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			break;
-		case 5:
+			
+		case 5: //DONE
 			//Accept or Decline Appointment Requests
-			System.out.println("Enter the patient ID to update medical record: ");
-			String id2 = sc.next();
-			DoctorCtrl.updateAppointmentRequest(id2);
+			DoctorCtrl.updateAppointmentRequest();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			break;
-		case 6:
+		case 6: //DONE
 			//View Upcoming Appointments
 			DoctorCtrl.viewUpcomingAppointment();
 			System.out.print("Press <Enter> to continue:");
@@ -75,6 +79,8 @@ public class DoctorInput implements IGetOperationInput{
 			break;
 		case 8:
 			//Logout
+			System.out.println("Loging out...\n");
+			HospitalApp.getLoginInput();
 			break;
 	}
 	}
