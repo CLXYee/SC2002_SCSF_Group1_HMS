@@ -15,7 +15,7 @@ import java.util.List;
 import userInfo.*;
 import userInfoControl.MedicalRecordCtrl;
 
-public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl{
+public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISchedule, AppointmentOutcomeRecordCtrl{
 	private String doctorID;
 	private String[] myPatientID;
 	
@@ -264,6 +264,22 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl{
 		System.out.println("Consultation notes: ");
 		String notes = sc.next();
 		//store into database
+	}
+
+
+
+	@Override
+	public void viewAppointmentOutcomeRecord() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void updateAppointmentOutcomeRecord() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
