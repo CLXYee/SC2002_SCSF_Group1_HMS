@@ -6,7 +6,7 @@ import userInfo.AppointmentOutcomeRecord;
 import java.io.*;
 import java.util.*;
 
-public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, AppointmentCtrl  {
+public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, AppointmentCtrl {
 	private MedicalRecord medicalRecord;
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
@@ -30,7 +30,7 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 		        }
 		        else if (data[1].equals(this.medicalRecord.getPatientID()) && data[3].equals("Completed"))
 		        {
-		        	AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(data[4], data[6], data[7].split("\\s*,\\s*"), data[8].split("\\s*,\\s*"), data[9]);
+		        	AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(Integer.valueOf(data[0]), data[4], data[6], data[7].split("\\s*,\\s*"), data[8], data[9]);
 		        	this.appointmentOutcomeRecords.add(appointmentOutcomeRecord);
 		        }
 		        this.counter++;
@@ -380,5 +380,5 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 		}
 		
 		return true;
-	}	
+	}
 }

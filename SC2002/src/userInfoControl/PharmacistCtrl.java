@@ -25,7 +25,7 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, GetOperatio
     private static final Pattern CSV_PATTERN = Pattern.compile(CSV_REGEX);
 
 	public PharmacistCtrl() {
-		try (BufferedReader br = new BufferedReader(new FileReader("test/Appointment_List.csv"))) 
+		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
 		{		    
 			String line;
     		while ((line = br.readLine()) != null) 

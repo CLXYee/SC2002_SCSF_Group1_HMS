@@ -66,6 +66,9 @@ public class PatientInput implements IGetOperationInput {
 			break;
 		case 8:
 			//View Past Appointment Outcome Records
+			patientCtrl.viewPastRecords();
+			System.out.print("Press <Enter> to continue:");
+			sc.nextLine();
 			break;
 		case 9:
 			//Logout

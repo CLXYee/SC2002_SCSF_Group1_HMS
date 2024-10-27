@@ -9,14 +9,16 @@ import java.util.List;
 
 public class AppointmentOutcomeRecord 
 {
+	private int appointmentID;
 	private String dateOfAppointment;
 	private String typeOfService;
 	private String[] prescribedMedications;
-	private String[] prescriptionStatus;
+	private String prescriptionStatus;
 	private String consultationNotes;
 
-    public AppointmentOutcomeRecord(String dA, String tS, String[] pM, String[] pS, String cN) 
+    public AppointmentOutcomeRecord(int aID, String dA, String tS, String[] pM, String pS, String cN) 
     {
+    	this.appointmentID = aID;
     	this.dateOfAppointment = dA;
     	this.typeOfService = tS;
     	this.prescribedMedications = pM;
@@ -64,6 +66,11 @@ public class AppointmentOutcomeRecord
         }*/
     }
     
+    public int getAppointmentID()
+    {
+    	return this.appointmentID;
+    }
+    
     public String getDateOfAppointment()
     {
     	return this.dateOfAppointment;
@@ -79,7 +86,7 @@ public class AppointmentOutcomeRecord
     	return this.prescribedMedications;
     }
     
-    public String[] getPrescriptionStatus()
+    public String getPrescriptionStatus()
     {
     	return this.prescriptionStatus;
     }
@@ -90,6 +97,7 @@ public class AppointmentOutcomeRecord
     }
 
     // Set the Prescription Status of a specific Medication from "Pending" to "Dispensed"
+    /*
     public void updatePrescriptionStatus(String medication)
     {
     	for (int i = 0; i < this.prescribedMedications.length; i++)
@@ -101,6 +109,7 @@ public class AppointmentOutcomeRecord
     		}
     	}
     }
+    */
     
     public void setTypeOfService(String service)
     {
@@ -110,11 +119,10 @@ public class AppointmentOutcomeRecord
     public void setPrescribedMedications(String[] medications)
     {
     	this.prescribedMedications = new String[medications.length];
-    	this.prescriptionStatus = new String[medications.length];
+		this.prescriptionStatus = "Pending";
     	for (int i = 0; i < medications.length; i++)
     	{
     		this.prescribedMedications[i] = medications[i];
-    		this.prescriptionStatus[i] = "Pending";
     	}
     }
     

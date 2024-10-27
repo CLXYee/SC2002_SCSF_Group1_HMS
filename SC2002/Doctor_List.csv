@@ -1,0 +1,5 @@
+﻿Password,Role,Doctor ID,Name,Date of Birth,Gender,Phone Number,Contact Information,Blood Type
+password,DOCTOR,D1001,Levy Rozman,5/12/1995,Male,12345678,levy.rozman@example.com,A+
+password,DOCTOR,D1002,Daniel Naroditsky,9/11/1995,Male,87654321,daniel.naro@example.com,B+
+password,DOCTOR,D1003,Magnus Carlsen,30/11/1990,Male,77112233,magnuscarlsen@example.com,O-
+password,DOCTOR,D1004,Anna Cramling,27/9/1998,Female,29356239,anna.cramling@example.com,AB-
