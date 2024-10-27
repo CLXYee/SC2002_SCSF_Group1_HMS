@@ -5,7 +5,7 @@ import java.util.*;
 public abstract class CSVoperator {
 	public abstract ArrayList<String> readFile(String id); // read the file of the CSV and return the specific line of data we need
 	public abstract boolean addLineToFile(List<String> dataAdd); // adding a line to CSV file
-	public abstract boolean changeSpecificInformation(String id, ArrayList<String> changes); // changing a specific block in CSV
+	public abstract boolean changeSpecificInformation(String id, ArrayList<Integer> changesIndex,ArrayList<String> changes); // changing a specific block in CSV
 	public abstract boolean deleteSpecificLine(String id); // delete a specific line
 	
 	private String[] splitCommaCSVLine(String line) // Split a CSV line into the proper format (used for Appointment)

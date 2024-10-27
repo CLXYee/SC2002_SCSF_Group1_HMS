@@ -38,7 +38,7 @@ public class medicalRecordCSVOperator extends CSVoperator{
 	}
 	
 	// changing a specific block in CSV
-	public boolean changeSpecificInformation(String id,ArrayList<String> changes) {
+	public boolean changeSpecificInformation(String id,ArrayList<Integer> changesIndex, ArrayList<String> changes) {
 		String tempFile = "./temp.csv"; // temporary file for the data changing
 		
 		BufferedReader reader = null;
@@ -52,16 +52,12 @@ public class medicalRecordCSVOperator extends CSVoperator{
             String line;
             
             while ((line = reader.readLine()) != null) {
-            	System.out.println(line);
                 String[] tempData = line.split(","); // Split the row into columns
 
                 if(tempData[2].equals(id)) {
-                	if(!tempData[7].equals(changes.get(0))) {
-                		tempData[7] = changes.get(0);
-                	}
-                	
-                	if(!tempData[8].equals(changes.get(1))) {
-                		tempData[8] = changes.get(1);
+                	int counterOfChanges = 0;
+                	for(int i: changesIndex) {
+                		tempData[i] = changes.get(counterOfChanges++);
                 	}
                 }
                 

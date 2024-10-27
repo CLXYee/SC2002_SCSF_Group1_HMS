@@ -7,7 +7,7 @@ import userInfo.AppointmentOutcomeRecord;
 import java.io.*;
 import java.util.*;
 
-public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, AppointmentCtrl {
+public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	private MedicalRecord medicalRecord;
 	private medicalRecordCSVOperator csv = new medicalRecordCSVOperator();
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
@@ -95,9 +95,12 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 				case 3:
 					//put all the changes into an arraylist for the function changing the specific information
 					ArrayList<String> changes = new ArrayList<String>();
+					ArrayList<Integer> index = new ArrayList<Integer>();
 					Collections.addAll(changes, medicalRecord.getPhoneNumber(), medicalRecord.getEmailAddress());
+					Collections.addAll(index, 7, 8);
 					
-					if(csv.changeSpecificInformation(medicalRecord.getPatientID(), changes)) {
+					//for the changeSpecificInformation function, u need to put in the patientid, the index to change and the relevant changes u want to make
+					if(csv.changeSpecificInformation(medicalRecord.getPatientID(), index, changes)) {
 						System.out.println("Exiting.......");
 					}else {
 						System.out.println("System updated failed!");
@@ -324,74 +327,4 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
         tokens.add(currentToken.toString());
         return tokens.toArray(new String[0]);
     }
-    
-	public boolean updateSpecificInfo() // Update a specific information for patient
-	{
-		String filePath = "./Patient_List.csv"; // original file
-		String tempFile = "./temp.csv"; // temporary file for the data changing
-		
-		BufferedReader reader = null;
-		BufferedWriter writer = null;
-		
-		try {
-			// Initialize BufferedReader and BufferedWriter inside a try block to catch exceptions
-            reader = new BufferedReader(new FileReader(filePath));
-            writer = new BufferedWriter(new FileWriter(tempFile));
-            
-            String line;
-            
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(","); // Split the row into columns
-
-                if(medicalRecord.getPatientID().equals(data[2])) {
-                	if(!medicalRecord.getPhoneNumber().equals(data[6])) {
-                		data[6] = medicalRecord.getPhoneNumber();
-                	}
-                	
-                	if(!medicalRecord.getEmailAddress().equals(data[7])) {
-                		data[7] = medicalRecord.getEmailAddress();
-                	}
-                }
-                
-                writer.write(String.join(",", data));
-                writer.newLine();
-            }
-		} catch (FileNotFoundException e) {
-            System.out.println("Error: File not found. Please check the file path.");
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            System.out.println("Error: An I/O error occurred while reading or writing the file.");
-            e.printStackTrace();
-            return false;
-        } finally {
-            // Close the resources in the finally block to ensure they are closed even if an exception occurs
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-                if (writer != null) {
-                    writer.close();
-                }
-            } catch (IOException e) {
-                System.out.println("Error: Failed to close the file.");
-                e.printStackTrace();
-            }
-        }
-		
-		try {
-			File originalFile = new File(filePath);
-			File newFile = new File(tempFile);
-			
-			if(originalFile.delete()) {
-				newFile.renameTo(originalFile);
-			}
-		}catch(Exception e) {
-			System.out.println("Error: unable to delete or rename file.");
-			e.printStackTrace();
-			return false;
-		}
-		
-		return true;
-	}
 }
