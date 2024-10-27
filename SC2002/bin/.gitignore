@@ -1,5 +1,7 @@
 /bin/
+/.gitignore
+/.project
+/ShowUserMenu/
+/mainSystemControl/
 /userInfo/
 /userInfoControl/
-/CSV/
-/mainSystemControl/

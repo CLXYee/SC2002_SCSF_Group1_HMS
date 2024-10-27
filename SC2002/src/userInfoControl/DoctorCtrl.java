@@ -283,31 +283,21 @@ public class DoctorCtrl implements MedicalRecordCtrl{
 	        }
 	    }
 	    //choose appointment ID to update
-	    System.out.println("\nUpdating Appointment Status for Appointment ID:");
+	    System.out.println("\nUpdating Appointment Outcome for Appointment ID:");
 	    String appointmentID = sc.next();
 		
 		System.out.println("Enter Date of Appointment (d/M/yyyy): "); 
 		String appointmentDate = sc.next();
 		System.out.println("Type of service provided: ");
-		String serviceType = sc.nextLine();
-		System.out.println("Choose Prescribed medication: ");
-		System.out.println("1. Paracetamol");
-		System.out.println("2. Ibuprofen");
-		System.out.println("3. Amoxicillin");
-		int choice1 = sc.nextInt();
-		String prescribedMedication;
-		switch (choice1) {
-		case 1 -> prescribedMedication = "Paracetamol";
-		case 2 -> prescribedMedication = "Ibuprofen";
-		default -> prescribedMedication = "Amoxicillin";
-		}
-				System.out.println("Choose Prescription Status: ");
+		String serviceType = sc.next();
+		System.out.println("Enter Prescribed medication: ");
+		String prescribedMedication = sc.next();			System.out.println("Choose Prescription Status: ");
 		System.out.println("1. Completed");
 		System.out.println("2. Cancelled");
 		System.out.println("3. Pending");
-		int choice2 = sc.nextInt();
+		int choice = sc.nextInt();
 		String prescriptionStatus;
-		switch (choice2) {
+		switch (choice) {
 		case 1 -> prescriptionStatus = "Completed";
 		case 2 -> prescriptionStatus = "Cancelled";
 		default -> prescriptionStatus = "Pending";
