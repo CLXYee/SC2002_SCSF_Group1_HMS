@@ -14,54 +14,59 @@ import userInfo.MedicalRecord;
 import userInfo.Doctor;
 
 public class DoctorCtrl{
+	private String doctorID;
+	private String[] myPatientID;
 	
 	public DoctorCtrl(String hospitalID) {
-		getPatientList(hospitalID);
+		this.doctorID = hospitalID;
+		this.myPatientID = getPatientList(hospitalID);
 	}
 	
-	public static int[] getPatientList(String doctorID) {
-		ArrayList<Integer> patientIDs = new ArrayList<>();
-		String filePath = "./Patient_List.csv";  // Ensure this path is correct relative to your project
+	public static String[] getPatientList(String doctorID) {
+	    ArrayList<String> patientIDs = new ArrayList<>();
+	    String filePath = "./Patient_List.csv";  // Ensure this path is correct relative to your project
 
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-			String line;
-			
-			// Skip header line if CSV has one
-			br.readLine();
-			
-			while ((line = br.readLine()) != null) {
-				String[] values = line.split(",");  // Assuming CSV is comma-separated
-				
-				String csvDoctorID = values[1].trim();  // Assuming "Doctor ID" is the second column
-				if (csvDoctorID.equals(doctorID)) {
-					int patientID = Integer.parseInt(values[0].trim());  // Assuming "Patient ID" is the first column
-					patientIDs.add(patientID);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+	        String line;
 
-		// Convert ArrayList to an array
-		return patientIDs.stream().mapToInt(Integer::intValue).toArray();
+	        // Skip header line if CSV has one
+	        br.readLine();
+	        
+	        while ((line = br.readLine()) != null) {
+	            String[] values = line.split(",");  // Assuming CSV is comma-separated
+	            
+	            String csvDoctorID = values[1].trim();  // Assuming "Doctor ID" is the second column
+	            if (csvDoctorID.equals(doctorID)) {
+	                String patientID = values[0].trim();  // Assuming "Patient ID" is the first column
+	                patientIDs.add(patientID);
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Convert ArrayList to an array
+	    return patientIDs.toArray(new String[0]);
 	}
+
 	
 	public void showMedicalRecord(String patientID) {
 		//patient ID found in the doctor's record
-		if(Arrays.stream(Doctor.getPatientID()).anyMatch(ID -> Integer.toString(ID).equals(patientID))) {
-			MedicalRecord medicalRecord = new MedicalRecord(patientID);
-			System.out.println("Show medical record for patient");
-			System.out.println("===============================");
-			System.out.println("Patient ID 	| " + medicalRecord.getPatientID());
-			System.out.println("Name 		| " + medicalRecord.getName());
-			System.out.println("Gender 		| " + medicalRecord.getGender());
-			System.out.println("Phone No. 	| " + medicalRecord.getPhoneNumber());
-			System.out.println("Email Address | " + medicalRecord.getEmailAddress());
-			System.out.println("===============================");
+		if (Arrays.stream(myPatientID)
+	              .anyMatch(ID -> ID.equals(patientID))) {
+		    MedicalRecord medicalRecord = new MedicalRecord(patientID);
+		    System.out.println("Show medical record for patient");
+		    System.out.println("===============================");
+		    System.out.println("Patient ID     | " + medicalRecord.getPatientID());
+		    System.out.println("Name           | " + medicalRecord.getName());
+		    System.out.println("Gender         | " + medicalRecord.getGender());
+		    System.out.println("Phone No.      | " + medicalRecord.getPhoneNumber());
+		    System.out.println("Email Address  | " + medicalRecord.getEmailAddress());
+		    System.out.println("===============================");
 		}
 		//if patient id not found
 		else {
-			System.out.println("Patient ID not found!");
+			System.out.println("Patient ID not found in your record!");
 		}
 	}
 
