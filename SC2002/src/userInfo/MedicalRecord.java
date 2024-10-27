@@ -3,13 +3,16 @@ package userInfo;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import CSV.medicalRecordCSVOperator;
 
 public class MedicalRecord {
     private String patientID;
     private String name;
     private String dateOfBirth;
+    private String age;
     private String gender;
     private String phoneNumber;
     private String emailAddress;
@@ -19,29 +22,21 @@ public class MedicalRecord {
     private String bloodType;
     */
     private ArrayList<String> pastDiagnosesAndTreatment = new ArrayList<>();
+    private medicalRecordCSVOperator csv = new medicalRecordCSVOperator();
     
 
     public MedicalRecord(String hospitalID){
-    	this.patientID = hospitalID;
-    	try (BufferedReader br = new BufferedReader(new FileReader("./Patient_List.csv"))) {		    
-			String line;
-    		while ((line = br.readLine()) != null) {
-		        // Split the line into columns using the delimiter
-		        String[] data = line.split(",");
-		        
-		        if (hospitalID.equals(data[2])) {
-		        	this.name = data[3];
-		        	this.dateOfBirth = data[6];
-		        	this.gender = data[4];
-		        	this.phoneNumber = data[7];
-		        	this.emailAddress = data[8];
-		        	this.bloodType = data[9];
-		        	this.doctorInCharge = data[10];
-		        }
-		    }
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
+    	List<String> data = csv.readFile(hospitalID);
+    	
+    	this.patientID = data.get(2);
+    	this.name = data.get(3);
+    	this.gender = data.get(4);
+    	this.age = data.get(5);
+    	this.dateOfBirth = data.get(6);
+    	this.phoneNumber = data.get(7);
+    	this.emailAddress = data.get(8);
+    	this.bloodType = data.get(9);
+    	this.doctorInCharge = data.get(10);
     }
 
     public String getPatientID(){
