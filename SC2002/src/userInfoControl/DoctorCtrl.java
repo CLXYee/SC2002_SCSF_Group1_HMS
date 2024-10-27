@@ -6,6 +6,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -116,7 +119,7 @@ public class DoctorCtrl{
 		
 	}
 	
-	public void updateAppointmentRequest(String doctorID) {
+	public void updateAppointmentRequest() {
 	    Scanner sc = new Scanner(System.in);
 	    
 	    // File path for the appointment list
@@ -139,7 +142,7 @@ public class DoctorCtrl{
 
 	    // Display relevant appointments
 	    for (String[] appointment : appointments) {
-	        if (appointment[2].equals(doctorID)) {  
+	        if (appointment[2].equals(this.doctorID)) {  
 	            System.out.printf("Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n", 
 	                              appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
 	        }
@@ -191,7 +194,46 @@ public class DoctorCtrl{
 	}
 	
 	public void viewUpcomingAppointment() {
-		
+		String filePath = "./Appointment_List.csv";
+	    List<String[]> appointments = new ArrayList<>();
+
+	    // Reading the CSV file
+	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            String[] appointment = line.split(",");
+	            appointments.add(appointment);
+	        }
+	    } catch (IOException e) {
+	        System.out.println("Error reading file: " + e.getMessage());
+	        return;
+	    }
+
+	    System.out.println("=====Showing Upcoming Appointments=====");
+	    
+	    // Define date format
+	    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+	    LocalDate today = LocalDate.now();
+
+	    // Display relevant appointments
+	    for (String[] appointment : appointments) {
+	        try {
+	            // Check if doctor ID matches
+	            if (appointment[2].equals(this.doctorID)) {
+	                // Parse only the date field
+	                String date = appointment[4].trim();
+	                LocalDate appointmentDate = LocalDate.parse(date, dateFormatter);
+
+	                // Display only if the appointment date is in the future
+	                if (appointmentDate.isAfter(today)) {
+	                    System.out.printf("Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n",
+	                            appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
+	                }
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Error parsing date for an appointment: " + e.getMessage());
+	        }
+	    }
 	}
 	
 	public void recordAppointmentOutcome() { //还没改好
