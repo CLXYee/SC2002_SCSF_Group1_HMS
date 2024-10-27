@@ -14,6 +14,9 @@ public class MainCtrl {
 		case Role.PATIENT: 
 			this.operationInput = new PatientInput(user.getHospitalId());
 			break;
+		case Role.DOCTOR:
+			this.operationInput = new DoctorInput(user.getHospitalId());
+			break;
 		}
 	}
 	
