@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public class Doctor extends User{
 	static String[] myPatientID;
 	
-	public Doctor(String hospitalID, String name) {
-		super(Role.DOCTOR, hospitalID, name);
+	public Doctor(String hospitalID, String name, String gender, int age) {
+		super(Role.DOCTOR, hospitalID, name, gender, age);
 		Doctor.myPatientID = DoctorCtrl.getPatientList(hospitalID); 
 	}
 	

@@ -28,9 +28,6 @@ public class PharmacistInput implements IGetOperationInput{
 		switch(input) {
 		case 1:
 			appointmentOutcomeRecordCtrl.viewAppointmentOutcomeRecord();
-			System.out.print("Press <Enter> to continue:");
-			// Dummy scanner to let the system stop for user to check information
-			sc.nextLine();
 			break;
 		case 2:
 			appointmentOutcomeRecordCtrl.updateAppointmentOutcomeRecord();
@@ -46,5 +43,6 @@ public class PharmacistInput implements IGetOperationInput{
 			pharmacistCtrl.EntityUpdate();
 			break;
 		}
+		System.out.println();
 	}
 }

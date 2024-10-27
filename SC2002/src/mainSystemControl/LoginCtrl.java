@@ -32,7 +32,7 @@ public class LoginCtrl {
 		        if (loginHospitalID.equals(data[2]) && loginPassword.equals(data[0])) {
 		        	System.out.println("Login successful");
 		        	// Return the list of data read
-		        	data = Arrays.copyOfRange(data, 1, 4);
+		        	data = Arrays.copyOfRange(data, 1, 6);
 		        	return data;
 		        }
 		    }

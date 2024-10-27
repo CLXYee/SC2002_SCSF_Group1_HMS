@@ -15,7 +15,7 @@ public class HospitalApp{
 		data = getLoginInput();
 		if (data!=null) {isLogin = true;}
 		
-		MainCtrl mainCtrl = new MainCtrl(data[0], data[1], data[2]);
+		MainCtrl mainCtrl = new MainCtrl(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]));
 		
 		do {
 			mainCtrl.getInput();

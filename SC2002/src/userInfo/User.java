@@ -6,11 +6,15 @@ public class User {
 	private String hospitalID;
     private Role role;
     private String name;
+    private String gender;
+    private int age;
 
-    public User(Role role, String hospitalID, String name){
+    public User(Role role, String hospitalID, String name, String gender, int age){
     	this.role = role;
     	this.hospitalID = hospitalID;
         this.name = name;
+        this.gender = gender;
+        this.age = age;
     }
 
     public Role getRole() {
@@ -23,5 +27,13 @@ public class User {
     
     public String getName() {
     	return name;
+    }
+    
+    public String getGender() {
+    	return gender;
+    }
+    
+    public int getAge() {
+    	return age;
     }
 }
