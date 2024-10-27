@@ -4,18 +4,23 @@ import java.util.Scanner;
 
 import ShowUserMenu.ShowMenu;
 import ShowUserMenu.ShowPharmacistMenu;
-import userInfoControl.AppointmentCtrl;
 import userInfoControl.AppointmentOutcomeRecordCtrl;
+import userInfoControl.IMedicineView;
+import userInfoControl.IReplenishRequest;
 import userInfoControl.PharmacistCtrl;
 
 public class PharmacistInput implements IGetOperationInput{
 	private PharmacistCtrl pharmacistCtrl = null;
 	private ShowMenu menu = null;
 	private AppointmentOutcomeRecordCtrl appointmentOutcomeRecordCtrl; 
+	private IMedicineView iMedicineView;
+	private IReplenishRequest iReplenishRequest;
 
 	public PharmacistInput() {
 		this.pharmacistCtrl = new PharmacistCtrl();
 		this.appointmentOutcomeRecordCtrl = this.pharmacistCtrl;
+		this.iReplenishRequest = this.pharmacistCtrl;
+		this.iMedicineView = this.pharmacistCtrl;
 		this.menu = new ShowPharmacistMenu();
 	}
 	
@@ -33,10 +38,10 @@ public class PharmacistInput implements IGetOperationInput{
 			appointmentOutcomeRecordCtrl.updateAppointmentOutcomeRecord();
 			break;
 		case 3:
-			pharmacistCtrl.viewMedicationInventory();
+			iMedicineView.viewMedicationInventory();
 			break;
 		case 4:
-			pharmacistCtrl.submitReplenishRequest();;
+			iReplenishRequest.submitReplenishRequest();;
 			break;
 		case 5:
 			//Logout

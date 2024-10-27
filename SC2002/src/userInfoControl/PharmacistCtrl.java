@@ -6,14 +6,13 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import userInfo.Appointment;
-import userInfo.MedicalRecord;
 import userInfo.AppointmentOutcomeRecord;
 import userInfo.Medicine;
 
 import java.io.*;
 import java.util.*;
 
-public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl{
+public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishRequest, IMedicineView{
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<AppointmentOutcomeRecord> appointmentsOutcomeRecord = new ArrayList<>();
 	private List<Medicine> medicines = new ArrayList<>();
@@ -182,6 +181,7 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl{
 		System.out.println("================================================================================");
 
 	}
+	
 	public void submitReplenishRequest() {
 	}
 	

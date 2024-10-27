@@ -14,7 +14,7 @@ import userInfo.AppointmentOutcomeRecord;
 import userInfo.Medicine;
 import userInfo.User;
 
-public class AdministratorCtrl {
+public class AdministratorCtrl implements IMedicineView, IAdminMedicineCtrl, StaffManagement{
 	private List<User> staffList = new ArrayList<>();
 	private List<Medicine> medicines = new ArrayList<>();
 	private int counter = 0; 
@@ -92,9 +92,26 @@ public class AdministratorCtrl {
         return tokens.toArray(new String[0]);
     }
     
-	public void staffManagement() {
+    public void viewMedicationInventory() {
+		System.out.println("================================================================================");
+   		System.out.println("List of medicines");
+		System.out.println("");
+   		for (int i = 0; i < this.medicines.size(); i++) {
+   			System.out.println("Medicine name: " + medicines.get(i).getName());
+   			System.out.println("Initial Stock: " + medicines.get(i).getInitialStock());
+   			System.out.println("Low Stock Level Alert: " + medicines.get(i).getLowStockLevelAlert());
+			System.out.println("--------------------------");
+   		}
+		System.out.println("================================================================================");
+	}
+    
+    public void viewStaff() {
 		for (int i = 0; i < staffList.size(); i++) {
-			System.out.println(staffList.get(i).getName());
+			System.out.println("Role: " + staffList.get(i).getRole().name());
+			System.out.println("Staff ID: " + staffList.get(i).getHospitalId());
+			System.out.println("Name: " + staffList.get(i).getName());
+			System.out.println("Gender: " + staffList.get(i).getGender());
+			System.out.println("Age: " + staffList.get(i).getAge());
 		}
 	}
 	
