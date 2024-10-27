@@ -92,6 +92,22 @@ public class AdministratorCtrl implements IMedicineView, IAdminMedicineCtrl, Sta
         return tokens.toArray(new String[0]);
     }
     
+    public void viewStaff() {
+		System.out.println("");
+    	for (int i = 0; i < staffList.size(); i++) {
+			System.out.println("Role: " + staffList.get(i).getRole().name());
+			System.out.println("Staff ID: " + staffList.get(i).getHospitalId());
+			System.out.println("Name: " + staffList.get(i).getName());
+			System.out.println("Gender: " + staffList.get(i).getGender());
+			System.out.println("Age: " + staffList.get(i).getAge());
+			System.out.println("---------------");
+		}
+	}
+	
+    public void manageStaff() {
+    	
+    }
+    
     public void viewMedicationInventory() {
 		System.out.println("================================================================================");
    		System.out.println("List of medicines");
@@ -105,43 +121,34 @@ public class AdministratorCtrl implements IMedicineView, IAdminMedicineCtrl, Sta
 		System.out.println("================================================================================");
 	}
     
-    public void viewStaff() {
-		for (int i = 0; i < staffList.size(); i++) {
-			System.out.println("Role: " + staffList.get(i).getRole().name());
-			System.out.println("Staff ID: " + staffList.get(i).getHospitalId());
-			System.out.println("Name: " + staffList.get(i).getName());
-			System.out.println("Gender: " + staffList.get(i).getGender());
-			System.out.println("Age: " + staffList.get(i).getAge());
-		}
-	}
-	
-	public void appointmentManagement() {
-		
-	}
-	
-	public void inventoryManagement() {
-		
-	}
+    public void manageMedicationInventory() {
+    	
+    }
+    
+    public void approveReplenishRequest() {
+    	
+    }
+    
 	
 	public void EntityUpdate() {
 		saveMedicinesToCSV();
 	}
 	
 	// Method to save updated medicines to Medicine_List.csv
-			private void saveMedicinesToCSV() {
-				try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Medicine_List.csv"))) {
-					// Write header for CSV file
-					writer.write("Medicine Name,Stock,Low Stock Level Alert\n");
-					for (Medicine medicine : medicines) {
-						writer.write(String.format("%s,%d,%d\n",
-							medicine.getName(),
-							medicine.getInitialStock(),
-							medicine.getLowStockLevelAlert()));
-					}
-					System.out.println("Medicine inventory updated in Medicine_List.csv.");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+	private void saveMedicinesToCSV() {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Medicine_List.csv"))) {
+			// Write header for CSV file
+			writer.write("Medicine Name,Stock,Low Stock Level Alert\n");
+			for (Medicine medicine : medicines) {
+				writer.write(String.format("%s,%d,%d\n",
+					medicine.getName(),
+					medicine.getInitialStock(),
+					medicine.getLowStockLevelAlert()));
 			}
+			System.out.println("Medicine inventory updated in Medicine_List.csv.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

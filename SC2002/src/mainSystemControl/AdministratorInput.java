@@ -35,14 +35,20 @@ public class AdministratorInput implements IGetOperationInput{
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
 		case 1:
-			int choice = 
-			staffManagement.viewStaff();;
+			System.out.println("1. Display list of staff");
+			System.out.println("2. Manage staff");
+			int choice = sc.nextInt();
+			switch(choice) {
+			case 1:
+				staffManagement.viewStaff();
+			case 2:
+				staffManagement.manageStaff();		
+			}
 			break;
 		case 2:
-			administratorCtrl.appointmentManagement();;
+			
 			break;
 		case 3:
-			administratorCtrl.inventoryManagement();;
 			break;
 		case 4:
 			//Logout
