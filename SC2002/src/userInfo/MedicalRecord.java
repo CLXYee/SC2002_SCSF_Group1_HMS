@@ -63,17 +63,30 @@ public class MedicalRecord {
     }
     
     public boolean setPhoneNumber(String holder) {
-    	if(holder.length() != 8) {
-    		return false;
-    	}else {
-    		this.phoneNumber = holder;
-    		return true;
-    	}
+    	if (holder == null || holder.length()!=8) {
+            return false;
+        }
+        try {
+        	// parseDouble convert the string to its number
+        	// if the string is not a number, throw NumberFormatException Error
+            double d = Double.parseDouble(holder);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        this.phoneNumber = holder;
+        return true;
     }
     
     public boolean setEmailAddress(String holder) {
-    	this.emailAddress = holder;
-    	return true;
+    	// Regular Expression to specify how an email address will look like
+    	// [anyCharacters] @ [anyCharacters] . [anyCharacters]
+    	// Google Regular Expression for more
+    	String regex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.$";
+    	if (holder.matches(regex)) {
+    		this.emailAddress = holder;
+    		return true;
+    	}
+    	return false;
     }
     
     /*

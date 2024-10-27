@@ -2,6 +2,7 @@ package mainSystemControl;
 
 import java.util.Scanner;
 
+import HospitalManagementSystem.HospitalApp;
 import ShowUserMenu.ShowMenu;
 import ShowUserMenu.ShowDoctorMenu;
 import userInfoControl.*;
@@ -58,15 +59,13 @@ public class DoctorInput implements IGetOperationInput{
 			sc.nextLine();
 			break;
 			
-		case 5:
+		case 5: //DONE
 			//Accept or Decline Appointment Requests
-			System.out.println("Enter the patient ID to update medical record: ");
-			String id2 = sc.next();
-			DoctorCtrl.updateAppointmentRequest(id2);
+			DoctorCtrl.updateAppointmentRequest();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			break;
-		case 6:
+		case 6: //DONE
 			//View Upcoming Appointments
 			DoctorCtrl.viewUpcomingAppointment();
 			System.out.print("Press <Enter> to continue:");
@@ -80,6 +79,8 @@ public class DoctorInput implements IGetOperationInput{
 			break;
 		case 8:
 			//Logout
+			System.out.println("Loging out...\n");
+			HospitalApp.getLoginInput();
 			break;
 	}
 	}

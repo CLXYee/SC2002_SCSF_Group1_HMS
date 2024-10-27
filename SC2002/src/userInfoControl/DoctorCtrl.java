@@ -6,6 +6,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,9 +25,11 @@ public class DoctorCtrl{
 		this.myPatientID = getPatientList(hospitalID);
 	}
 	
+	
+	
 	public static String[] getPatientList(String doctorID) {
 	    ArrayList<String> patientIDs = new ArrayList<>();
-	    String filePath = "./Patient_List.csv";  // Ensure this path is correct relative to your project
+	    String filePath = "./Patient_List.csv";  
 
 	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 	        String line;
@@ -44,10 +49,11 @@ public class DoctorCtrl{
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-
 	    // Convert ArrayList to an array
 	    return patientIDs.toArray(new String[0]);
 	}
+	
+	
 	
 	public void viewPatientIDs() {
 	    System.out.println("These are patients under your record:");
@@ -84,6 +90,8 @@ public class DoctorCtrl{
 		}
 	}
 
+	
+	
 	public void updateMedicalRecord(String patientID) { 
 		if (Arrays.stream(myPatientID)
 	              .anyMatch(ID -> ID.equals(patientID))) {
@@ -105,18 +113,24 @@ public class DoctorCtrl{
 			}
 	}
 	
+	
+	
 	public void viewPersonalSchedule() {
 		System.out.println("=====Showing Personal Schedule=====");
+		//pending personal schedule
 		
 	}
 	
 	public void setAvailability() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Select time slot to set availability: ");
+		//pending personal schedule
 		
 	}
 	
-	public void updateAppointmentRequest(String doctorID) {
+	
+	
+	public void updateAppointmentRequest() {
 	    Scanner sc = new Scanner(System.in);
 	    
 	    // File path for the appointment list
@@ -136,10 +150,9 @@ public class DoctorCtrl{
 	    }
 
 	    System.out.println("=====Showing Appointment Requests and Status=====");
-
 	    // Display relevant appointments
 	    for (String[] appointment : appointments) {
-	        if (appointment[2].equals(doctorID)) {  
+	        if (appointment[2].equals(this.doctorID)) {  
 	            System.out.printf("Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n", 
 	                              appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
 	        }
@@ -170,7 +183,6 @@ public class DoctorCtrl{
 	            break;
 	        }
 	    }
-
 	    if (!updated) {
 	        System.out.println("Appointment not found for the given Patient ID and Doctor ID.");
 	        return;
@@ -190,20 +202,63 @@ public class DoctorCtrl{
 	    System.out.println("Appointment Request Updated!");
 	}
 	
+	
+	
 	public void viewUpcomingAppointment() {
-		
+		String filePath = "./Appointment_List.csv";
+	    List<String[]> appointments = new ArrayList<>();
+
+	    // Reading the CSV file
+	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            String[] appointment = line.split(",");
+	            appointments.add(appointment);
+	        }
+	    } catch (IOException e) {
+	        System.out.println("Error reading file: " + e.getMessage());
+	        return;
+	    }
+
+	    System.out.println("=====Showing Upcoming Appointments=====");
+	    
+	    // Define date format
+	    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+	    LocalDate today = LocalDate.now();
+
+	    // Display relevant appointments
+	    for (String[] appointment : appointments) {
+	        try {
+	            // Check if doctor ID matches
+	            if (appointment[2].equals(this.doctorID)) {
+	                // Parse only the date field
+	                String date = appointment[4].trim();
+	                LocalDate appointmentDate = LocalDate.parse(date, dateFormatter);
+
+	                // Display only if the appointment date is in the future
+	                if (appointmentDate.isAfter(today)) {
+	                    System.out.printf("Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n",
+	                            appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
+	                }
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Error parsing date for an appointment: " + e.getMessage());
+	        }
+	    }
 	}
+	
+	
 	
 	public void recordAppointmentOutcome() { //还没改好
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter Date of Appointment (dd/mm/yy): "); //or choose date of appointment?
+		System.out.println("Enter Date of Appointment (d/M/yyyy): "); //or choose date of appointment?
 		//scan
 		System.out.println("Type of service provided: ");
-		//scan
+		String serviceType = sc.next();
 		System.out.println("Prescribed medication: ");
 		//scan
 		System.out.println("Consultation notes: ");
-		//scan
+		String notes = sc.next();
 		//store into database
 	}
 	

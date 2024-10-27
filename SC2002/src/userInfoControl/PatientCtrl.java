@@ -72,17 +72,17 @@ public class PatientCtrl implements MedicalRecordCtrl, EntityUpdate, Appointment
 					System.out.println("Please enter a new phone number");
 					checker = medicalRecord.setPhoneNumber(sc.next());
 					while(!checker) {
-						System.out.println("Please enter a valid phone number");
+						System.out.println("Please enter a valid phone number:");
 						checker = medicalRecord.setPhoneNumber(sc.next());
 					}
 					System.out.println("Phone number has been updated successfully!");
 					System.out.println();
 					break;
 				case 2:
-					System.out.println("Please enter a new email address");
+					System.out.println("Please enter a new email address:");
 					checker = medicalRecord.setEmailAddress(sc.next());
 					while(!checker) {
-						System.out.println("Please enter a valid email address");
+						System.out.println("Please enter a valid email address:");
 						checker = medicalRecord.setEmailAddress(sc.next());
 					}
 					System.out.println("Email Address has been updated successfully!");
