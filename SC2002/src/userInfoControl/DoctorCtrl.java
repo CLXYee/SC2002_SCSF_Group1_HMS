@@ -7,14 +7,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import userInfo.MedicalRecord;
-import userInfo.Doctor;
+import userInfo.*;
+import userInfoControl.MedicalRecordCtrl;
 
 public class DoctorCtrl implements MedicalRecordCtrl{
 	private String doctorID;
