@@ -85,18 +85,24 @@ public class DoctorCtrl{
 	}
 
 	public void updateMedicalRecord(String patientID) { 
-		MedicalRecord medicalRecord = new MedicalRecord(patientID);
-		Scanner sc = new Scanner(System.in);
-		System.out.println("You are now adding new diagnoses, presecription, and treatment plan under the patient");
-		System.out.println("Enter new diagnoses");
-		String diagnose = sc.next();
-		System.out.println("Enter prescriptions");
-		String prescription = sc.next();
-		System.out.println("Enter treatment plans");
-		String plan = sc.next();
+		if (Arrays.stream(myPatientID)
+	              .anyMatch(ID -> ID.equals(patientID))) {
+			MedicalRecord medicalRecord = new MedicalRecord(patientID);
+			Scanner sc = new Scanner(System.in);
+			System.out.println("You are now adding new diagnoses, presecription, and treatment plan under the patient");
+			System.out.println("Enter new diagnoses");
+			String diagnose = sc.next();
+			System.out.println("Enter prescriptions");
+			String prescription = sc.next();
+			System.out.println("Enter treatment plans");
+			String plan = sc.next();
 		
-		medicalRecord.addPastDiagnosisAndTreatment(diagnose, prescription, plan);
-		System.out.println("New record added successfully");
+			medicalRecord.addPastDiagnosisAndTreatment(diagnose, prescription, plan);
+			System.out.println("New record added successfully");
+			}
+		else {
+			System.out.println("Patient ID not found in your record!");
+			}
 	}
 	
 	public void viewPersonalSchedule() {
@@ -105,6 +111,8 @@ public class DoctorCtrl{
 	}
 	
 	public void setAvailability() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Select time slot to set availability: ");
 		
 	}
 	
