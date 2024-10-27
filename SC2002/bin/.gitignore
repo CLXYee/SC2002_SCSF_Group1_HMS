@@ -1,6 +1,5 @@
-/HospitalManagementSystem/
-/ShowUserMenu/
+/bin/
+/.gitignore
 /mainSystemControl/
-/module-info.class
-/userInfo/
 /userInfoControl/
+/userInfo/
