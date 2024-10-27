@@ -13,6 +13,8 @@ public class MedicalRecord {
     private String gender;
     private String phoneNumber;
     private String emailAddress;
+    private String bloodType;
+    private String doctorInCharge;
     /*
     private String bloodType;
     */
@@ -29,10 +31,12 @@ public class MedicalRecord {
 		        
 		        if (hospitalID.equals(data[2])) {
 		        	this.name = data[3];
-		        	this.dateOfBirth = data[4];
-		        	this.gender = data[5];
-		        	this.phoneNumber = data[6];
-		        	this.emailAddress = data[7];
+		        	this.dateOfBirth = data[6];
+		        	this.gender = data[4];
+		        	this.phoneNumber = data[7];
+		        	this.emailAddress = data[8];
+		        	this.bloodType = data[9];
+		        	this.doctorInCharge = data[10];
 		        }
 		    }
 		} catch (IOException e) {
@@ -62,18 +66,39 @@ public class MedicalRecord {
         return emailAddress;
     }
     
+    public String getBloodType() {
+    	return bloodType;
+    }
+    
+    public String getDoctor() {
+    	return doctorInCharge;
+    }
+    
     public boolean setPhoneNumber(String holder) {
-    	if(holder.length() != 8) {
-    		return false;
-    	}else {
-    		this.phoneNumber = holder;
-    		return true;
-    	}
+    	if (holder == null || holder.length()!=8) {
+            return false;
+        }
+        try {
+        	// parseDouble convert the string to its number
+        	// if the string is not a number, throw NumberFormatException Error
+            double d = Double.parseDouble(holder);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        this.phoneNumber = holder;
+        return true;
     }
     
     public boolean setEmailAddress(String holder) {
-    	this.emailAddress = holder;
-    	return true;
+    	// Regular Expression to specify how an email address will look like
+    	// [anyCharacters] @ [anyCharacters] . [anyCharacters]
+    	// Google Regular Expression for more
+    	String regex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.$";
+    	if (holder.matches(regex)) {
+    		this.emailAddress = holder;
+    		return true;
+    	}
+    	return false;
     }
     
     /*
