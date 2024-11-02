@@ -1,10 +1,4 @@
 /bin/
-/.gitignore
-/.project
-/CSV/
-/HospitalManagementSystem/
-/ShowUserMenu/
-/mainSystemControl/
-/module-info.class
 /userInfo/
 /userInfoControl/
+/mainSystemControl/
