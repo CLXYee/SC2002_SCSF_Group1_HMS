@@ -1,5 +1,6 @@
 package userInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import CSV.DoctorListCSVOperator;
 
@@ -68,7 +69,7 @@ public class PersonalSchedule
 		System.out.println("B  : Break Time");
 		System.out.println("T  : Training Session");
 		System.out.println("P  : Personal Leave");
-		System.out.println("No.: Number of Appointment");
+		System.out.println("No.: Number of Appointment\n");
 		System.out.println("\t  10:00\t  10:30\t  11:00\t  11:30\t  12:00\t  12:30\t  13:00\t  13:30\t"
 						 + "  14:00\t  14:30\t  15:00\t  15:30\t  16:00\t  16:30\t  17:00\t  17:30\t  18:00");
 		
