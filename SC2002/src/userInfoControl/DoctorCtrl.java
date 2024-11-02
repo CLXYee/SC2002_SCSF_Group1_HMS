@@ -123,10 +123,13 @@ public class DoctorCtrl implements MedicalRecordCtrl{
 	
 	
 	public void viewPersonalSchedule() {
-		System.out.println("=====Showing Personal Schedule=====");
-		//pending personal schedule
-		
+		System.out.println("===============================================================================================================================================");
+		System.out.println("                                                           Showing Personal Schedule                                                           ");
+		System.out.println("===============================================================================================================================================\n");
+		this.schedule.viewSchedule();
+		System.out.println("\n===============================================================================================================================================");
 	}
+
 	
 	public void setAvailability() {
 		Scanner sc = new Scanner(System.in);
@@ -291,7 +294,8 @@ public class DoctorCtrl implements MedicalRecordCtrl{
 		System.out.println("Type of service provided: ");
 		String serviceType = sc.next();
 		System.out.println("Enter Prescribed medication: ");
-		String prescribedMedication = sc.next();			System.out.println("Choose Prescription Status: ");
+		String prescribedMedication = sc.next();	
+		System.out.println("Choose Prescription Status: ");
 		System.out.println("1. Completed");
 		System.out.println("2. Cancelled");
 		System.out.println("3. Pending");
