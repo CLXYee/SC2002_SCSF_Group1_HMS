@@ -67,18 +67,24 @@ public class DoctorListCSVOperator extends CSVoperator
             
             while ((line = reader.readLine()) != null) 
             {
-            	System.out.println(line);
-                String[] tempData = line.split(","); // Split the row into columns
+            	String[] tempData = splitCommaCSVLine(line); // Split the row into columns
+            	tempData[9] = "\"" + tempData[9] + "\"";
                 if (tempData[2].equals(id)) 
                 {
-                	if (!tempData[7].equals(changes.get(0))) 
+                	for (int i = 0; i < 10; i++)
                 	{
-                		tempData[7] = changes.get(0);
-                	}
-                	
-                	if (!tempData[8].equals(changes.get(1))) 
-                	{
-                		tempData[8] = changes.get(1);
+                		if (!tempData[i].equals(changes.get(i)))
+                		{
+                			if (i == 9)
+                			{
+                				tempData[i] = "\"" + changes.get(i) + "\"";
+                			}
+                			else
+                			{
+                				tempData[i] = changes.get(i);
+                			}
+                			
+                		}
                 	}
                 }
                 
@@ -138,8 +144,39 @@ public class DoctorListCSVOperator extends CSVoperator
 		return true;
 	}
 	
+	
+	
 	public boolean deleteSpecificLine(String id)
 	{
 		return true;
 	}
+	
+	public String[] splitCommaCSVLine(String line) // Split a CSV line into the proper format (used for Appointment)
+    {
+        List<String> tokens = new ArrayList<>();
+        StringBuilder currentToken = new StringBuilder();
+        boolean inQuotes = false;
+
+        for (int i = 0; i < line.length(); i++) 
+        {
+            char currentChar = line.charAt(i);
+            
+            if (currentChar == '"') 
+            {
+                inQuotes = !inQuotes; 
+            } 
+            else if (currentChar == ',' && !inQuotes) 
+            {
+                tokens.add(currentToken.toString());
+                currentToken.setLength(0);
+            } 
+            else 
+            {
+                currentToken.append(currentChar);
+            }
+        }
+        
+        tokens.add(currentToken.toString());
+        return tokens.toArray(new String[0]);
+    }
 }
