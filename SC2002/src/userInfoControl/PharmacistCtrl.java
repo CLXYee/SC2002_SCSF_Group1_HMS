@@ -172,10 +172,12 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishR
 		System.out.println("================================================================================");
    		System.out.println("List of medicines");
 		System.out.println("");
-   		for (int i = 0; i < this.medicines.size(); i++) {
+		System.out.println("--------------------------");
+		for (int i = 0; i < this.medicines.size(); i++) {
    			System.out.println("Medicine name: " + medicines.get(i).getName());
    			System.out.println("Initial Stock: " + medicines.get(i).getInitialStock());
    			System.out.println("Low Stock Level Alert: " + medicines.get(i).getLowStockLevelAlert());
+   			System.out.println("Replenish Request Status: " + medicines.get(i).getReplenishRequest());
 			System.out.println("--------------------------");
    		}
 		System.out.println("================================================================================");
@@ -183,6 +185,17 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishR
 	}
 	
 	public void submitReplenishRequest() {
+		System.out.println("Please input the medicine name for replenish:");
+		Scanner sc = new Scanner(System.in);
+		String medicineName = sc.next();
+		for (int i = 0; i < this.medicines.size(); i++) {
+   			if (medicineName.equalsIgnoreCase(medicines.get(i).getName())){
+   				medicines.get(i).setReplenishRequest();
+   				System.out.println("Replenish request for " + medicineName + " submitted");
+   				return;
+   			}
+   		}
+		System.out.println("Medicine " + medicineName + " not found");
 	}
 	
 	public void EntityUpdate() {
