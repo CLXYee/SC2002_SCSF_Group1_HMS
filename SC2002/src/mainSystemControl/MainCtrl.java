@@ -18,10 +18,10 @@ public class MainCtrl {
 			this.operationInput = new DoctorInput(hospitalID);
 			break;
 		case Role.PHARMACIST: 
-			this.operationInput = new PharmacistInput();
+			this.operationInput = new PharmacistInput(hospitalID);
 			break;
 		case Role.ADMINISTRATOR: 
-			this.operationInput = new AdministratorInput();
+			this.operationInput = new AdministratorInput(hospitalID);
 			break;
 		}
 	}

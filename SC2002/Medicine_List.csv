@@ -1,4 +1,4 @@
-Medicine Name,Stock,Low Stock Level Alert,ReplenishRequest
-Paracetamol,100,20,0
-Ibuprofen,50,10,0
-Amoxicillin,75,15,0
+Medicine Name,Stock,Low Stock Level Alert,Replenish Request Status,Replenish Request Amount,Replenish Request Submitted By,Replenish Request Approved By
+Paracetamol,100,20,NA,0,NA,NA
+Ibuprofen,50,10,NA,0,NA,NA
+Amoxicillin,75,15,NA,0,NA,NA

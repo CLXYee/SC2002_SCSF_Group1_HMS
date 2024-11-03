@@ -1,6 +1,8 @@
 package userInfoControl;
 
 public interface StaffManagement {
-	public abstract void viewStaff();
-	public abstract void manageStaff();
+	public abstract void displayStaff();
+	public abstract void addStaff();
+	public abstract void updateStaff();
+	public abstract void removeStaff();
 }

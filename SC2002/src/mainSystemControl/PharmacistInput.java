@@ -6,7 +6,7 @@ import ShowUserMenu.ShowMenu;
 import ShowUserMenu.ShowPharmacistMenu;
 import userInfoControl.AppointmentOutcomeRecordCtrl;
 import userInfoControl.IMedicineView;
-import userInfoControl.IReplenishRequest;
+import userInfoControl.ISubmitReplenishRequest;
 import userInfoControl.PharmacistCtrl;
 
 public class PharmacistInput implements IGetOperationInput{
@@ -14,12 +14,12 @@ public class PharmacistInput implements IGetOperationInput{
 	private ShowMenu menu = null;
 	private AppointmentOutcomeRecordCtrl appointmentOutcomeRecordCtrl; 
 	private IMedicineView iMedicineView;
-	private IReplenishRequest iReplenishRequest;
+	private ISubmitReplenishRequest iSubmitReplenishRequest;
 
-	public PharmacistInput() {
-		this.pharmacistCtrl = new PharmacistCtrl();
+	public PharmacistInput(String hospitalID) {
+		this.pharmacistCtrl = new PharmacistCtrl(hospitalID);
 		this.appointmentOutcomeRecordCtrl = this.pharmacistCtrl;
-		this.iReplenishRequest = this.pharmacistCtrl;
+		this.iSubmitReplenishRequest = this.pharmacistCtrl;
 		this.iMedicineView = this.pharmacistCtrl;
 		this.menu = new ShowPharmacistMenu();
 	}
@@ -41,7 +41,7 @@ public class PharmacistInput implements IGetOperationInput{
 			iMedicineView.viewMedicationInventory();
 			break;
 		case 4:
-			iReplenishRequest.submitReplenishRequest();;
+			iSubmitReplenishRequest.submitReplenishRequest();;
 			break;
 		case 5:
 			//Logout

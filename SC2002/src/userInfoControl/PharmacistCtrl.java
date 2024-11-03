@@ -12,13 +12,16 @@ import userInfo.Medicine;
 import java.io.*;
 import java.util.*;
 
-public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishRequest, IMedicineView{
+public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitReplenishRequest, IMedicineView{
+	private String hospitalID;
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<AppointmentOutcomeRecord> appointmentsOutcomeRecord = new ArrayList<>();
 	private List<Medicine> medicines = new ArrayList<>();
 
 	private int counter = 0; 
-	public PharmacistCtrl() {
+	public PharmacistCtrl(String hospitalID) {
+		this.hospitalID = hospitalID;
+		
 		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
 		{		    
 			String line;
@@ -52,7 +55,7 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishR
 					counter = 1;
 					continue;
 				}
-		        Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+		        Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), data[5], data[6]);
 
 		        this.medicines.add(medicine);
 		    }
@@ -104,13 +107,15 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishR
 				}
 				// Print the appointment outcome record details (modify based on your class structure)
 				System.out.println("Appointment ID: " + appointmentsOutcomeRecord.get(i).getAppointmentID()); // Example
-				System.out.println("Prescription Status: " + appointmentsOutcomeRecord.get(i).getPrescriptionStatus());
+				System.out.println("Type of Service: " + appointmentsOutcomeRecord.get(i).getTypeOfService());
 				System.out.print("Prescribed Medications: ");
 				for (int j = 0; j < appointmentsOutcomeRecord.get(i).getPrescribedMedications().length; j++){
 					System.out.print(appointmentsOutcomeRecord.get(i).getPrescribedMedications()[j]);
-					System.out.print(", ");
+					if (j != appointmentsOutcomeRecord.get(i).getPrescribedMedications().length - 1)
+							System.out.print(", ");
 				}
 				System.out.println(" ");
+				System.out.println("Prescription Status: " + appointmentsOutcomeRecord.get(i).getPrescriptionStatus());
 				System.out.println("Consultation Notes: " + appointmentsOutcomeRecord.get(i).getConsultationNotes());
 				System.out.println("------------------------------------------------------------------------");
 			}
@@ -135,7 +140,7 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishR
 					Found = 0;
 					for (int k = 0; k < medicines.size(); k++) {
 						if (prescribedMedicines[j].equals(medicines.get(k).getName())){
-							if (medicines.get(k).getInitialStock() > 0) {
+							if (medicines.get(k).getStockLevel() > 0) {
 								Found = 1;
 								break;
 							}
@@ -155,7 +160,7 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishR
 				{
 					for (int k = 0; k < medicines.size(); k++) {
 						if (prescribedMedicines[j].equals(medicines.get(k).getName())){
-							medicines.get(k).setInitialStock(medicines.get(k).getInitialStock() - 1);
+							medicines.get(k).setStockLevel(medicines.get(k).getStockLevel() - 1);
 							break;
 						}
 					}
@@ -172,16 +177,17 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishR
 		System.out.println("================================================================================");
    		System.out.println("List of medicines");
 		System.out.println("");
-		System.out.println("--------------------------");
-		for (int i = 0; i < this.medicines.size(); i++) {
+   		for (int i = 0; i < this.medicines.size(); i++) {
    			System.out.println("Medicine name: " + medicines.get(i).getName());
-   			System.out.println("Initial Stock: " + medicines.get(i).getInitialStock());
+   			System.out.println("Initial Stock: " + medicines.get(i).getStockLevel());
    			System.out.println("Low Stock Level Alert: " + medicines.get(i).getLowStockLevelAlert());
-   			System.out.println("Replenish Request Status: " + medicines.get(i).getReplenishRequest());
+   			System.out.println("Replenish Request Status: " + medicines.get(i).getReplenishRequestStatus());
+   			System.out.println("Replenish Request Amount: " + medicines.get(i).getReplenishRequestAmount());
+   			System.out.println("Replenish Request Submitted By: " + medicines.get(i).getReplenishRequestSubmittedBy());
+   			System.out.println("Replenish Request Approved By: " + medicines.get(i).getReplenishRequestApprovedBy());
 			System.out.println("--------------------------");
    		}
 		System.out.println("================================================================================");
-
 	}
 	
 	public void submitReplenishRequest() {
@@ -190,7 +196,11 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishR
 		String medicineName = sc.next();
 		for (int i = 0; i < this.medicines.size(); i++) {
    			if (medicineName.equalsIgnoreCase(medicines.get(i).getName())){
-   				medicines.get(i).setReplenishRequest();
+   				System.out.println("Please input the replenish request amount: ");
+   				int amount = sc.nextInt();
+   				medicines.get(i).setReplenishRequestStatus("Pending");
+   				medicines.get(i).setReplenishRequestAmount(amount);
+   				medicines.get(i).setReplenishRequestSubmittedBy(this.hospitalID);
    				System.out.println("Replenish request for " + medicineName + " submitted");
    				return;
    			}
@@ -211,7 +221,7 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, IReplenishR
 				for (Medicine medicine : medicines) {
 					writer.write(String.format("%s,%d,%d\n",
 						medicine.getName(),
-						medicine.getInitialStock(),
+						//medicine.getInitialStock(),
 						medicine.getLowStockLevelAlert()));
 				}
 				System.out.println("Medicine inventory updated in Medicine_List.csv.");
