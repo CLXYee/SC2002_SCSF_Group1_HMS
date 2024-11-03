@@ -7,15 +7,16 @@ import ShowUserMenu.ShowAdministratorMenu;
 import userInfoControl.AppointmentOutcomeRecordCtrl;
 import userInfoControl.AdministratorCtrl;
 import userInfoControl.IMedicineView;
-import userInfoControl.IAdminMedicineCtrl;
+import userInfoControl.IViewAppointment;
 import userInfoControl.StaffManagement;
+import userInfoControl.InventoryManagement;
+
 
 public class AdministratorInput implements IGetOperationInput{
 	private AdministratorCtrl administratorCtrl = null;
 	private IMedicineView iMedicineView;
-	private IAdminMedicineCtrl iAdminMedicineCtrl;
 	private StaffManagement staffManagement;
-	private AdminManagement adminManagement;
+	private IViewAppointment iViewAppointment;
 	private InventoryManagement inventoryManagement;
 
 
@@ -25,8 +26,9 @@ public class AdministratorInput implements IGetOperationInput{
 	public AdministratorInput(String hospitalID) {
 		this.administratorCtrl = new AdministratorCtrl(hospitalID);
 		this.iMedicineView = this.administratorCtrl;
-		this.iAdminMedicineCtrl = this.administratorCtrl;
+		this.iViewAppointment = this.administratorCtrl;
 		this.staffManagement = this.administratorCtrl;
+		this.inventoryManagement = this.administratorCtrl;
 		this.menu = new ShowAdministratorMenu();
 	}
 	
@@ -38,20 +40,33 @@ public class AdministratorInput implements IGetOperationInput{
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
 		case 1:
-			System.out.println("1. Display list of staff");
-			System.out.println("2. Manage staff");
+			staffManagement.displayStaff();
+			System.out.println("1. Add staff");
+			System.out.println("2. Update staff");
+			System.out.println("3. Remove staff");
+			System.out.println("4. Exit");
 			int choice = sc.nextInt();
 			switch(choice) {
 			case 1:
-				staffManagement.viewStaff();
+				staffManagement.addStaff();
+				break;
 			case 2:
-				staffManagement.manageStaff();		
+				staffManagement.updateStaff();	
+				break;
+			case 3:
+				staffManagement.removeStaff();
+				break;
+			case 4:
+				break;
+			default:
+				break;
 			}
 			break;
 		case 2:
-			
+			iViewAppointment.viewAppointments();
 			break;
 		case 3:
+			
 			break;
 		case 4:
 			//Logout

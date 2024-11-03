@@ -2,7 +2,7 @@ package userInfo;
 
 import mainSystemControl.Role;
 
-public class User {
+public class User implements Cloneable{
 	private String hospitalID;
     private Role role;
     private String name;
@@ -35,5 +35,10 @@ public class User {
     
     public int getAge() {
     	return age;
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

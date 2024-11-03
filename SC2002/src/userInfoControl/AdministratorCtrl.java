@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 
 import mainSystemControl.Role;
 import userInfo.Appointment;
@@ -22,6 +27,8 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 	private List<AppointmentOutcomeRecord> appointmentsOutcomeRecord = new ArrayList<>();
 	private List<Medicine> medicines = new ArrayList<>();
 	private int counter = 0; 
+    private Map<String, Integer> roleIdCounters = new HashMap<>();
+
 	
 	public AdministratorCtrl(String hospitalID) {
 		this.hospitalID = hospitalID;
@@ -44,6 +51,18 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
+		
+		for (User staff : staffList) {
+            String role = staff.getRole().name();
+            String id = staff.getHospitalId();
+
+            // Extract the numeric part of the ID (e.g., "D1001" -> 1001, "A1001" -> 1001, "H1001" -> 1001)
+            int idNumber = Integer.parseInt(id.replaceAll("\\D", ""));
+
+            // Update the counter for the role if the current ID number is higher
+            roleIdCounters.put(role, Math.max(roleIdCounters.getOrDefault(role, 0), idNumber));
+        }
+		
 		
 		counter = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
@@ -118,19 +137,128 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         return tokens.toArray(new String[0]);
     }
     
-    public void viewStaff() {
-		System.out.println("");
-    	for (int i = 0; i < staffList.size(); i++) {
-			System.out.println("Role: " + staffList.get(i).getRole().name());
-			System.out.println("Staff ID: " + staffList.get(i).getHospitalId());
-			System.out.println("Name: " + staffList.get(i).getName());
-			System.out.println("Gender: " + staffList.get(i).getGender());
-			System.out.println("Age: " + staffList.get(i).getAge());
-			System.out.println("---------------");
-		}
+    public void displayStaff() {
+    	List<User> clonedStaffList = new ArrayList<>();
+    	for (User staff : staffList) {
+    	    try {
+    	    	clonedStaffList.add((User) staff.clone());
+    	    } catch (CloneNotSupportedException e) {
+    	        e.printStackTrace();
+    	    }
+    	}
+
+    	
+    	System.out.println("Staff list sort by: ");
+    	System.out.println("1. Role");
+    	System.out.println("2. Name");
+    	System.out.println("3. Age");
+    	System.out.println("4. Gender");
+    	System.out.println("5. Hospital ID");
+
+    	Scanner sc = new Scanner(System.in);
+    	int choice = sc.nextInt();
+    	switch (choice) {
+	        case 1:
+	            Collections.sort(staffList, Comparator.comparing(User::getRole));
+	            break;
+	        case 2:
+	            Collections.sort(staffList, Comparator.comparing(User::getName));
+	            break;
+	        case 3:
+	            Collections.sort(staffList, Comparator.comparingInt(User::getAge));
+	            break;
+	        case 4:
+	            Collections.sort(staffList, Comparator.comparing(User::getGender));
+	            break;
+	        case 5:
+	            Collections.sort(staffList, Comparator.comparing(User::getHospitalId));
+	            break;
+	        default:
+	            System.out.println("Invalid sort option. Showing unsorted list.");
+	            break;
+    	}
+
+	    for (int i = 0; i < staffList.size(); i++) {
+	        System.out.println("Role: " + staffList.get(i).getRole().name());
+	        System.out.println("Staff ID: " + staffList.get(i).getHospitalId());
+	        System.out.println("Name: " + staffList.get(i).getName());
+	        System.out.println("Gender: " + staffList.get(i).getGender());
+	        System.out.println("Age: " + staffList.get(i).getAge());
+	        System.out.println("---------------");
+	    }
 	}
 	
-    public void manageStaff() {
+    public void addStaff() {
+    	Scanner sc = new Scanner(System.in);
+    	
+    	System.out.println("Please select role: ");
+    	System.out.println("1. Doctor");
+    	System.out.println("2. Pharmacist");
+    	System.out.println("3. Administrator");
+    	int choice = sc.nextInt();
+    	Role role = Role.DOCTOR;
+    	switch (choice) {
+    		case 1:
+    			role = Role.DOCTOR;
+    			break;
+    		case 2:
+    			role = Role.PHARMACIST;
+    			break;
+    		case 3:
+    			role = Role.ADMINISTRATOR;
+    			break;
+    	}
+    	
+    	int nextIdNumber = roleIdCounters.getOrDefault(role.toString(), 0) + 1;
+        roleIdCounters.put(role.toString(), nextIdNumber);
+
+        String rolePrefix;
+        switch (role.toString()) {
+            case "DOCTOR":
+                rolePrefix = "D";
+                break;
+            case "PHARMACIST":
+                rolePrefix = "P";
+                break;
+            case "ADMINISTRATOR":
+                rolePrefix = "A";
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid role: " + role);
+        }
+
+        hospitalID = rolePrefix + String.format("%04d", nextIdNumber);
+        System.out.println(hospitalID);
+        
+        System.out.println("Please input name: ");
+        String name = sc.next();
+        
+        System.out.println("Please select gender: ");
+        System.out.println("1. Male");
+    	System.out.println("2. Female");
+    	choice = sc.nextInt();
+    	String gender  = "Male";
+    	switch (choice) {
+    		case 1:
+    			gender = "Male";
+    			break;
+    		case 2:
+    			gender = "Female";
+    			break;
+    	}
+    	
+        System.out.println("Please input age: ");
+        int age = sc.nextInt();
+        
+        User newStaff = new User(role, hospitalID, name, gender, age);
+        this.staffList.add(newStaff);
+    }
+    
+    public void updateStaff() {
+    	
+    }
+    
+    public void removeStaff() {
     	
     }
     
@@ -176,13 +304,30 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 		System.out.println("================================================================================");
 	}
     
+    public void addNewMedication() {
+    	
+    }
+    
+    public void removeMedication() {
+    	
+    }
+    
+    public void updateStockLevel() {
+    	
+    }
+    
+    public void updateStockLowLevelAlert() {
+    	
+    }
+    
+    
     public void approveReplenishRequest() {
     	System.out.println("Please input the medicine name for replenish:");
 		Scanner sc = new Scanner(System.in);
 		String medicineName = sc.next();
 		for (int i = 0; i < this.medicines.size(); i++) {
    			if (medicineName.equalsIgnoreCase(medicines.get(i).getName())){
-   				medicines.get(i).setReplenishRequest();
+   				//medicines.get(i).setReplenishRequest();
    				System.out.println("Replenish request for " + medicineName + " submitted");
    				return;
    			}
@@ -203,7 +348,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 			for (Medicine medicine : medicines) {
 				writer.write(String.format("%s,%d,%d\n",
 					medicine.getName(),
-					medicine.getInitialStock(),
+					//medicine.getInitialStock(),
 					medicine.getLowStockLevelAlert()));
 			}
 			System.out.println("Medicine inventory updated in Medicine_List.csv.");
