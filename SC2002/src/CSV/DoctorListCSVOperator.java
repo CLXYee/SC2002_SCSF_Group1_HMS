@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoctorListCSVOperator extends CSVoperator
+public class DoctorListCSVOperator
 {
 	private String filePath;
 	private ArrayList<String> data = new ArrayList<>();
