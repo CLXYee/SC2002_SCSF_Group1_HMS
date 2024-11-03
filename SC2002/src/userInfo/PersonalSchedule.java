@@ -2,11 +2,11 @@ package userInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import CSV.DoctorListCSVOperator;
+import CSV.DoctorCSVOperator;
 
 public class PersonalSchedule 
 {
-	private DoctorListCSVOperator csv = new DoctorListCSVOperator();
+	private DoctorCSVOperator csv = new DoctorCSVOperator();
 	private Object[][] schedule = new Object[7][16];
 	
 	public PersonalSchedule(String doctorID)

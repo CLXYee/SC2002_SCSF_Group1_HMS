@@ -1,5 +1,8 @@
 package userInfoControl;
 
+import CSV.MedicalRecordCSVOperator;
+import CSV.DoctorCSVOperator;
+
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,10 +21,13 @@ import userInfoControl.MedicalRecordCtrl;
 public class DoctorCtrl implements MedicalRecordCtrl{
 	private String doctorID;
 	private String[] myPatientID;
+	private PersonalSchedule schedule;
+	private DoctorCSVOperator csv = new DoctorCSVOperator();
 	
 	public DoctorCtrl(String hospitalID) {
 		this.doctorID = hospitalID;
 		this.myPatientID = getPatientList(hospitalID);
+		this.schedule = new PersonalSchedule(hospitalID);
 	}
 	
 	
