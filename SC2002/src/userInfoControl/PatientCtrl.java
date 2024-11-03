@@ -157,8 +157,11 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		Appointment appointment = new Appointment(appointmentcsv.getCounter(), this.medicalRecord.getPatientID(), doctorID, "Pending", dateOfAppointment, timeOfAppointment);
 		this.appointments.add(appointment);
 		this.rows.add(this.counter);
-		this.counter++;
-		appointment.addNewAppointmentToCSV();
+		if(appointment.addNewAppointmentToCSV()) {
+			System.out.println("Schedule add successfully!!!");
+		}else {
+			System.out.println("Schedule failed to added");
+		}
 	}
 	
 	public void updateAppointmentCSVFile(int lineNumber, Appointment newAppointment)
