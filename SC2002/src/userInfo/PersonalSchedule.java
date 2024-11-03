@@ -13,7 +13,7 @@ public class PersonalSchedule
 	{
 		int day, startTime, endTime;
 		Object task;
-		List<String> data = csv.readFile(doctorID);
+		List<String> data = csv.readFile(doctorID, 1);
 		
 		// Initialize the schedule array by setting all slots to free 'F'
 		/*
