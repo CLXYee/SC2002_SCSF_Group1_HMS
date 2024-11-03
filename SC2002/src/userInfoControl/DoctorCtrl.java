@@ -93,8 +93,25 @@ public class DoctorCtrl implements MedicalRecordCtrl{
 			System.out.println("Doctor In Charge| " + medicalRecord.getDoctor());
 		    System.out.println("===============================");
 			System.out.println("Past Diagnoses and Treatment:");
-			// Add past diagnoses and treatment
-		}
+			System.out.println("===============================");
+			for (String records : medicalRecord.getPastDiagnosesAndTreatment()) {
+		        String[] parts = records.split(";");
+		        
+		        if (parts.length == 3) { // Ensure correct format
+		            String diagnose = parts[0];
+		            String prescription = parts[1];
+		            String plan = parts[2];
+		            
+		            System.out.println("Diagnosis: " + diagnose);
+		            System.out.println("Prescription: " + prescription);
+		            System.out.println("Plan: " + plan);
+		            System.out.println("------------------------------");
+		        } else {
+		            System.out.println("Error: Invalid record format.");
+		        }
+		    }
+			}
+		
 		//if patient id not found
 		else {
 			System.out.println("Patient ID not found in your record!");

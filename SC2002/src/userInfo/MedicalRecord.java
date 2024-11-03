@@ -35,9 +35,14 @@ public class MedicalRecord {
     	this.bloodType = data.get(9);
     	this.doctorInCharge = data.get(10);
     	
-    	String diagnosesTreatmentData = data.get(10);
+    	String diagnosesTreatmentData = data.get(11);
     	
-    	this.pastDiagnosesTreatment = new ArrayList<String>(Arrays.asList(diagnosesTreatmentData.split("; ")));
+    	//Proper way to fetch pastDiagnosesTreatment from Patient_List
+    	this.pastDiagnosesTreatment = new ArrayList<String>(Arrays.asList(diagnosesTreatmentData.split("]; \\[")));
+    	for (int i = 0; i < pastDiagnosesTreatment.size(); i++) {
+    	    String record = pastDiagnosesTreatment.get(i).replace("[", "").replace("]", "").trim();
+    	    pastDiagnosesTreatment.set(i, record);  
+    	}
     }
 
     public String getPatientID(){
@@ -98,7 +103,7 @@ public class MedicalRecord {
     }
     
     public void addPastDiagnosisAndTreatment(String diagnose, String prescription, String plan) {
-        String record = String.format("[%s, %s, %s]", diagnose, prescription, plan);
+        String record = String.format("[%s; %s; %s]", diagnose, prescription, plan);
         pastDiagnosesTreatment.add(record);
     }
 
