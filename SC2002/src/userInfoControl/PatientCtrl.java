@@ -17,7 +17,7 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<Integer> rows = new ArrayList<>();
-	private int counter = 0; // use to remark the most bottom line in the CSV file of appointment
+	private Integer counter; // use to remark the most bottom line in the CSV file of appointment
 	
 	public PatientCtrl(String hospitalID, String name, String gender, int age) {
 		this.patient = new Patient(hospitalID, name, gender, age);
@@ -43,6 +43,9 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	        	this.appointmentOutcomeRecords.add(appointmentOutcomeRecord);
 	        }
 		}
+		
+		//extract the last counter for us to add the new appointment
+		counter = Integer.valueOf(appointmentcsv.splitCommaCSVLine(tempHolderForAppointment.get(tempHolderForAppointment.size() - 1))[0]);
 	}
 	
 	public void showMedicalRecord() {
@@ -135,11 +138,11 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		
 		System.out.println("=========================================================");
 		
-		Appointment appointment = new Appointment(counter, this.medicalRecord.getPatientID(), doctorID, "Pending", dateOfAppointment, timeOfAppointment);
+		Appointment appointment = new Appointment(appointmentcsv.getCounter(), this.medicalRecord.getPatientID(), doctorID, "Pending", dateOfAppointment, timeOfAppointment);
 		this.appointments.add(appointment);
 		this.rows.add(this.counter);
 		this.counter++;
-		appointment.addNewAppointmentToCSV("./Appointment_List.csv");
+		appointment.addNewAppointmentToCSV();
 	}
 	
 	public void updateAppointmentCSVFile(int lineNumber, Appointment newAppointment)

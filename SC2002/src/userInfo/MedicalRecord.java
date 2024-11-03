@@ -36,8 +36,6 @@ public class MedicalRecord {
     	this.doctorInCharge = data.get(10);
     	
     	String diagnosesTreatmentData = data.get(10);
-    	
-    	this.pastDiagnosesTreatment = new ArrayList<String>(Arrays.asList(diagnosesTreatmentData.split("; ")));
     }
 
     public String getPatientID(){
