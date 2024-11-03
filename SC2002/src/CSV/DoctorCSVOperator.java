@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoctorCSVOperator
+public class DoctorCSVOperator extends CSVoperator
 {
 	private String filePath;
 	private ArrayList<String> data = new ArrayList<>();
@@ -51,7 +51,7 @@ public class DoctorCSVOperator
 		return true;
 	}
 	
-	public boolean changeSpecificInformation(String id, ArrayList<String> changes)
+	public boolean changeSpecificInformation(String id, ArrayList<Integer> indexChanges, ArrayList<String> changes)
 	{
 		String tempFile = "./temp.csv"; // temporary file for the data changing
 		BufferedReader reader = null;
@@ -71,11 +71,10 @@ public class DoctorCSVOperator
             	tempData[9] = "\"" + tempData[9] + "\"";
                 if (tempData[2].equals(id)) 
                 {
-                	for (int i = 0; i < 10; i++)
-                	{
-                		if (!tempData[i].equals(changes.get(i)))
+                	for(int i: indexChanges) {
+                		if (!tempData[i].equals(changes.get(i))) // change when the data is not equal to the data in the CSV
                 		{
-                			if (i == 9)
+                			if (i == 9) // specifically for the personal schedule
                 			{
                 				tempData[i] = "\"" + changes.get(i) + "\"";
                 			}
