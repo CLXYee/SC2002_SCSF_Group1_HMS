@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import mainSystemControl.Role;
 import userInfo.Appointment;
@@ -14,12 +15,16 @@ import userInfo.AppointmentOutcomeRecord;
 import userInfo.Medicine;
 import userInfo.User;
 
-public class AdministratorCtrl implements IMedicineView, IAdminMedicineCtrl, StaffManagement{
+public class AdministratorCtrl implements IMedicineView, InventoryManagement, StaffManagement, IViewAppointment{
+	private String hospitalID;
 	private List<User> staffList = new ArrayList<>();
+	private List<Appointment> appointments = new ArrayList<>();
+	private List<AppointmentOutcomeRecord> appointmentsOutcomeRecord = new ArrayList<>();
 	private List<Medicine> medicines = new ArrayList<>();
 	private int counter = 0; 
 	
-	public AdministratorCtrl() {
+	public AdministratorCtrl(String hospitalID) {
+		this.hospitalID = hospitalID;
 		try (BufferedReader br = new BufferedReader(new FileReader("./Staff_List.csv"))) 
 		{		    
 			String line;
@@ -41,6 +46,28 @@ public class AdministratorCtrl implements IMedicineView, IAdminMedicineCtrl, Sta
 		}
 		
 		counter = 0;
+		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
+		{		    
+			String line;
+    		while ((line = br.readLine()) != null) 
+    		{
+		        // Split the line into columns using the delimiter
+		        String[] data = splitCSVLine(line);
+				if (counter == 0){
+					counter = 1;
+					continue;
+				}
+		        Appointment appointment = new Appointment(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4], data[5]);
+				AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(Integer.valueOf(data[0]), data[4], data[6], data[7].split("\\s*,\\s*"), data[8], data[9]);
+
+		        this.appointments.add(appointment);
+				this.appointmentsOutcomeRecord.add(appointmentOutcomeRecord);
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		
+		counter = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader("./Medicine_List.csv"))) 
 		{		    
 			String line;
@@ -52,14 +79,13 @@ public class AdministratorCtrl implements IMedicineView, IAdminMedicineCtrl, Sta
 					counter = 1;
 					continue;
 				}
-		        Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+		        Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), data[5], data[6]);
 
 		        this.medicines.add(medicine);
 		    }
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
-		
 	}
 	
 	// Split a CSV line into the proper format (used for Appointment)
@@ -108,25 +134,60 @@ public class AdministratorCtrl implements IMedicineView, IAdminMedicineCtrl, Sta
     	
     }
     
+    public void viewAppointments() {
+		System.out.println("================================================================================");
+		for (int i = 0; i < this.appointmentsOutcomeRecord.size(); i++) {	
+			// Print the appointment outcome record details (modify based on your class structure)
+			System.out.println("Appointment ID: " + appointments.get(i).getAppointmentID());
+			System.out.println("Patient ID: " + appointments.get(i).getPatientID());
+			System.out.println("Doctor ID: " + appointments.get(i).getDoctorID());
+			System.out.println("Appointment Status: " + appointments.get(i).getAppointmentStatus());
+			System.out.println("Date of Appointment: " + appointments.get(i).getDateOfAppointment());
+			System.out.println("Time of Appointment: " + appointments.get(i).getTimeOfAppointment());
+			System.out.println("Type of Service: " + appointmentsOutcomeRecord.get(i).getTypeOfService());
+			System.out.print("Prescribed Medications: ");
+			for (int j = 0; j < appointmentsOutcomeRecord.get(i).getPrescribedMedications().length; j++){
+				System.out.print(appointmentsOutcomeRecord.get(i).getPrescribedMedications()[j]);
+				if (j != appointmentsOutcomeRecord.get(i).getPrescribedMedications().length - 1)
+						System.out.print(", ");
+			}
+			System.out.println(" ");
+			System.out.println("Prescription Status: " + appointmentsOutcomeRecord.get(i).getPrescriptionStatus());
+			System.out.println("Consultation Notes: " + appointmentsOutcomeRecord.get(i).getConsultationNotes());
+			System.out.println("------------------------------------------------------------------------");
+		}
+		System.out.println("================================================================================");		
+	
+    }
     public void viewMedicationInventory() {
 		System.out.println("================================================================================");
    		System.out.println("List of medicines");
 		System.out.println("");
    		for (int i = 0; i < this.medicines.size(); i++) {
    			System.out.println("Medicine name: " + medicines.get(i).getName());
-   			System.out.println("Initial Stock: " + medicines.get(i).getInitialStock());
+   			System.out.println("Initial Stock: " + medicines.get(i).getStockLevel());
    			System.out.println("Low Stock Level Alert: " + medicines.get(i).getLowStockLevelAlert());
+   			System.out.println("Replenish Request Status: " + medicines.get(i).getReplenishRequestStatus());
+   			System.out.println("Replenish Request Amount: " + medicines.get(i).getReplenishRequestAmount());
+   			System.out.println("Replenish Request Submitted By: " + medicines.get(i).getReplenishRequestSubmittedBy());
+   			System.out.println("Replenish Request Approved By: " + medicines.get(i).getReplenishRequestApprovedBy());
 			System.out.println("--------------------------");
    		}
 		System.out.println("================================================================================");
 	}
     
-    public void manageMedicationInventory() {
-    	
-    }
-    
     public void approveReplenishRequest() {
-    	
+    	System.out.println("Please input the medicine name for replenish:");
+		Scanner sc = new Scanner(System.in);
+		String medicineName = sc.next();
+		for (int i = 0; i < this.medicines.size(); i++) {
+   			if (medicineName.equalsIgnoreCase(medicines.get(i).getName())){
+   				medicines.get(i).setReplenishRequest();
+   				System.out.println("Replenish request for " + medicineName + " submitted");
+   				return;
+   			}
+   		}
+		System.out.println("Medicine " + medicineName + " not found");
     }
     
 	

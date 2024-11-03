@@ -15,12 +15,15 @@ public class AdministratorInput implements IGetOperationInput{
 	private IMedicineView iMedicineView;
 	private IAdminMedicineCtrl iAdminMedicineCtrl;
 	private StaffManagement staffManagement;
+	private AdminManagement adminManagement;
+	private InventoryManagement inventoryManagement;
+
 
 	private ShowMenu menu = null;
 	//private AppointmentOutcomeRecordCtrl appointmentOutcomeRecordCtrl; 
 
-	public AdministratorInput() {
-		this.administratorCtrl = new AdministratorCtrl();
+	public AdministratorInput(String hospitalID) {
+		this.administratorCtrl = new AdministratorCtrl(hospitalID);
 		this.iMedicineView = this.administratorCtrl;
 		this.iAdminMedicineCtrl = this.administratorCtrl;
 		this.staffManagement = this.administratorCtrl;

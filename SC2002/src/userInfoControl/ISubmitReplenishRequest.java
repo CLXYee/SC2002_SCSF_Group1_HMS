@@ -1,5 +1,5 @@
 package userInfoControl;
 
-public interface IReplenishRequest {
+public interface ISubmitReplenishRequest {
 	public abstract void submitReplenishRequest();
 }
