@@ -61,6 +61,22 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		System.out.println("=================================================");
 		System.out.println("Past Diagnoses and Treatment:");
 		// Add past diagnoses and treatment
+		for (String records : medicalRecord.getPastDiagnosesAndTreatment()) {
+	        String[] parts = records.split(";");
+	        
+	        if (parts.length == 3) { // Ensure correct format
+	            String diagnose = parts[0];
+	            String prescription = parts[1];
+	            String plan = parts[2];
+	            
+	            System.out.println("Diagnosis: " + diagnose);
+	            System.out.println("Prescription: " + prescription);
+	            System.out.println("Plan: " + plan);
+	            System.out.println("------------------------------");
+	        } else {
+	            System.out.println("Error: Invalid record format.");
+	        }
+	    }
 	}
 	
 	public void updateMedicalRecord() {
