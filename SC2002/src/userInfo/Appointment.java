@@ -7,18 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import CSV.AppointmentCSVOperator;
 
 
 public class Appointment 
 {
-	private Integer appointmentID;
+	private int appointmentID;
 	private String patientID;
     private String doctorID;
     private String appointmentStatus;
     private String dateOfAppointment;  //Format Example: "13/10/2025", "02/01/2022", "09/11/2011", "23/06/2019" (Always 10 chars)
     private String timeOfAppointment;  //Format Example: "09:30-10:00", "17:30-19:00", "00:00-00:30", "12:00-13:30" (Always 11 chars)
-    private AppointmentCSVOperator appointmentcsv = new AppointmentCSVOperator();
     
     //When a patient schedules an appointment (create an Appointment object)
     //Remember to update the Doctor's available appointment slot
@@ -62,7 +60,7 @@ public class Appointment
     	a. Check if Appointment Status == "Completed"
     		i. Create an AppointmentOutcomeRecord object and 
     */
-    public Appointment(Integer aID, String pID, String dID, String aS, String dA, String tA)
+    public Appointment(int aID, String pID, String dID, String aS, String dA, String tA)
     {
     	this.appointmentID = aID;
     	this.patientID = pID;
@@ -72,7 +70,7 @@ public class Appointment
     	this.timeOfAppointment = tA;
     }
     
-    public Integer getAppointmentID()
+    public int getAppointmentID()
     {
     	return this.appointmentID;
     }
@@ -127,16 +125,19 @@ public class Appointment
     	this.appointmentStatus = Status;
     }
     
-    public boolean addNewAppointmentToCSV() 
+    public void addNewAppointmentToCSV(String filePath) 
     {
-    	ArrayList<String> dataAdd = new ArrayList<>();
-    	dataAdd.add(appointmentID.toString());
-    	dataAdd.add(patientID);
-    	dataAdd.add(doctorID);
-    	dataAdd.add(appointmentStatus);
-    	dataAdd.add(dateOfAppointment);
-    	dataAdd.add(timeOfAppointment);
-    	
-    	return appointmentcsv.addLineToFile(dataAdd);
+        try (FileWriter writer = new FileWriter(filePath, true)) 
+        {
+            // Create the CSV string from the appointment object
+            String newLine = appointmentID + "," +  patientID + "," + doctorID + "," + appointmentStatus + "," + dateOfAppointment + "," + timeOfAppointment + ",,," + "\n";
+            writer.write(newLine);
+            System.out.println("Appointment has been made successfully!"); 
+        } 
+        catch (IOException e) 
+        {
+            System.out.println("An error occurred while saving the appointment.");
+            e.printStackTrace();
+        }
     }
 }

@@ -12,7 +12,7 @@ public class MedicalRecordCSVOperator extends CSVoperator{
 	}
 	
 	
-	public ArrayList<String> readFile(String id, int role) {
+	public ArrayList<String> readFile(String id) {
 		try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
 			String line;
 			while((line = br.readLine()) != null) {
