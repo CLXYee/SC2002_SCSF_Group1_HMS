@@ -178,8 +178,8 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
    		System.out.println("List of medicines");
 		System.out.println("");
    		for (int i = 0; i < this.medicines.size(); i++) {
-   			System.out.println("Medicine name: " + medicines.get(i).getName());
-   			System.out.println("Initial Stock: " + medicines.get(i).getStockLevel());
+   			System.out.println("Medicine Name: " + medicines.get(i).getName());
+   			System.out.println("Stock Level: " + medicines.get(i).getStockLevel());
    			System.out.println("Low Stock Level Alert: " + medicines.get(i).getLowStockLevelAlert());
    			System.out.println("Replenish Request Status: " + medicines.get(i).getReplenishRequestStatus());
    			System.out.println("Replenish Request Amount: " + medicines.get(i).getReplenishRequestAmount());

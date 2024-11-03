@@ -26,9 +26,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<AppointmentOutcomeRecord> appointmentsOutcomeRecord = new ArrayList<>();
 	private List<Medicine> medicines = new ArrayList<>();
-	private int counter = 0; 
     private Map<String, Integer> roleIdCounters = new HashMap<>();
-
+	private int counter = 0; 
+	private int tracker = 0;
 	
 	public AdministratorCtrl(String hospitalID) {
 		this.hospitalID = hospitalID;
@@ -43,26 +43,31 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 					counter = 1;
 					continue;
 				}
+				// Extract the tracker for the roles from first three rows
+				if (tracker <= 2) {
+					if (tracker == 0) {
+			            roleIdCounters.put(Role.DOCTOR.toString(), Math.max(roleIdCounters.getOrDefault(Role.DOCTOR.toString(), 0), Integer.parseInt(data[6])));
+			            tracker++;
+					}
+					else if (tracker == 1) {
+			            roleIdCounters.put(Role.PHARMACIST.toString(), Math.max(roleIdCounters.getOrDefault(Role.PHARMACIST.toString(), 0), Integer.parseInt(data[6])));
+			            tracker++;
+					}
+					else if (tracker == 2) {
+			            roleIdCounters.put(Role.ADMINISTRATOR.toString(), Math.max(roleIdCounters.getOrDefault(Role.ADMINISTRATOR.toString(), 0), Integer.parseInt(data[6])));
+			            tracker++;
+					}
+				}
+				
 				Role role = Role.valueOf(data[1]);
 				User staff = new User(role, data[2], data[3], data[4], Integer.parseInt(data[5]));
-
+				
+				
 		        this.staffList.add(staff);
 		    }
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
-		
-		for (User staff : staffList) {
-            String role = staff.getRole().name();
-            String id = staff.getHospitalId();
-
-            // Extract the numeric part of the ID (e.g., "D1001" -> 1001, "A1001" -> 1001, "H1001" -> 1001)
-            int idNumber = Integer.parseInt(id.replaceAll("\\D", ""));
-
-            // Update the counter for the role if the current ID number is higher
-            roleIdCounters.put(role, Math.max(roleIdCounters.getOrDefault(role, 0), idNumber));
-        }
-		
 		
 		counter = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
@@ -218,7 +223,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
                 rolePrefix = "D";
                 break;
             case "PHARMACIST":
-                rolePrefix = "P";
+                rolePrefix = "H";
                 break;
             case "ADMINISTRATOR":
                 rolePrefix = "A";
@@ -228,7 +233,6 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         }
 
         hospitalID = rolePrefix + String.format("%04d", nextIdNumber);
-        System.out.println(hospitalID);
         
         System.out.println("Please input name: ");
         String name = sc.next();
@@ -250,16 +254,67 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         System.out.println("Please input age: ");
         int age = sc.nextInt();
         
+        System.out.println(role.toString() + " " + hospitalID + " added.");
         User newStaff = new User(role, hospitalID, name, gender, age);
         this.staffList.add(newStaff);
     }
     
     public void updateStaff() {
-    	
+        System.out.println("Please input staff ID to update: ");
+        Scanner sc = new Scanner(System.in);
+        String id = sc.next();
+        for (int i = 0; i < staffList.size(); i++) {
+        	if (staffList.get(i).getHospitalId().equals(id)) {
+                System.out.println("Please select the following to update: ");
+                System.out.println("1. Name ");
+                System.out.println("2. Age ");
+                System.out.println("3. Gender ");
+                int choice = sc.nextInt();
+                sc.nextLine();
+                switch (choice) {
+                	case 1:
+                        System.out.print("Please input updated name: ");
+                        String newName = sc.nextLine();
+                        staffList.get(i).setName(newName);
+                        System.out.println("Name updated");
+                        return;
+                	case 2:
+                        System.out.print("Please input updated age: ");
+                        int newAge = sc.nextInt();
+                        staffList.get(i).setAge(newAge);
+                        System.out.println("Age updated");
+                        return;
+                	case 3:
+                        System.out.print("Please input updated gender: ");
+                        String newGender = sc.nextLine();
+                        staffList.get(i).setGender(newGender);
+                        System.out.println("Gender updated");
+                        return;
+                }
+        	}
+        }
+        System.out.println("Hospital ID "+ id + " not found.");
     }
     
     public void removeStaff() {
-    	
+        System.out.println("Please input staff ID to remove: ");
+        Scanner sc = new Scanner(System.in);
+        String id = sc.next();
+        for (int i = 0; i < staffList.size(); i++) {
+        	if (staffList.get(i).getHospitalId().equals(id)) {
+                System.out.println("Please type 'REMOVE' if you insist on deleting: ");
+                String confirmation = sc.next();
+                if ("REMOVE".equals(confirmation)) {
+                    staffList.remove(i);
+                	System.out.println("Staff removed successfully.");
+                    return;
+                } else {
+                    System.out.println("Removal canceled.");
+                    return;
+                }
+        	}
+        }
+        System.out.println("Hospital ID "+ id + " not found.");
     }
     
     public void viewAppointments() {
@@ -292,8 +347,8 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
    		System.out.println("List of medicines");
 		System.out.println("");
    		for (int i = 0; i < this.medicines.size(); i++) {
-   			System.out.println("Medicine name: " + medicines.get(i).getName());
-   			System.out.println("Initial Stock: " + medicines.get(i).getStockLevel());
+   			System.out.println("Medicine Name: " + medicines.get(i).getName());
+   			System.out.println("Stock Level: " + medicines.get(i).getStockLevel());
    			System.out.println("Low Stock Level Alert: " + medicines.get(i).getLowStockLevelAlert());
    			System.out.println("Replenish Request Status: " + medicines.get(i).getReplenishRequestStatus());
    			System.out.println("Replenish Request Amount: " + medicines.get(i).getReplenishRequestAmount());
@@ -305,19 +360,69 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 	}
     
     public void addNewMedication() {
-    	
+   		Scanner sc = new Scanner(System.in);
+    	System.out.println("Please input new medication name: ");
+    	String newMedicationName = sc.nextLine();
+    	System.out.println("Please input new medication stock level: ");
+    	int stockLevel = sc.nextInt();
+    	System.out.println("Please input new medication low stock level alert: ");
+    	int lowStockLevelAlert = sc.nextInt();
+    	Medicine newMedicine = new Medicine(newMedicationName, stockLevel, lowStockLevelAlert, "NA", 0, "NA", "NA");
+    	medicines.add(newMedicine);
+        System.out.println("New medicine created successfully.");
     }
     
     public void removeMedication() {
-    	
+    	System.out.println("Please input medication name to remove: ");
+        Scanner sc = new Scanner(System.in);
+        String medicationName = sc.nextLine();
+        for (int i = 0; i < medicines.size(); i++) {
+        	if (medicines.get(i).getName().equalsIgnoreCase(medicationName)) {
+                System.out.println("Please type 'REMOVE' if you insist on deleting: ");
+                String confirmation = sc.next();
+                if ("REMOVE".equals(confirmation)) {
+                    medicines.remove(i);
+                	System.out.println("Medication removed successfully.");
+                    return;
+                } else {
+                    System.out.println("Removal canceled.");
+                    return;
+                }
+        	}
+        }
+        System.out.println("Medication "+ medicationName + " not found.");
     }
     
     public void updateStockLevel() {
-    	
+    	System.out.println("Please input medication name to update stock level: ");
+        Scanner sc = new Scanner(System.in);
+        String medicationName = sc.nextLine();
+        for (int i = 0; i < medicines.size(); i++) {
+        	if (medicines.get(i).getName().equalsIgnoreCase(medicationName)) {
+                System.out.println("Please input new stock level: ");
+                int newStockLevel = sc.nextInt();
+                medicines.get(i).setStockLevel(newStockLevel);
+                System.out.println("New stock level updated successfully.");
+                return;
+        	}
+        }
+        System.out.println("Medication "+ medicationName + " not found.");
     }
     
     public void updateStockLowLevelAlert() {
-    	
+    	System.out.println("Please input medication name to update low stock level alert: ");
+        Scanner sc = new Scanner(System.in);
+        String medicationName = sc.nextLine();
+        for (int i = 0; i < medicines.size(); i++) {
+        	if (medicines.get(i).getName().equalsIgnoreCase(medicationName)) {
+                System.out.println("Please input new low stock level alert: ");
+                int newLowStockLevel = sc.nextInt();
+                medicines.get(i).setLowStockLevelAlert(newLowStockLevel);
+                System.out.println("New low stock level alert updated successfully.");
+                return;
+        	}
+        }
+        System.out.println("Medication "+ medicationName + " not found.");
     }
     
     
@@ -327,8 +432,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 		String medicineName = sc.next();
 		for (int i = 0; i < this.medicines.size(); i++) {
    			if (medicineName.equalsIgnoreCase(medicines.get(i).getName())){
-   				//medicines.get(i).setReplenishRequest();
-   				System.out.println("Replenish request for " + medicineName + " submitted");
+   				medicines.get(i).setReplenishRequestStatus("Approved");
+   				medicines.get(i).setStockLevel(medicines.get(i).getStockLevel() + medicines.get(i).getReplenishRequestAmount());
+   				System.out.println("Replenish request for " + medicineName + " approved");
    				return;
    			}
    		}

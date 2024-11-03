@@ -1,5 +1,5 @@
-Password,Role,Staff ID,Name,Gender,Age
-password,DOCTOR,D1001,John Smith,Male,45
-password,DOCTOR,D1002,Emily Clarke,Female,38
-password,PHARMACIST,H1001,Mark Lee,Male,29
-password,ADMINISTRATOR,A1001,Sarah Lee,Female,40
+Password,Role,Staff ID,Name,Gender,Age,ID Tracker
+password,DOCTOR,D1001,John Smith,Male,45,1002
+password,DOCTOR,D1002,Emily Clarke,Female,38,1001
+password,PHARMACIST,H1001,Mark Lee,Male,29,1001
+password,ADMINISTRATOR,A1001,Sarah Lee,Female,40,

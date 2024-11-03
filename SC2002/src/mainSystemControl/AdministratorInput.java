@@ -38,6 +38,7 @@ public class AdministratorInput implements IGetOperationInput{
 	
 	public void getOperationInput(int input) {
 		Scanner sc = new Scanner(System.in);
+		int choice;
 		switch(input) {
 		case 1:
 			staffManagement.displayStaff();
@@ -45,7 +46,7 @@ public class AdministratorInput implements IGetOperationInput{
 			System.out.println("2. Update staff");
 			System.out.println("3. Remove staff");
 			System.out.println("4. Exit");
-			int choice = sc.nextInt();
+			choice = sc.nextInt();
 			switch(choice) {
 			case 1:
 				staffManagement.addStaff();
@@ -66,7 +67,35 @@ public class AdministratorInput implements IGetOperationInput{
 			iViewAppointment.viewAppointments();
 			break;
 		case 3:
-			
+			iMedicineView.viewMedicationInventory();
+			System.out.println("1. Add new medication");
+			System.out.println("2. Remove medication");
+			System.out.println("3. Update medication stock level");
+			System.out.println("4. Update medication low stock level alert");
+			System.out.println("5. Approve medication replenish request");
+			System.out.println("6. Exit");
+			choice = sc.nextInt();
+			switch(choice) {
+			case 1:
+				inventoryManagement.addNewMedication();
+				break;
+			case 2:
+				inventoryManagement.removeMedication();
+				break;
+			case 3:
+				inventoryManagement.updateStockLevel();;
+				break;
+			case 4:
+				inventoryManagement.updateStockLowLevelAlert();
+				break;
+			case 5:
+				inventoryManagement.approveReplenishRequest();
+				break;
+			case 6:
+				break;
+			default:
+				break;
+			}
 			break;
 		case 4:
 			//Logout

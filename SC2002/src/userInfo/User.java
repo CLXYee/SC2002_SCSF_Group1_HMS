@@ -16,7 +16,7 @@ public class User implements Cloneable{
         this.gender = gender;
         this.age = age;
     }
-
+    
     public Role getRole() {
     	return role;
     }
@@ -35,6 +35,18 @@ public class User implements Cloneable{
     
     public int getAge() {
     	return age;
+    }
+    
+    public void setName(String name) {
+    	this.name = name;
+    }
+    
+    public void setGender(String gender) {
+    	this.gender = gender;
+    }
+    
+    public void setAge(int age) {
+    	this.age = age;
     }
     
     @Override
