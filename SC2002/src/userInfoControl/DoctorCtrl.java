@@ -1,5 +1,8 @@
 package userInfoControl;
 
+import CSV.MedicalRecordCSVOperator;
+import CSV.DoctorListCSVOperator;
+
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,10 +21,13 @@ import userInfoControl.MedicalRecordCtrl;
 public class DoctorCtrl implements MedicalRecordCtrl{
 	private String doctorID;
 	private String[] myPatientID;
+	private PersonalSchedule schedule;
+	private DoctorListCSVOperator csv = new DoctorListCSVOperator();
 	
 	public DoctorCtrl(String hospitalID) {
 		this.doctorID = hospitalID;
 		this.myPatientID = getPatientList(hospitalID);
+		this.schedule = new PersonalSchedule(hospitalID);
 	}
 	
 	
@@ -126,7 +132,7 @@ public class DoctorCtrl implements MedicalRecordCtrl{
 		System.out.println("===============================================================================================================================================");
 		System.out.println("                                                           Showing Personal Schedule                                                           ");
 		System.out.println("===============================================================================================================================================\n");
-		//this.schedule.viewSchedule();
+		this.schedule.viewSchedule();
 		System.out.println("\n===============================================================================================================================================");
 	}
 
