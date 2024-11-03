@@ -1,5 +1,15 @@
 ﻿Password,Role,Staff ID,Name,Gender,Age
-password,DOCTOR,D1001,John Smith,Male,45
-password,DOCTOR,D1002,Emily Clarke,Female,38
 password,PHARMACIST,P001,Mark Lee,Male,29
 password,ADMINISTRATOR,A1001,Sarah Lee,Female,40
+password,DOCTOR,D1001,Levy Rozman,Male,29
+password,DOCTOR,D1002,Daniel Naroditsky,Male,29
+password,DOCTOR,D1003,Magnus Carlsen,Male,34
+password,DOCTOR,D1004,Anna Cramling,Female,26
+password,DOCTOR,D1005,Alexander Botez,Female,33
+password,DOCTOR,D1006,Judit Polgar,Female,37
+password,DOCTOR,D1007,Fabiano Caruana,Male,36
+password,DOCTOR,D1008,Elizabeth Harmon,Female,30
+password,DOCTOR,D1009,Vaishali Rameshbabu,Female,28
+password,DOCTOR,D1010,Garry Kasparov,Male,48
+password,DOCTOR,D1011,Viswanathan Anand,Male,45
+password,DOCTOR,D1012,Hikaru Nakamura,Male,35
