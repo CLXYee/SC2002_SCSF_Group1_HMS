@@ -17,7 +17,7 @@ import userInfo.User;
 public class AdministratorCtrl implements IMedicineView, IAdminMedicineCtrl, StaffManagement{
 	private List<User> staffList = new ArrayList<>();
 	private List<Medicine> medicines = new ArrayList<>();
-	private int counter = 0; 
+	private int counter = 0; //use to determine the first row
 	
 	public AdministratorCtrl() {
 		try (BufferedReader br = new BufferedReader(new FileReader("./Staff_List.csv"))) 

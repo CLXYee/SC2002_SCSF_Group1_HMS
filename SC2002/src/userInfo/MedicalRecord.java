@@ -19,11 +19,11 @@ public class MedicalRecord {
     private String bloodType;
     private String doctorInCharge;
     private ArrayList<String> pastDiagnosesTreatment = null;
-    private MedicalRecordCSVOperator csv = new MedicalRecordCSVOperator();
+    private MedicalRecordCSVOperator medicalcsv = new MedicalRecordCSVOperator();
     
 
     public MedicalRecord(String hospitalID){
-    	List<String> data = csv.readFile(hospitalID);
+    	List<String> data = medicalcsv.readFile(hospitalID, 0);
     	
     	this.patientID = data.get(2);
     	this.name = data.get(3);

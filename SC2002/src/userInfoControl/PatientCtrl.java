@@ -7,11 +7,13 @@ import userInfo.Appointment;
 import userInfo.AppointmentOutcomeRecord;
 import java.io.*;
 import java.util.*;
+import CSV.AppointmentCSVOperator;
 
 public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	private Patient patient;
 	private MedicalRecord medicalRecord;
-	private MedicalRecordCSVOperator csv = new MedicalRecordCSVOperator();
+	private MedicalRecordCSVOperator medicalcsv = new MedicalRecordCSVOperator();
+	private AppointmentCSVOperator appointmentcsv = new AppointmentCSVOperator();
 	private List<AppointmentOutcomeRecord> appointmentOutcomeRecords = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<Integer> rows = new ArrayList<>();
@@ -20,29 +22,26 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	public PatientCtrl(String hospitalID, String name, String gender, int age) {
 		this.patient = new Patient(hospitalID, name, gender, age);
 		this.medicalRecord = new MedicalRecord(hospitalID);
-		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
-		{		    
-			String line;
-    		while ((line = br.readLine()) != null) 
-    		{
-		        // Split the line into columns using the delimiter
-		        String[] data = splitAppointmentCSVLine(line);
-		        // Only if the appointment is completed, system will only print the appointment outcome record
-		        if (data[1].equals(this.medicalRecord.getPatientID()) && !data[3].equals("Completed")) 
-		        {
-		        	Appointment appointment = new Appointment(Integer.valueOf(data[0]), data[1], data[2], data[3], data[4], data[5]);
-		        	this.appointments.add(appointment);
-		        	this.rows.add(counter);
-		        }
-		        else if (data[1].equals(this.medicalRecord.getPatientID()) && data[3].equals("Completed"))
-		        {
-		        	AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(Integer.valueOf(data[0]), data[4], data[6], data[7].split("\\s*,\\s*"), data[8], data[9]);
-		        	this.appointmentOutcomeRecords.add(appointmentOutcomeRecord);
-		        }
-		        this.counter++;
-		    }
-		} catch (IOException e) {
-		    e.printStackTrace();
+		
+		//use to get all the appointment for the patient (the integer represent the patient is 0) 
+		ArrayList<String> tempHolderForAppointment = appointmentcsv.readFile(hospitalID, 0);
+		
+		//loop through the data read and make it into two different entity
+		for(String appointmentHolder: tempHolderForAppointment) {
+			String[] tempAppointment = appointmentcsv.splitCommaCSVLine(appointmentHolder);
+			
+			//if the status is not completed, then we put into the appointment entity
+			if (tempAppointment[1].equals(this.medicalRecord.getPatientID()) && !tempAppointment[3].equals("Completed")) 
+	        {
+	        	Appointment appointment = new Appointment(Integer.valueOf(tempAppointment[0]), tempAppointment[1], tempAppointment[2], tempAppointment[3], tempAppointment[4], tempAppointment[5]);
+	        	this.appointments.add(appointment);
+	        	this.rows.add(counter);
+	        }//if the status is completed, we will only show the history of it
+	        else if (tempAppointment[1].equals(this.medicalRecord.getPatientID()) && tempAppointment[3].equals("Completed"))
+	        {
+	        	AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(Integer.valueOf(tempAppointment[0]), tempAppointment[4], tempAppointment[6], tempAppointment[7].split("\\s*,\\s*"), tempAppointment[8], tempAppointment[9]);
+	        	this.appointmentOutcomeRecords.add(appointmentOutcomeRecord);
+	        }
 		}
 	}
 	
@@ -105,7 +104,7 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 					Collections.addAll(index, 7, 8);
 					
 					//for the changeSpecificInformation function, u need to put in the patient id, the index to change and the relevant changes u want to make
-					if(csv.changeSpecificInformation(medicalRecord.getPatientID(), index, changes)) {
+					if(medicalcsv.changeSpecificInformation(medicalRecord.getPatientID(), index, changes)) {
 						System.out.println("Exiting.......");
 					}else {
 						System.out.println("System updated failed!");
