@@ -137,11 +137,151 @@ public class DoctorCtrl implements MedicalRecordCtrl{
 	}
 
 	
-	public void setAvailability() {
+	public void setAvailability() 
+	{
+		int choice = -1, day = -1, start = -1, end = -1;
+		Character task = 'F';
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Select time slot to set availability: ");
-		//pending personal schedule
 		
+		while (choice == -1)
+		{
+			while (day < 0 || day > 7)
+			{
+				System.out.println("===========================================");
+				System.out.println("              Day of the Week              ");
+				System.out.println("===========================================");
+				System.out.println("1. Monday");
+				System.out.println("2. Tuesday");
+				System.out.println("3. Wednesday");
+				System.out.println("4. Thursday");
+				System.out.println("5. Friday");
+				System.out.println("6. Saturday");
+				System.out.println("7. Sunday");
+				System.out.println("===========================================");
+				System.out.print("Enter your choice: ");
+				day = sc.nextInt();
+				switch (day)
+				{
+					case 1, 2, 3, 4, 5, 6, 7:
+						day--;
+						break;
+					default:
+						System.out.println("Invalid Choice! Please choose again!");
+				}
+			}
+			
+			while (start < 0 || start > 16)
+			{
+				System.out.println("===========================================");
+				System.out.println("           Starting Time Session           ");
+				System.out.println("===========================================");
+				System.out.println("1.  10:00 - 10:30\t 9.  14:00 - 14:30");
+				System.out.println("2.  10:30 - 11:00\t 10. 14:30 - 15:00");
+				System.out.println("3.  11:00 - 11:30\t 11. 15:00 - 15:30");
+				System.out.println("4.  11:30 - 12:00\t 12. 15:30 - 16:00");
+				System.out.println("5.  12:00 - 12:30\t 13. 16:00 - 16:30");
+				System.out.println("6.  12:30 - 13:00\t 14. 16:30 - 17:00");
+				System.out.println("7.  13:00 - 13:30\t 15. 17:00 - 17:30");
+				System.out.println("8.  13:30 - 14:00\t 16. 17:30 - 18:00");
+				System.out.println("===========================================");
+				System.out.print("Enter your choice: ");
+				start = sc.nextInt();
+				switch (start)
+				{
+					case 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16:
+						start--;
+						break;
+					default:
+						System.out.println("Invalid Choice! Please choose again!");
+				}
+			}
+			
+			while (end < 0 || end > 16)
+			{
+				System.out.println("===========================================");
+				System.out.println("            Ending Time Session            ");
+				System.out.println("===========================================");
+				System.out.println("1.  10:00 - 10:30\t 9.  14:00 - 14:30");
+				System.out.println("2.  10:30 - 11:00\t 10. 14:30 - 15:00");
+				System.out.println("3.  11:00 - 11:30\t 11. 15:00 - 15:30");
+				System.out.println("4.  11:30 - 12:00\t 12. 15:30 - 16:00");
+				System.out.println("5.  12:00 - 12:30\t 13. 16:00 - 16:30");
+				System.out.println("6.  12:30 - 13:00\t 14. 16:30 - 17:00");
+				System.out.println("7.  13:00 - 13:30\t 15. 17:00 - 17:30");
+				System.out.println("8.  13:30 - 14:00\t 16. 17:30 - 18:00");
+				System.out.println("===========================================");
+				System.out.print("Enter your choice: ");
+				end = sc.nextInt();
+				switch (end)
+				{
+					case 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16:
+						end--;
+						break;
+					default:
+						System.out.println("Invalid Choice! Please choose again!");
+				}
+			}
+			
+			while (choice <= 0 || choice > 16)
+			{
+				System.out.println("===========================================");
+				System.out.println("                Task To Do                 ");
+				System.out.println("===========================================");
+				System.out.println("1: Free Slot (Available for booking)");
+				System.out.println("2: Meeting");
+				System.out.println("3: Surgical Operations");
+				System.out.println("4: Break Time");
+				System.out.println("5: Training Session");
+				System.out.println("6: Personal Leave");
+				System.out.println("===========================================");
+				System.out.print("Enter your choice: ");
+				choice = sc.nextInt();
+				switch (choice)
+				{
+					case 1:
+						task = 'F';
+						break;
+					case 2:
+						task = 'M';
+						break;
+					case 3:
+						task = 'S';
+						break;
+					case 4:
+						task = 'B';
+						break;
+					case 5:
+						task = 'T';
+						break;
+					case 6:
+						task = 'P';
+						break;
+					default:
+						System.out.println("Invalid Choice! Please choose again!");
+				}
+			}
+			
+			this.schedule.editSchedule(day, start, end, task);
+			System.out.println("===========================================");
+			System.out.println("Do you wish to keep editing your schedule?");
+			System.out.println("===========================================");
+			System.out.println("1: Keep Editing");
+			System.out.println("2: Quit");
+			choice = sc.nextInt();
+			switch (choice)
+			{
+				case 1:
+					choice = -1;
+					day = -1;
+					start = -1;
+					end = -1;
+					break;
+			}
+		}
+		
+		ArrayList<Integer> indexChanges = new ArrayList<>(Arrays.asList(9));
+		ArrayList<String> changes = new ArrayList<>(Arrays.asList("","","","","","","","","",this.schedule.translateSchedule()));
+		this.csv.changeSpecificInformation(doctorID, indexChanges, changes);
 	}
 	
 	
