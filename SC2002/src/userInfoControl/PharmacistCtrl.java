@@ -55,7 +55,9 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 					counter = 1;
 					continue;
 				}
-		        Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), data[5], data[6]);
+		        ArrayList<String> submitter = new ArrayList<>(Arrays.asList(data[5].split("\\s*,\\s*")));
+				
+				Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), submitter, data[6]);
 
 		        this.medicines.add(medicine);
 		    }
@@ -183,7 +185,7 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
    			System.out.println("Low Stock Level Alert: " + medicines.get(i).getLowStockLevelAlert());
    			System.out.println("Replenish Request Status: " + medicines.get(i).getReplenishRequestStatus());
    			System.out.println("Replenish Request Amount: " + medicines.get(i).getReplenishRequestAmount());
-   			System.out.println("Replenish Request Submitted By: " + medicines.get(i).getReplenishRequestSubmittedBy());
+   			System.out.println("Replenish Request Submitted By: " + String.join(", ", medicines.get(i).getReplenishRequestSubmittedBy()));
    			System.out.println("Replenish Request Approved By: " + medicines.get(i).getReplenishRequestApprovedBy());
 			System.out.println("--------------------------");
    		}
@@ -196,11 +198,61 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 		String medicineName = sc.next();
 		for (int i = 0; i < this.medicines.size(); i++) {
    			if (medicineName.equalsIgnoreCase(medicines.get(i).getName())){
-   				System.out.println("Please input the replenish request amount: ");
-   				int amount = sc.nextInt();
-   				medicines.get(i).setReplenishRequestStatus("Pending");
-   				medicines.get(i).setReplenishRequestAmount(amount);
-   				medicines.get(i).setReplenishRequestSubmittedBy(this.hospitalID);
+   				if (medicines.get(i).getReplenishRequestSubmittedBy().get(0).equals("NA")) {
+   					System.out.println("Please input the replenish request amount: ");
+   	   				int amount = sc.nextInt();
+	   	   			System.out.println("Please type 'CONFIRM' if you insist on requesting: ");
+	                String confirmation = sc.next();
+	                if ("CONFIRM".equals(confirmation)) {
+	                	medicines.get(i).clearReplenishRequestSubmittedBy();
+	   	   				medicines.get(i).setReplenishRequestStatus("Pending");
+	   	   				medicines.get(i).setReplenishRequestAmount(amount);
+	   	   				medicines.get(i).setReplenishRequestSubmittedBy(hospitalID);
+	   	   				return;
+	                } else {
+	                    System.out.println("Request canceled.");
+	                    return;
+	                }
+   	   				
+   				}
+   				else if (medicines.get(i).getReplenishRequestStatus().equals("Pending")){
+   					if (medicines.get(i).getReplenishRequestSubmittedBy().contains(hospitalID)) {
+   	   					System.out.println("You have already submitted a request previously. Please wait for the administrator to approve it before you can submit another request.");
+   	   					return;
+   					}
+   					System.out.println("Please input the replenish request amount: ");
+   	   				int amount = sc.nextInt();
+   	   				int previousRequest = medicines.get(i).getReplenishRequestAmount();
+	   	   			System.out.println("Please type 'CONFIRM' if you insist on requesting: ");
+	                String confirmation = sc.next();
+	                if ("CONFIRM".equals(confirmation)) {
+	                	medicines.get(i).clearReplenishRequestSubmittedBy();
+	   	   				medicines.get(i).setReplenishRequestStatus("Pending");
+	   	   				medicines.get(i).setReplenishRequestAmount(amount + previousRequest);
+	   	   				medicines.get(i).setReplenishRequestSubmittedBy(hospitalID);
+	   	   				return;
+	                } else {
+	                    System.out.println("Request canceled.");
+	                    return;
+	                }
+   				}
+   				else if (medicines.get(i).getReplenishRequestStatus().equals("Approved")){
+   					System.out.println("Please input the replenish request amount: ");
+   	   				int amount = sc.nextInt();
+	   	   			System.out.println("Please type 'CONFIRM' if you insist on requesting: ");
+	                String confirmation = sc.next();
+	                if ("CONFIRM".equals(confirmation)) {
+	                	medicines.get(i).clearReplenishRequestSubmittedBy();
+	   	   				medicines.get(i).setReplenishRequestStatus("Pending");
+	   	   				medicines.get(i).setReplenishRequestAmount(amount);
+	   	   				medicines.get(i).setReplenishRequestSubmittedBy(hospitalID);
+	   	   				medicines.get(i).setReplenishRequestApprovedBy("NA");
+	   	   				return;
+	                } else {
+	                    System.out.println("Request canceled.");
+	                    return;
+	                }
+	   			}
    				System.out.println("Replenish request for " + medicineName + " submitted");
    				return;
    			}

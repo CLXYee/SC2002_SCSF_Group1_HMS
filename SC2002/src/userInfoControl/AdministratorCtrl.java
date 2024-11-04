@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Collections;
@@ -103,7 +104,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 					counter = 1;
 					continue;
 				}
-		        Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), data[5], data[6]);
+				ArrayList<String> submitter = new ArrayList<>(Arrays.asList(data[5].split("\\s*,\\s*")));
+				
+				Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), submitter, data[6]);
 
 		        this.medicines.add(medicine);
 		    }
@@ -352,7 +355,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
    			System.out.println("Low Stock Level Alert: " + medicines.get(i).getLowStockLevelAlert());
    			System.out.println("Replenish Request Status: " + medicines.get(i).getReplenishRequestStatus());
    			System.out.println("Replenish Request Amount: " + medicines.get(i).getReplenishRequestAmount());
-   			System.out.println("Replenish Request Submitted By: " + medicines.get(i).getReplenishRequestSubmittedBy());
+   			System.out.println("Replenish Request Submitted By: " + String.join(", ", medicines.get(i).getReplenishRequestSubmittedBy()));
    			System.out.println("Replenish Request Approved By: " + medicines.get(i).getReplenishRequestApprovedBy());
 			System.out.println("--------------------------");
    		}
@@ -367,7 +370,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
     	int stockLevel = sc.nextInt();
     	System.out.println("Please input new medication low stock level alert: ");
     	int lowStockLevelAlert = sc.nextInt();
-    	Medicine newMedicine = new Medicine(newMedicationName, stockLevel, lowStockLevelAlert, "NA", 0, "NA", "NA");
+    	ArrayList <String> requester = new ArrayList<String>();
+    	requester.add("NA");
+    	Medicine newMedicine = new Medicine(newMedicationName, stockLevel, lowStockLevelAlert, "NA", 0, requester, "NA");
     	medicines.add(newMedicine);
         System.out.println("New medicine created successfully.");
     }
@@ -427,15 +432,28 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
     
     
     public void approveReplenishRequest() {
-    	System.out.println("Please input the medicine name for replenish:");
+    	System.out.println("Please input the medicine name for replenish request:");
 		Scanner sc = new Scanner(System.in);
 		String medicineName = sc.next();
 		for (int i = 0; i < this.medicines.size(); i++) {
    			if (medicineName.equalsIgnoreCase(medicines.get(i).getName())){
-   				medicines.get(i).setReplenishRequestStatus("Approved");
-   				medicines.get(i).setStockLevel(medicines.get(i).getStockLevel() + medicines.get(i).getReplenishRequestAmount());
-   				System.out.println("Replenish request for " + medicineName + " approved");
-   				return;
+   				if (medicines.get(i).getReplenishRequestStatus().equals("Pending")) {
+   					System.out.println("Please type 'APPROVE' to approve replenish request of amount " + medicines.get(i).getReplenishRequestAmount() + " for " + medicines.get(i).getName());
+   	                String confirmation = sc.next();
+   	                if ("APPROVE".equals(confirmation)) {
+   	                	medicines.get(i).setReplenishRequestStatus("Approved");
+   	   	   				medicines.get(i).setStockLevel(medicines.get(i).getStockLevel() + medicines.get(i).getReplenishRequestAmount());
+   	   	   				System.out.println("Replenish request for " + medicineName + " approved");
+   	                    return;
+   	                } else {
+   	                    System.out.println("Approval canceled.");
+   	                    return;
+   	                }	
+   				}
+   				else {
+   	   				System.out.println("No replenish request for " + medicineName);
+   	   				return;
+   				}
    			}
    		}
 		System.out.println("Medicine " + medicineName + " not found");
@@ -443,24 +461,24 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
     
 	
 	public void EntityUpdate() {
-		saveMedicinesToCSV();
+		//saveMedicinesToCSV();
 	}
 	
 	// Method to save updated medicines to Medicine_List.csv
-	private void saveMedicinesToCSV() {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Medicine_List.csv"))) {
-			// Write header for CSV file
-			writer.write("Medicine Name,Stock,Low Stock Level Alert\n");
-			for (Medicine medicine : medicines) {
-				writer.write(String.format("%s,%d,%d\n",
-					medicine.getName(),
-					//medicine.getInitialStock(),
-					medicine.getLowStockLevelAlert()));
-			}
-			System.out.println("Medicine inventory updated in Medicine_List.csv.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	private void saveMedicinesToCSV() {
+//		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Medicine_List.csv"))) {
+//			// Write header for CSV file
+//			writer.write("Medicine Name,Stock,Low Stock Level Alert\n");
+//			for (Medicine medicine : medicines) {
+//				writer.write(String.format("%s,%d,%d\n",
+//					medicine.getName(),
+//					//medicine.getInitialStock(),
+//					medicine.getLowStockLevelAlert()));
+//			}
+//			System.out.println("Medicine inventory updated in Medicine_List.csv.");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 }

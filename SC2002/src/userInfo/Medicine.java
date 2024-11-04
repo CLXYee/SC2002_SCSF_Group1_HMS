@@ -1,15 +1,17 @@
 package userInfo;
 
+import java.util.ArrayList;
+
 public class Medicine {
 	private String name;
 	private int stockLevel;
 	private int lowStockLevelAlert;
 	private String replenishRequestStatus;
 	private int replenishRequestAmount;
-	private String replenishRequestSubmittedBy;
+	private ArrayList<String> replenishRequestSubmittedBy;
 	private String replenishRequestApprovedBy;
 
-	public Medicine(String n, int sL, int lSLA, String rRS, int rRA, String rRSB, String rRAB) {
+	public Medicine(String n, int sL, int lSLA, String rRS, int rRA, ArrayList<String> rRSB, String rRAB) {
 		this.name = n;
 		this.stockLevel = sL;
 		this.lowStockLevelAlert = lSLA;
@@ -40,7 +42,7 @@ public class Medicine {
 		return this.replenishRequestAmount;
 	}
 	
-	public String getReplenishRequestSubmittedBy() {
+	public ArrayList<String> getReplenishRequestSubmittedBy() {
 		return this.replenishRequestSubmittedBy;
 	}
 	
@@ -68,9 +70,14 @@ public class Medicine {
 		this.replenishRequestAmount = amount;
 	}
 
-	public void setReplenishRequestSubmittedBy(String replenishRequestSubmittedBy) {
-		this.replenishRequestSubmittedBy = replenishRequestSubmittedBy;
+	public void setReplenishRequestSubmittedBy(String requester) {
+		this.replenishRequestSubmittedBy.add(requester);
 	}
+	
+	public void clearReplenishRequestSubmittedBy() {
+		this.replenishRequestSubmittedBy.clear();
+	}
+	
 	
 	public void setReplenishRequestApprovedBy(String replenishRequestApprovedBy) {
 		this.replenishRequestApprovedBy = replenishRequestApprovedBy;
