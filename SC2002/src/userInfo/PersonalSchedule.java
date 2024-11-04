@@ -13,18 +13,7 @@ public class PersonalSchedule
 	{
 		int day, startTime, endTime;
 		Object task;
-		List<String> data = csv.readFile(doctorID);
-		
-		// Initialize the schedule array by setting all slots to free 'F'
-		/*
-			F   (Free, can book appointment)
-			M   (Meeting)
-			S   (Surgery)
-			B   (Break Time)
-			T   (Training)
-			P   (Personal Business)
-			No. (Appointment ID)
-		*/
+		List<String> data = csv.readFile(doctorID, 1);
 		
 		for (int i = 0; i < 7; i++)
 		{
@@ -56,10 +45,55 @@ public class PersonalSchedule
 		}
 	}
 	
-	public void editSchedule()
+	
+	public void editSchedule(int day, int startTime, int endTime, Object task)
 	{
-		
+		for (int time = startTime; time <= endTime; time++)
+		{
+			this.schedule[day][time] = task;
+		}
 	}
+	
+	
+	public String translateSchedule()
+	{
+		int startTime, endTime;
+		Object currentTask;
+		String translation = "";
+		for (int day = 0; day < 7; day++)
+		{
+			currentTask = 'F';
+			startTime = 0;
+			endTime = 0;
+			for (int time = 0; time < 16; time++)
+			{
+				if (this.schedule[day][time] == currentTask)
+				{
+					endTime++;
+				}
+				else if (!currentTask.equals('F'))
+				{
+					translation += day + "," + startTime + "," + endTime + "," + currentTask + ",";
+					currentTask = this.schedule[day][time];
+					startTime = time;
+					endTime = time;
+				}
+				else
+				{
+					currentTask = this.schedule[day][time];
+					startTime = time;
+					endTime = time;
+				}
+			}
+			if (!currentTask.equals('F'))
+			{
+				translation += day + "," + startTime + "," + endTime + "," + currentTask + ",";
+			}
+		}
+		
+		return translation.substring(0, translation.length() - 1);
+	}
+	
 	
 	public void viewSchedule()
 	{
