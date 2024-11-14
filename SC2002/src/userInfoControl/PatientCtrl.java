@@ -57,8 +57,25 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		System.out.println("Blood Type		| " + medicalRecord.getBloodType());
 		System.out.println("Doctor In Charge| " + medicalRecord.getDoctor());
 		System.out.println("=================================================");
-		System.out.println("Past Diagnoses and Treatment:");
-		// Add past diagnoses and treatment
+		System.out.println("Past Diagnoses and Treatments:");
+	    System.out.println("==============================");
+
+	    for (String record : medicalRecord.getPastDiagnosesAndTreatment()) {
+	        String[] parts = record.split(";\\s*");  // Split by ';' with optional whitespace
+
+	        if (parts.length == 3) {
+	            String diagnose = parts[0].trim();
+	            String prescription = parts[1].trim();
+	            String plan = parts[2].trim();
+
+	            System.out.println("Diagnosis: " + diagnose);
+	            System.out.println("Prescription: " + prescription);
+	            System.out.println("Plan: " + plan);
+	            System.out.println("------------------------------");
+	        } else {
+	            System.out.println("Error: Invalid record format.");
+	        }
+	    }
 	}
 	
 	public void updateMedicalRecord() {
