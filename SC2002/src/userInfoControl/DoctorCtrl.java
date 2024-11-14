@@ -18,7 +18,7 @@ import java.util.List;
 import userInfo.*;
 import userInfoControl.MedicalRecordCtrl;
 
-public class DoctorCtrl implements MedicalRecordCtrl{
+public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISchedule, AppointmentOutcomeRecordCtrl{
 	private String doctorID;
 	private String[] myPatientID;
 	private PersonalSchedule schedule;
