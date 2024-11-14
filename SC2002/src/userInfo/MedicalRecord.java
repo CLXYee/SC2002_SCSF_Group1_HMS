@@ -36,14 +36,13 @@ public class MedicalRecord {
     	this.doctorInCharge = data.get(10);
     	
     	String diagnosesTreatmentData = data.get(11);
-    	System.out.println("Debug line: " + diagnosesTreatmentData);
     	
     	this.pastDiagnosesTreatment = new ArrayList<>(Arrays.asList(diagnosesTreatmentData.split("]; \\[")));
 
-    	for (int i = 0; i < pastDiagnosesTreatment.size(); i++) {
+    	/*for (int i = 0; i < pastDiagnosesTreatment.size(); i++) {
     	    String record = pastDiagnosesTreatment.get(i).replace("[", "").replace("]", "").trim();
-    	    pastDiagnosesTreatment.set(i, record);  // Update with cleaned record
-    	}
+    	    pastDiagnosesTreatment.set(i, record);  
+    	}*/
     }
 
     public String getPatientID(){
@@ -106,9 +105,29 @@ public class MedicalRecord {
     public void addPastDiagnosisAndTreatment(String diagnose, String prescription, String plan) {
         String record = String.format("[%s; %s; %s]", diagnose, prescription, plan);
         pastDiagnosesTreatment.add(record);
+        
+        StringBuilder diagnosesString = new StringBuilder();
+        for (int i = 0; i < pastDiagnosesTreatment.size(); i++) {
+            diagnosesString.append(pastDiagnosesTreatment.get(i));
+            if (i < pastDiagnosesTreatment.size() - 1) {
+                diagnosesString.append("; ");
+            }
+        }
+        
+        System.out.println("Debug: " + diagnosesString);
+
+        ArrayList<Integer> changesIndex = new ArrayList<>();
+        ArrayList<String> changes = new ArrayList<>();
+
+        // Add the index for the past diagnoses and treatments column
+        changesIndex.add(11);
+        changes.add(diagnosesString.toString());
+
+        // Call the method with the correct parameter types
+        csv.changeSpecificInformation(this.patientID, changesIndex, changes);
     }
 
-    // Optional: Add a method to get pastDiagnosesAndTreatment if needed for display
+    // get pastDiagnosesAndTreatment if needed for display
     public ArrayList<String> getPastDiagnosesAndTreatment() {
         return pastDiagnosesTreatment;
     }

@@ -64,9 +64,9 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	        String[] parts = record.split(";\\s*");  // Split by ';' with optional whitespace
 
 	        if (parts.length == 3) {
-	            String diagnose = parts[0].trim();
+	        	String diagnose = parts[0].replace("[", "").replace("]", "").trim();
 	            String prescription = parts[1].trim();
-	            String plan = parts[2].trim();
+	            String plan = parts[2].replace("[", "").replace("]", "").trim();
 
 	            System.out.println("Diagnosis: " + diagnose);
 	            System.out.println("Prescription: " + prescription);

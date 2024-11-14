@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import userInfo.*;
-import userInfoControl.MedicalRecordCtrl;
+import userInfoControl.*;
 
 public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISchedule, AppointmentOutcomeRecordCtrl{
 	private String doctorID;
@@ -82,6 +82,7 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		if (Arrays.stream(myPatientID)
 	              .anyMatch(ID -> ID.equals(patientID))) {
 		    MedicalRecord medicalRecord = new MedicalRecord(patientID);
+		    
 		    System.out.println("Show medical record for patient");
 		    System.out.println("===============================");
 		    System.out.println("Patient ID		| " + medicalRecord.getPatientID());
@@ -99,9 +100,9 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		        String[] parts = record.split(";\\s*");  // Split by ';' with optional whitespace
 
 		        if (parts.length == 3) {
-		            String diagnose = parts[0].trim();
+		            String diagnose = parts[0].replace("[", "").replace("]", "").trim();
 		            String prescription = parts[1].trim();
-		            String plan = parts[2].trim();
+		            String plan = parts[2].replace("[", "").replace("]", "").trim();
 
 		            System.out.println("Diagnosis: " + diagnose);
 		            System.out.println("Prescription: " + prescription);
