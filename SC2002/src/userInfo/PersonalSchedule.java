@@ -13,7 +13,7 @@ public class PersonalSchedule
 	{
 		int day, startTime, endTime;
 		Object task;
-		List<String> data = csv.readFile(doctorID);
+		List<String> data = csv.readFile(doctorID, 1);
 		
 		for (int i = 0; i < 7; i++)
 		{

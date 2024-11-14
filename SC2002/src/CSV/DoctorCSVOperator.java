@@ -20,7 +20,7 @@ public class DoctorCSVOperator extends CSVoperator
 		this.filePath = "./Doctor_List.csv";
 	}
 	
-	public ArrayList<String> readFile(String id)
+	public ArrayList<String> readFile(String id, int role)
 	{
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
 		{

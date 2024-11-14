@@ -1,44 +1,71 @@
 package CSV;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MedicalRecordCSVOperator extends CSVoperator{
+public class AppointmentCSVOperator extends CSVoperator{
 	private String filePath;
 	private ArrayList<String> data = new ArrayList<>();
+	private Integer counter = 0;
 	
-	public MedicalRecordCSVOperator() {
-		this.filePath = "./Patient_List.csv";
+	public AppointmentCSVOperator() {
+		this.filePath = "./Appointment_List.csv";
 	}
 	
-	
-	public ArrayList<String> readFile(String id, int role) {
-		try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
-			String line;
-			while((line = br.readLine()) != null) {
-				//Split the line into columns using the delimiter
-				String[] tempData = line.split(",");
-				
-				if(id.equals(tempData[2])) {
-					for(int i = 0; i < tempData.length; i++) {
-						data.add(tempData[i]);
+	public synchronized ArrayList<String> readFile(String id, int role) // read the file of the CSV and return the specific line of data we need
+	{
+		switch(role) {
+			case 0:
+				try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+				{
+					String line;
+					while ((line = br.readLine()) != null) 
+					{
+						counter++;
+						String[] tempData = super.splitCommaCSVLine(line);
+						
+						if (id.equals(tempData[1])) 
+						{
+							data.add(String.join(",", tempData));
+						}
 					}
-					break;
 				}
-			}
-		}catch (IOException e) {
-			e.printStackTrace();
+				catch (IOException e)  
+				{
+					e.printStackTrace();
+				}
+				return data;
 		}
+		
 		return data;
 	}
 	
-	// adding a line to CSV file
-	public boolean addLineToFile(List<String> dataAdd){
-		return true;
+	public Integer getCounter() {
+		return counter;
 	}
 	
-	// changing a specific block in CSV
-	public boolean changeSpecificInformation(String id,ArrayList<Integer> changesIndex, ArrayList<String> changes) {
+	public synchronized boolean addLineToFile(List<String> dataAdd) {
+	    try (FileWriter writer = new FileWriter(filePath, true)) {
+	        String newLine = dataAdd.get(0) + "," + dataAdd.get(1) + "," + dataAdd.get(2) + "," + dataAdd.get(3) + "," + dataAdd.get(4) + "," + dataAdd.get(5) + "," + "NA" + "," + "NA" + "," + "NA" + "," + "NA" + "\n";
+	        writer.write(newLine);
+
+	        return true;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	
+	public boolean changeSpecificInformation(String id,ArrayList<Integer> changesIndex, ArrayList<String> changes)//change a specific information with the specific index and this changes
+	{
 		String tempFile = "./temp.csv"; // temporary file for the data changing
 		
 		BufferedReader reader = null;
@@ -50,9 +77,10 @@ public class MedicalRecordCSVOperator extends CSVoperator{
             writer = new BufferedWriter(new FileWriter(tempFile));
             
             String line;
+            boolean checker = true; // make sure the csv file only change for the first line
             
             while ((line = reader.readLine()) != null) {
-            	System.out.println(line);
+            	//System.out.println(line);
                 String[] tempData = line.split(","); // Split the row into columns
                 
                 if(tempData[2].equals(id)) {
@@ -104,8 +132,8 @@ public class MedicalRecordCSVOperator extends CSVoperator{
 		return true;
 	}
 	
-	// delete a specific line
-	public boolean deleteSpecificLine(String id) {
+	public boolean deleteSpecificLine(String id) // delete a specific line
+	{
 		return true;
 	}
 }
