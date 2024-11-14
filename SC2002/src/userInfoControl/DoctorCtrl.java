@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import userInfo.*;
-import userInfoControl.MedicalRecordCtrl;
+import userInfoControl.*;
 
 public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISchedule, AppointmentOutcomeRecordCtrl{
 	private String doctorID;
@@ -61,12 +61,11 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	
 	
 	public void viewPatientIDs() {
-	    System.out.println("These are patients under your record:");
-
-	    if (myPatientID == null) {
+	    if (myPatientID.length == 0) {
 	        System.out.println("No patients found under your record.");
 	    } else {
 	        // Print each patient ID
+	    	System.out.println("These are patients under your record:");
 	        for (String patientID : myPatientID) {
 	            System.out.println("- " + patientID);
 	        }
@@ -76,12 +75,14 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 
 	public void showMedicalRecord() {
 		Scanner sc = new Scanner(System.in);
+		if (myPatientID.length == 0) return;
 		System.out.println("Enter the patient ID to view: ");
 		String patientID = sc.next();
 		//patient ID found in the doctor's record
 		if (Arrays.stream(myPatientID)
 	              .anyMatch(ID -> ID.equals(patientID))) {
 		    MedicalRecord medicalRecord = new MedicalRecord(patientID);
+		    
 		    System.out.println("Show medical record for patient");
 		    System.out.println("===============================");
 		    System.out.println("Patient ID		| " + medicalRecord.getPatientID());
@@ -92,6 +93,7 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 			System.out.println("Blood Type		| " + medicalRecord.getBloodType());
 			System.out.println("Doctor In Charge| " + medicalRecord.getDoctor());
 		    System.out.println("===============================");
+<<<<<<< HEAD
 			System.out.println("Past Diagnoses and Treatment:");
 			// Add past diagnoses and treatment
 			System.out.println("===============================");
@@ -103,6 +105,19 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		            String prescription = parts[1];
 		            String plan = parts[2];
 		            
+=======
+		    System.out.println("Past Diagnoses and Treatments:");
+		    System.out.println("==============================");
+
+		    for (String record : medicalRecord.getPastDiagnosesAndTreatment()) {
+		        String[] parts = record.split(";\\s*");  // Split by ';' with optional whitespace
+
+		        if (parts.length == 3) {
+		            String diagnose = parts[0].replace("[", "").replace("]", "").trim();
+		            String prescription = parts[1].trim();
+		            String plan = parts[2].replace("[", "").replace("]", "").trim();
+
+>>>>>>> 2fd44b9dffc8bb101dec8d5eec58bcd5f8c79fd5
 		            System.out.println("Diagnosis: " + diagnose);
 		            System.out.println("Prescription: " + prescription);
 		            System.out.println("Plan: " + plan);
@@ -111,7 +126,10 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		            System.out.println("Error: Invalid record format.");
 		        }
 		    }
+<<<<<<< HEAD
 			
+=======
+>>>>>>> 2fd44b9dffc8bb101dec8d5eec58bcd5f8c79fd5
 		}
 		//if patient id not found
 		else {
@@ -122,6 +140,7 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	
 	
 	public void updateMedicalRecord() { 
+		if (myPatientID.length == 0) return;
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter the patient ID to update: ");
 		String patientID = sc.next();

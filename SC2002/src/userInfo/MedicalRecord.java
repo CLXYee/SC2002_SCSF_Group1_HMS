@@ -37,12 +37,21 @@ public class MedicalRecord {
     	
     	String diagnosesTreatmentData = data.get(11);
     	
+<<<<<<< HEAD
     	//Proper way to fetch pastDiagnosesTreatment from Patient_List
     	this.pastDiagnosesTreatment = new ArrayList<String>(Arrays.asList(diagnosesTreatmentData.split("]; \\[")));
     	for(int i = 0; i < pastDiagnosesTreatment.size(); i++) {
     		String record = pastDiagnosesTreatment.get(i).replace("[", "").replace("]","").trim();
     		pastDiagnosesTreatment.set(i, record);
     	}
+=======
+    	this.pastDiagnosesTreatment = new ArrayList<>(Arrays.asList(diagnosesTreatmentData.split("]; \\[")));
+
+    	/*for (int i = 0; i < pastDiagnosesTreatment.size(); i++) {
+    	    String record = pastDiagnosesTreatment.get(i).replace("[", "").replace("]", "").trim();
+    	    pastDiagnosesTreatment.set(i, record);  
+    	}*/
+>>>>>>> 2fd44b9dffc8bb101dec8d5eec58bcd5f8c79fd5
     }
 
     public String getPatientID(){
@@ -103,11 +112,31 @@ public class MedicalRecord {
     }
     
     public void addPastDiagnosisAndTreatment(String diagnose, String prescription, String plan) {
-        String record = String.format("[%s, %s, %s]", diagnose, prescription, plan);
+        String record = String.format("[%s; %s; %s]", diagnose, prescription, plan);
         pastDiagnosesTreatment.add(record);
+        
+        StringBuilder diagnosesString = new StringBuilder();
+        for (int i = 0; i < pastDiagnosesTreatment.size(); i++) {
+            diagnosesString.append(pastDiagnosesTreatment.get(i));
+            if (i < pastDiagnosesTreatment.size() - 1) {
+                diagnosesString.append("; ");
+            }
+        }
+        
+        System.out.println("Debug: " + diagnosesString);
+
+        ArrayList<Integer> changesIndex = new ArrayList<>();
+        ArrayList<String> changes = new ArrayList<>();
+
+        // Add the index for the past diagnoses and treatments column
+        changesIndex.add(11);
+        changes.add(diagnosesString.toString());
+
+        // Call the method with the correct parameter types
+        csv.changeSpecificInformation(this.patientID, changesIndex, changes);
     }
 
-    // Optional: Add a method to get pastDiagnosesAndTreatment if needed for display
+    // get pastDiagnosesAndTreatment if needed for display
     public ArrayList<String> getPastDiagnosesAndTreatment() {
         return pastDiagnosesTreatment;
     }
