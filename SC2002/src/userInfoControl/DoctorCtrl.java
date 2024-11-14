@@ -61,12 +61,11 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	
 	
 	public void viewPatientIDs() {
-	    System.out.println("These are patients under your record:");
-
-	    if (myPatientID == null) {
+	    if (myPatientID.length == 0) {
 	        System.out.println("No patients found under your record.");
 	    } else {
 	        // Print each patient ID
+	    	System.out.println("These are patients under your record:");
 	        for (String patientID : myPatientID) {
 	            System.out.println("- " + patientID);
 	        }
@@ -76,6 +75,7 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 
 	public void showMedicalRecord() {
 		Scanner sc = new Scanner(System.in);
+		if (myPatientID.length == 0) return;
 		System.out.println("Enter the patient ID to view: ");
 		String patientID = sc.next();
 		//patient ID found in the doctor's record
@@ -122,6 +122,7 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	
 	
 	public void updateMedicalRecord() { 
+		if (myPatientID.length == 0) return;
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter the patient ID to update: ");
 		String patientID = sc.next();
