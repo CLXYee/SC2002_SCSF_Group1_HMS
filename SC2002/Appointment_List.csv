@@ -4,12 +4,12 @@ Appointment ID,Patient ID,Doctor ID,Appointment Status,Date of Appointment,Time 
 3,P1003,D1001,Completed,1/10/2024,16:30-17:30,Body Check Up,"Paracetamol, Amoxicillin",Pending,"Drink more water, and stop staying up until 2am every day. Do more Exercises."
 4,P1004,D1004,Pending,20/10/2024,08:30-09:30,MRI Body Scan,NA,NA,NA
 5,P1005,D1003,Completed,2/10/2024,09:00-10:00,Body Check Up,"Amoxicillin, Ibuprofen, Aspirin, Antibiotic",Dispensed,Do not consume seafood until all the medicine have been consumed.
-6,P1001,D1001,Confirmed,31/10/2024,07:00-08:00,Body Check Up,Antibiotic,Dispensed,"Rest well, drink at least 2 liters of water a day."
+6,P1001,D1001,Completed,31/10/2024,07:00-08:00,Body Check Up,Antibiotic,Dispensed,"Rest well, drink at least 2 liters of water a day."
 7,P1001,D1002,Canceled,11/11/2024,07:30-08:00,NA,NA,NA,NA
 8,P1001,D1004,Canceled,12/11/2024,12:00-12:30,NA,NA,NA,NA
 9,P1001,D1005,Canceled,13/11/2024,15:00-16:00,NA,NA,NA,NA
-10,P1001,D1008,10,P1001,D1008,NA,NA,NA,NA
+10,P1001,D1008,Canceled,17/11/2024,12:00-13:00,NA,NA,NA,NA
 11,P1001,D1010,Pending,28/11/2024,11:30-12:00,NA,NA,NA,NA
 12,P1001,D1012,Pending,28/11/2024,09:00-09:30,NA,NA,NA,NA
-13,P1001,D1012,Pending,17/11/2024,11:30-12:00,NA,NA,NA,NA
+13,P1001,D1012,Confirmed,17/11/2024,11:30-12:00,NA,NA,NA,NA
 14,P1001,D1009,Pending,17/11/2024,10:00-11:00,NA,NA,NA,NA
