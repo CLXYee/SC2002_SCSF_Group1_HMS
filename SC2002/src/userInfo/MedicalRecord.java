@@ -37,21 +37,12 @@ public class MedicalRecord {
     	
     	String diagnosesTreatmentData = data.get(11);
     	
-<<<<<<< HEAD
-    	//Proper way to fetch pastDiagnosesTreatment from Patient_List
-    	this.pastDiagnosesTreatment = new ArrayList<String>(Arrays.asList(diagnosesTreatmentData.split("]; \\[")));
-    	for(int i = 0; i < pastDiagnosesTreatment.size(); i++) {
-    		String record = pastDiagnosesTreatment.get(i).replace("[", "").replace("]","").trim();
-    		pastDiagnosesTreatment.set(i, record);
-    	}
-=======
     	this.pastDiagnosesTreatment = new ArrayList<>(Arrays.asList(diagnosesTreatmentData.split("]; \\[")));
 
     	/*for (int i = 0; i < pastDiagnosesTreatment.size(); i++) {
     	    String record = pastDiagnosesTreatment.get(i).replace("[", "").replace("]", "").trim();
     	    pastDiagnosesTreatment.set(i, record);  
     	}*/
->>>>>>> 2fd44b9dffc8bb101dec8d5eec58bcd5f8c79fd5
     }
 
     public String getPatientID(){
