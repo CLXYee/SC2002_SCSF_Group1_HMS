@@ -470,7 +470,10 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 		ArrayList<String> dataStore = new ArrayList<>(); //use to pass the entity class to the database
 		
 		for(Medicine i: medicines) {
-			dataStore.add(String.format("%s,%s,%s,%s,%s,%s,%s", i.getName(), i.getStockLevel(), i.getLowStockLevelAlert(), i.getReplenishRequestAmount(), i.getReplenishRequestStatus(), i.getReplenishRequestSubmittedBy(), i.getReplenishRequestApprovedBy()));
+			String temp = i.getReplenishRequestSubmittedBy().toString();
+			temp = temp.replace("[", "").replace("]", "").replace(" ", "");
+			
+			dataStore.add(String.format("%s,%s,%s,%s,%s,%s,%s", i.getName(), i.getStockLevel(), i.getLowStockLevelAlert(), i.getReplenishRequestStatus(), i.getReplenishRequestAmount(), "\"" + temp + "\"", i.getReplenishRequestApprovedBy()));
 		}
 		
 		if(medicineoperator.updateCSVForAdmin(dataStore)) return true;

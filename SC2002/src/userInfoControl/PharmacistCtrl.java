@@ -74,41 +74,6 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 	}
 
 	/**
-     * Splits a CSV line into tokens, handling quoted fields.
-     *
-     * @param line the CSV line to split
-     * @return an array of tokens
-     */    
-	private String[] splitCSVLine(String line) 
-    {
-        List<String> tokens = new ArrayList<>();
-        StringBuilder currentToken = new StringBuilder();
-        boolean inQuotes = false;
-
-        for (int i = 0; i < line.length(); i++) 
-        {
-            char currentChar = line.charAt(i);
-            
-            if (currentChar == '"') 
-            {
-                inQuotes = !inQuotes; 
-            } 
-            else if (currentChar == ',' && !inQuotes) 
-            {
-                tokens.add(currentToken.toString());
-                currentToken.setLength(0);
-            } 
-            else 
-            {
-                currentToken.append(currentChar);
-            }
-        }
-        
-        tokens.add(currentToken.toString());
-        return tokens.toArray(new String[0]);
-    }
-
-	/**
      * Displays appointment outcome records with pending prescription statuses.
      */
 	public void viewAppointmentOutcomeRecord() {		
@@ -288,27 +253,21 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
      * Saves updated entities (appointments and medicines) back to their respective CSV files.
      */
 	public void EntityUpdate() {
-		saveMedicinesToCSV();
 		saveAppointmentsToCSV();
 	}
 	
-	/**
-     * Saves updated medicines to the Medicine_List.csv file.
-     */		
-	private void saveMedicinesToCSV() {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Medicine_List.csv"))) {
-			// Write header for CSV file
-			writer.write("Medicine Name,Stock,Low Stock Level Alert\n");
-			for (Medicine medicine : medicines) {
-				writer.write(String.format("%s,%d,%d\n",
-					medicine.getName(),
-					//medicine.getInitialStock(),
-					medicine.getLowStockLevelAlert()));
-			}
-			System.out.println("Medicine inventory updated in Medicine_List.csv.");
-		} catch (IOException e) {
-			e.printStackTrace();
+	public boolean updateMedicineEntity() {
+		ArrayList<String> dataStore = new ArrayList<>(); //use to pass the entity class to the database
+		
+		for(Medicine i: medicines) {
+			String temp = i.getReplenishRequestSubmittedBy().toString();
+			temp = temp.replace("[", "").replace("]", "").replace(" ", "");
+			
+			dataStore.add(String.format("%s,%s,%s,%s,%s,%s,%s", i.getName(), i.getStockLevel(), i.getLowStockLevelAlert(), i.getReplenishRequestStatus(), i.getReplenishRequestAmount(), "\"" + temp + "\"", i.getReplenishRequestApprovedBy()));
 		}
+		
+		if(medicineoperator.updateCSVForAdmin(dataStore)) return true;
+		return false;
 	}
 		
 	/**

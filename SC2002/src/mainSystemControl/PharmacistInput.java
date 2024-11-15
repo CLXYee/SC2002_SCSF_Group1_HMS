@@ -66,11 +66,11 @@ public class PharmacistInput implements IGetOperationInput{
 			return true;
 		case 4:
             // Submit a replenish request
-			iSubmitReplenishRequest.submitReplenishRequest();;
+			iSubmitReplenishRequest.submitReplenishRequest();
+			pharmacistCtrl.updateMedicineEntity();
 			return true;
 		case 5:
 			//Logout
-			pharmacistCtrl.EntityUpdate();
 			System.out.println("Loging out...\n");
 			HospitalApp.main(null);
 			return false;	
