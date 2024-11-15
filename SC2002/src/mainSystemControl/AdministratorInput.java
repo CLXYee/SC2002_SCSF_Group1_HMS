@@ -131,12 +131,10 @@ public class AdministratorInput implements IGetOperationInput{
 			//Logout
 			administratorCtrl.EntityUpdate();
 			System.out.println("Loging out...\n");
-			HospitalApp.main(null);
 			return false;
 		}
 		administratorCtrl.EntityUpdate();
 		System.out.println("Loging out...\n");
-		HospitalApp.main(null);
 		return false;
 	}
 }

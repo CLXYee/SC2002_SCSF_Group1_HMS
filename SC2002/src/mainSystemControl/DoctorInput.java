@@ -79,12 +79,10 @@ public class DoctorInput implements IGetOperationInput{
 		case 8:
 			//Logout
 			System.out.println("Loging out...\n");
-			HospitalApp.main(null);
 			return false;
 		default:
 			//Logout
 			System.out.println("Loging out...\n");
-			HospitalApp.main(null);
 			return false;
 		}
 	}

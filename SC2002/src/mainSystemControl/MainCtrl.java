@@ -46,9 +46,9 @@ public class MainCtrl {
      * Displays the menu and processes the user's selected operation input.
      * Delegates operations to the role-specific input handler.
      */
-	public void getInput() {
+	public boolean getInput() {
 		operationInput.showMenu();
-		operationInput.getOperationInput(getOperationInput());
+		return operationInput.getOperationInput(getOperationInput());
 	}
 	
 	/**
