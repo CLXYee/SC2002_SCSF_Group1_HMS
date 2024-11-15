@@ -104,7 +104,7 @@ public class AppointmentCSVOperator extends CSVoperator{
             	//System.out.println(line);
                 String[] tempData = line.split(","); // Split the row into columns
                 
-                if(tempData[2].equals(id)) {
+                if(tempData[0].equals(id)) {
                 	int counterOfChanges = 0;
                 	for(int i: changesIndex) {
                 		tempData[i] = changes.get(counterOfChanges++);
