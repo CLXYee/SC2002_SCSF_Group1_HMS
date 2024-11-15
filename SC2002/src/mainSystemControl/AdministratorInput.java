@@ -78,16 +78,21 @@ public class AdministratorInput implements IGetOperationInput{
 			switch(choice) {
 			case 1:
 				staffManagement.addStaff();
+				staffManagement.updateStaffEntity();
 				break;
 			case 2:
-				staffManagement.updateStaff();	
+				staffManagement.updateStaff();
+				staffManagement.updateStaffEntity();
 				break;
 			case 3:
 				staffManagement.removeStaff();
+				staffManagement.updateStaffEntity();
 				break;
 			case 4:
+				staffManagement.updateStaffEntity();
 				break;
 			default:
+				staffManagement.updateStaffEntity();
 				break;
 			}
 			break;
@@ -128,8 +133,6 @@ public class AdministratorInput implements IGetOperationInput{
 			}
 			break;
 		case 4:
-			//Logout
-			administratorCtrl.EntityUpdate();
 			System.out.println("Loging out...\n");
 			HospitalApp.main(null);
 			break;

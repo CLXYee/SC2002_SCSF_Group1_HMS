@@ -41,7 +41,28 @@ public class AppointmentCSVOperator extends CSVoperator{
 				{
 					e.printStackTrace();
 				}
-				return data;
+				break;
+			
+			case 3:
+				try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+				{
+					String line;
+					int counterForSkip = 0;
+					while ((line = br.readLine()) != null) 
+					{
+						if(counterForSkip == 0) {
+							counterForSkip++;
+							continue;
+						}
+						
+						data.add(line);
+					}
+				}
+				catch (IOException e)  
+				{
+					e.printStackTrace();
+				}
+				break;
 		}
 		
 		return data;

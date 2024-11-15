@@ -20,6 +20,9 @@ import userInfo.Appointment;
 import userInfo.AppointmentOutcomeRecord;
 import userInfo.Medicine;
 import userInfo.User;
+import CSV.MedicineCSVOperator;
+import CSV.StaffCSVOperator;
+import CSV.AppointmentCSVOperator;
 
 /**
  * AdministratorCtrl manages hospital staff, appointments, and medication inventory. 
@@ -32,6 +35,10 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 	private List<AppointmentOutcomeRecord> appointmentsOutcomeRecord = new ArrayList<>();
 	private List<Medicine> medicines = new ArrayList<>();
     private Map<String, Integer> roleIdCounters = new HashMap<>();
+    private Map<String, String> password = new HashMap<>();
+    private MedicineCSVOperator medicineoperator = new MedicineCSVOperator();
+    private StaffCSVOperator staffoperator = new StaffCSVOperator();
+    private AppointmentCSVOperator appointmentoperator = new AppointmentCSVOperator();
 	private int counter = 0; 
 	private int tracker = 0;
 	
@@ -42,122 +49,54 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
      */
 	public AdministratorCtrl(String hospitalID) {
 		this.hospitalID = hospitalID;
-		try (BufferedReader br = new BufferedReader(new FileReader("./Staff_List.csv"))) 
-		{		    
-			String line;
-    		while ((line = br.readLine()) != null) 
-    		{
-		        // Split the line into columns using the delimiter
-		        String[] data = splitCSVLine(line);
-				if (counter == 0){
-					counter = 1;
-					continue;
-				}
-				// Extract the tracker for the roles from first three rows
-				if (tracker <= 2) {
-					if (tracker == 0) {
-			            roleIdCounters.put(Role.DOCTOR.toString(), Math.max(roleIdCounters.getOrDefault(Role.DOCTOR.toString(), 0), Integer.parseInt(data[6])));
-			            tracker++;
-					}
-					else if (tracker == 1) {
-			            roleIdCounters.put(Role.PHARMACIST.toString(), Math.max(roleIdCounters.getOrDefault(Role.PHARMACIST.toString(), 0), Integer.parseInt(data[6])));
-			            tracker++;
-					}
-					else if (tracker == 2) {
-			            roleIdCounters.put(Role.ADMINISTRATOR.toString(), Math.max(roleIdCounters.getOrDefault(Role.ADMINISTRATOR.toString(), 0), Integer.parseInt(data[6])));
-			            tracker++;
-					}
-				}
-				
-				Role role = Role.valueOf(data[1]);
-				User staff = new User(role, data[2], data[3], data[4], Integer.parseInt(data[5]));
-				
-				
-		        this.staffList.add(staff);
-		    }
-		} catch (IOException e) {
-		    e.printStackTrace();
+		ArrayList<String> tempData = new ArrayList<>();
+		
+		tempData = staffoperator.readFile(null, 3);
+		
+		//use to get the id tracker
+		roleIdCounters.put(Role.DOCTOR.toString(), staffoperator.getDoctorIDTracker());
+		roleIdCounters.put(Role.PHARMACIST.toString(), staffoperator.getPharIDTracker());
+		roleIdCounters.put(Role.ADMINISTRATOR.toString(), staffoperator.getAdminIDTracker());
+		
+		//use to extract the data into the entity class
+		for(String i: tempData) {
+			String[] temp = staffoperator.splitCommaCSVLine(i);
+			
+			Role role = Role.valueOf(temp[1]);
+			User staff = new User(role, temp[2], temp[3], temp[4], Integer.parseInt(temp[5]));
+			
+	        this.staffList.add(staff);
+	        
+	        password.put(temp[2], temp[0]);
 		}
 		
-		counter = 0;
-		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
-		{		    
-			String line;
-    		while ((line = br.readLine()) != null) 
-    		{
-		        // Split the line into columns using the delimiter
-		        String[] data = splitCSVLine(line);
-				if (counter == 0){
-					counter = 1;
-					continue;
-				}
-		        Appointment appointment = new Appointment(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4], data[5]);
-				AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(Integer.valueOf(data[0]), data[4], data[6], data[7].split("\\s*,\\s*"), data[8], data[9]);
+		tempData = new ArrayList<>();
+		tempData = appointmentoperator.readFile(null, 3);
+		
+		for(String i: tempData) {
+			String[] temp = appointmentoperator.splitCommaCSVLine(i);
+			
+			Appointment appointment = new Appointment(Integer.parseInt(temp[0]), temp[1], temp[2], temp[3], temp[4], temp[5]);
+			AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(Integer.valueOf(temp[0]), temp[4], temp[6], temp[7].split("\\s*,\\s*"), temp[8], temp[9]);
 
-		        this.appointments.add(appointment);
-				this.appointmentsOutcomeRecord.add(appointmentOutcomeRecord);
-		    }
-		} catch (IOException e) {
-		    e.printStackTrace();
+	        this.appointments.add(appointment);
+			this.appointmentsOutcomeRecord.add(appointmentOutcomeRecord);
 		}
 		
-		counter = 0;
-		try (BufferedReader br = new BufferedReader(new FileReader("./Medicine_List.csv"))) 
-		{		    
-			String line;
-    		while ((line = br.readLine()) != null) 
-    		{
-		        // Split the line into columns using the delimiter
-		        String[] data = splitCSVLine(line);
-				if (counter == 0){
-					counter = 1;
-					continue;
-				}
-				ArrayList<String> submitter = new ArrayList<>(Arrays.asList(data[5].split("\\s*,\\s*")));
-				
-				Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), submitter, data[6]);
+		tempData = new ArrayList<>();
+		tempData = medicineoperator.readFile(null, 3);
+		
+		for(String i: tempData) {
+			String[] temp = medicineoperator.splitCommaCSVLine(i);
+			
+			ArrayList<String> submitter = new ArrayList<>(Arrays.asList(temp[5].split("\\s*,\\s*")));
+			
+			Medicine medicine = new Medicine(temp[0], Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), temp[3], Integer.parseInt(temp[4]), submitter, temp[6]);
 
-		        this.medicines.add(medicine);
-		    }
-		} catch (IOException e) {
-		    e.printStackTrace();
+	        this.medicines.add(medicine);
 		}
+		
 	}
-	
-	/**
-     * Splits a CSV line into an array of strings, handling quoted fields.
-     *
-     * @param line the CSV line to split
-     * @return an array of strings representing the line's fields
-     */
-    private String[] splitCSVLine(String line) 
-    {
-        List<String> tokens = new ArrayList<>();
-        StringBuilder currentToken = new StringBuilder();
-        boolean inQuotes = false;
-
-        for (int i = 0; i < line.length(); i++) 
-        {
-            char currentChar = line.charAt(i);
-            
-            if (currentChar == '"') 
-            {
-                inQuotes = !inQuotes; 
-            } 
-            else if (currentChar == ',' && !inQuotes) 
-            {
-                tokens.add(currentToken.toString());
-                currentToken.setLength(0);
-            } 
-            else 
-            {
-                currentToken.append(currentChar);
-            }
-        }
-        
-        tokens.add(currentToken.toString());
-        return tokens.toArray(new String[0]);
-    }
     
     /**
      * Displays the staff list sorted by a user-specified criterion.
@@ -279,6 +218,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         
         System.out.println(role.toString() + " " + hospitalID + " added.");
         User newStaff = new User(role, hospitalID, name, gender, age);
+        password.put(hospitalID, "password");
         this.staffList.add(newStaff);
     }
     
@@ -335,6 +275,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
                 String confirmation = sc.next();
                 if ("REMOVE".equals(confirmation)) {
                     staffList.remove(i);
+                    password.remove(id);
                 	System.out.println("Staff removed successfully.");
                     return;
                 } else {
@@ -506,8 +447,22 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
     }
     
 	
-	public void EntityUpdate() {
-		//saveMedicinesToCSV();
+	public boolean updateStaffEntity() {
+		ArrayList<String> dataStore = new ArrayList<>();// use to pass the entity class to the database
+		int checker = 0; // use to store back the id tracker
+		
+		for(User i: staffList) {
+			if(checker <= 2) {
+				if(checker++ == 0) dataStore.add(String.format("%s,%s,%s,%s,%s,%s,%s", password.get(i.getHospitalId()), i.getRole().toString(), i.getHospitalId(), i.getName(), i.getGender(), i.getAge(), roleIdCounters.get("DOCTOR")));
+				if(checker++ == 1) dataStore.add(String.format("%s,%s,%s,%s,%s,%s,%s", password.get(i.getHospitalId()), i.getRole().toString(), i.getHospitalId(), i.getName(), i.getGender(), i.getAge(), roleIdCounters.get("PHARMACIST")));
+				if(checker++ == 2) dataStore.add(String.format("%s,%s,%s,%s,%s,%s,%s", password.get(i.getHospitalId()), i.getRole().toString(), i.getHospitalId(), i.getName(), i.getGender(), i.getAge(), roleIdCounters.get("ADMINISTRATOR")));
+			}else {
+				dataStore.add(String.format("%s,%s,%s,%s,%s,%s", password.get(i.getHospitalId()), i.getRole().toString(), i.getHospitalId(), i.getName(), i.getGender(), i.getAge()));
+			}
+		}
+		
+		if(staffoperator.updateCSVForAdmin(dataStore)) return true;
+		return false;
 	}
 	
 	// Method to save updated medicines to Medicine_List.csv
