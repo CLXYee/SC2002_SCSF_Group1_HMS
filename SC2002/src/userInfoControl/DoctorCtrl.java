@@ -93,19 +93,6 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 			System.out.println("Blood Type		| " + medicalRecord.getBloodType());
 			System.out.println("Doctor In Charge| " + medicalRecord.getDoctor());
 		    System.out.println("===============================");
-<<<<<<< HEAD
-			System.out.println("Past Diagnoses and Treatment:");
-			// Add past diagnoses and treatment
-			System.out.println("===============================");
-			for (String records : medicalRecord.getPastDiagnosesAndTreatment()) {
-		        String[] parts = records.split(";");
-		        
-		        if (parts.length == 3) { // Ensure correct format
-		            String diagnose = parts[0];
-		            String prescription = parts[1];
-		            String plan = parts[2];
-		            
-=======
 		    System.out.println("Past Diagnoses and Treatments:");
 		    System.out.println("==============================");
 
@@ -117,7 +104,6 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		            String prescription = parts[1].trim();
 		            String plan = parts[2].replace("[", "").replace("]", "").trim();
 
->>>>>>> 2fd44b9dffc8bb101dec8d5eec58bcd5f8c79fd5
 		            System.out.println("Diagnosis: " + diagnose);
 		            System.out.println("Prescription: " + prescription);
 		            System.out.println("Plan: " + plan);
@@ -126,10 +112,6 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		            System.out.println("Error: Invalid record format.");
 		        }
 		    }
-<<<<<<< HEAD
-			
-=======
->>>>>>> 2fd44b9dffc8bb101dec8d5eec58bcd5f8c79fd5
 		}
 		//if patient id not found
 		else {
