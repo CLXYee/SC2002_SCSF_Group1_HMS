@@ -43,6 +43,27 @@ public class AppointmentCSVOperator extends CSVoperator{
 				}
 				break;
 			
+			case 1:
+				try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+				{
+					String line;
+					while ((line = br.readLine()) != null) 
+					{
+						counter++;
+						String[] tempData = super.splitCommaCSVLine(line);
+						
+						if (id.equals(tempData[2])) 
+						{
+							data.add(String.join(",", tempData));
+						}
+					}
+				}
+				catch (IOException e)  
+				{
+					e.printStackTrace();
+				}
+				break;
+				
 			case 2:
 				try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
 				{
