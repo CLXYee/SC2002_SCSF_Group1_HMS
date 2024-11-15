@@ -2,6 +2,7 @@ package mainSystemControl;
 
 import java.util.Scanner;
 
+import HospitalManagementSystem.HospitalApp;
 import ShowUserMenu.ShowMenu;
 import ShowUserMenu.ShowAdministratorMenu;
 import userInfoControl.AppointmentOutcomeRecordCtrl;
@@ -100,6 +101,8 @@ public class AdministratorInput implements IGetOperationInput{
 		case 4:
 			//Logout
 			administratorCtrl.EntityUpdate();
+			System.out.println("Loging out...\n");
+			HospitalApp.main(null);
 			break;
 		}
 		System.out.println();

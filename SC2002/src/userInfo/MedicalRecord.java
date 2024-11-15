@@ -38,11 +38,6 @@ public class MedicalRecord {
     	String diagnosesTreatmentData = data.get(11);
     	
     	this.pastDiagnosesTreatment = new ArrayList<>(Arrays.asList(diagnosesTreatmentData.split("]; \\[")));
-
-    	/*for (int i = 0; i < pastDiagnosesTreatment.size(); i++) {
-    	    String record = pastDiagnosesTreatment.get(i).replace("[", "").replace("]", "").trim();
-    	    pastDiagnosesTreatment.set(i, record);  
-    	}*/
     }
 
     public String getPatientID(){

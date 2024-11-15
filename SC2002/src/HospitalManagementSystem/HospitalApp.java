@@ -26,7 +26,7 @@ public class HospitalApp{
 		String loginRole;
 		String loginHospitalID;
 		String loginPassword;
-		String[] data;
+		String[] data = null;
 		
 		Scanner sc = new Scanner(System.in);	
     	
@@ -44,4 +44,5 @@ public class HospitalApp{
     	// Return the data of user with ID and Name
     	return data;
 	}	
+	
 }

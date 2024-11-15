@@ -2,6 +2,7 @@ package mainSystemControl;
 
 import java.util.Scanner;
 
+import HospitalManagementSystem.HospitalApp;
 import ShowUserMenu.ShowMenu;
 import ShowUserMenu.ShowPatientMenu;
 import userInfoControl.AppointmentCtrl;
@@ -72,6 +73,8 @@ public class PatientInput implements IGetOperationInput {
 			break;
 		case 9:
 			//Logout
+			System.out.println("Loging out...\n");
+			HospitalApp.main(null);
 			break;
 		}
 	}

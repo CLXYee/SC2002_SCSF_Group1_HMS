@@ -2,6 +2,7 @@ package mainSystemControl;
 
 import java.util.Scanner;
 
+import HospitalManagementSystem.HospitalApp;
 import ShowUserMenu.ShowMenu;
 import ShowUserMenu.ShowPharmacistMenu;
 import userInfoControl.AppointmentOutcomeRecordCtrl;
@@ -46,6 +47,8 @@ public class PharmacistInput implements IGetOperationInput{
 		case 5:
 			//Logout
 			pharmacistCtrl.EntityUpdate();
+			System.out.println("Loging out...\n");
+			HospitalApp.main(null);
 			break;
 		}
 		System.out.println();

@@ -19,9 +19,9 @@ import userInfo.*;
 import userInfoControl.*;
 
 public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISchedule, AppointmentOutcomeRecordCtrl{
-	private String doctorID;
-	private String[] myPatientID;
-	private PersonalSchedule schedule;
+	private String doctorID = null;
+	private String[] myPatientID = null;
+	private PersonalSchedule schedule = null;
 	private DoctorCSVOperator csv = new DoctorCSVOperator();
 	
 	public DoctorCtrl(String hospitalID) {
