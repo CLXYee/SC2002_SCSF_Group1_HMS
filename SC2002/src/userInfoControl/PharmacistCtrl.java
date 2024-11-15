@@ -249,12 +249,6 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 		System.out.println("Medicine " + medicineName + " not found");
 	}
 	
-	/**
-     * Saves updated entities (appointments and medicines) back to their respective CSV files.
-     */
-	public void EntityUpdate() {
-		saveAppointmentsToCSV();
-	}
 	
 	public boolean updateMedicineEntity() {
 		ArrayList<String> dataStore = new ArrayList<>(); //use to pass the entity class to the database
@@ -266,25 +260,23 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 			dataStore.add(String.format("%s,%s,%s,%s,%s,%s,%s", i.getName(), i.getStockLevel(), i.getLowStockLevelAlert(), i.getReplenishRequestStatus(), i.getReplenishRequestAmount(), "\"" + temp + "\"", i.getReplenishRequestApprovedBy()));
 		}
 		
+		//since it is update the whole CSV file, using the same way like the admin update the CSV file
 		if(medicineoperator.updateCSVForAdmin(dataStore)) return true;
 		return false;
 	}
+	
+	public boolean updateAppointmentEntity() {
+		ArrayList<String> dataStore = new ArrayList<>();
 		
-	/**
-     * Saves updated appointments and their outcome records to the Appointment_List.csv file.
-     */
-	private void saveAppointmentsToCSV() {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Appointment_List.csv"))) {
-	        // Write headers for the CSV file
-	        writer.write("Appointment ID, Patient ID, Doctor ID, Appointment Status, Date of Appointment, Time of Appointment, Type of Service, Prescribed Medications, Prescription Status, Consultation Notes\n");
-
-	        // Iterate through appointments and find corresponding outcome records
-	        for (int i = 0; i < appointments.size(); i++) {
-	            Appointment a = appointments.get(i);
-	            AppointmentOutcomeRecord b = appointmentsOutcomeRecord.get(i);
-                String prescribedMedications = "\"" + String.join(", ", b.getPrescribedMedications()) + "\"";
-	            
-	            writer.write(String.format("%d,%s,%s,%s,%s,%s,\"%s\",%s,%s,\"%s\"\n",
+		// Iterate through appointments and find corresponding outcome records
+		for(int i = 0; i < appointments.size(); i++) {
+			Appointment a = appointments.get(i);//use to hold the data of the appointment temporary
+			AppointmentOutcomeRecord b = appointmentsOutcomeRecord.get(i);// use to hold the data of the appointment outcome record for temporary
+			
+			String prescribedMedications = "\"" + String.join(", ", b.getPrescribedMedications()) + "\"";
+			String consultationNotes = "\"" + b.getConsultationNotes() + "\"";
+			
+			dataStore.add(String.format("%d,%s,%s,%s,%s,%s,\"%s\",%s,%s,\"%s\"",
                     a.getAppointmentID(),
                     a.getPatientID(),
                     a.getDoctorID(),
@@ -294,12 +286,10 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
                     b.getTypeOfService(),
                     prescribedMedications,
                     b.getPrescriptionStatus(),
-                    b.getConsultationNotes()));	 
-	        }
-
-	        System.out.println("Appointments and outcomes updated in Appointment_List.csv.");
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+                    consultationNotes));	 
 		}
+		
+		if(appointmentoperator.updateCSVForAdmin(dataStore)) return true;
+		return false;
+	}
 }

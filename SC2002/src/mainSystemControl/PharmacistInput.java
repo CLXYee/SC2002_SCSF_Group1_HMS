@@ -59,6 +59,7 @@ public class PharmacistInput implements IGetOperationInput{
 		case 2:
             // Update appointment outcome records
 			appointmentOutcomeRecordCtrl.updateAppointmentOutcomeRecord();
+			pharmacistCtrl.updateAppointmentEntity();
 			return true;
 		case 3:
             // View medication inventory
@@ -75,8 +76,7 @@ public class PharmacistInput implements IGetOperationInput{
 			HospitalApp.main(null);
 			return false;	
 		default:
-			//Logout
-			pharmacistCtrl.EntityUpdate();
+			//logging out
 			System.out.println("Loging out...\n");
 			HospitalApp.main(null);
 			return false;
