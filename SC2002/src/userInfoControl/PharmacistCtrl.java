@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 import userInfo.Appointment;
 import userInfo.AppointmentOutcomeRecord;
 import userInfo.Medicine;
+import CSV.MedicineCSVOperator;
+import CSV.AppointmentCSVOperator;
 
 import java.io.*;
 import java.util.*;
@@ -33,6 +35,9 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 
 	private int counter = 0; 
 	
+	private AppointmentCSVOperator appointmentoperator = new AppointmentCSVOperator();
+	private MedicineCSVOperator medicineoperator = new MedicineCSVOperator();
+	
 	/**
      * Constructor for the {@code PharmacistCtrl} class.
      *
@@ -40,48 +45,31 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
      */
 	public PharmacistCtrl(String hospitalID) {
 		this.hospitalID = hospitalID;
+		ArrayList<String> tempData = new ArrayList<>();
 		
-		try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) 
-		{		    
-			String line;
-    		while ((line = br.readLine()) != null) 
-    		{
-		        // Split the line into columns using the delimiter
-		        String[] data = splitCSVLine(line);
-				if (counter == 0){
-					counter = 1;
-					continue;
-				}
-		        Appointment appointment = new Appointment(Integer.parseInt(data[0]), data[1], data[2], data[3], data[4], data[5]);
-				AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(Integer.valueOf(data[0]), data[4], data[6], data[7].split("\\s*,\\s*"), data[8], data[9]);
+		tempData = appointmentoperator.readFile(null, 2);
+		
+		for(String i: tempData) {
+			String[] temp = appointmentoperator.splitCommaCSVLine(i);
+					
+			 Appointment appointment = new Appointment(Integer.parseInt(temp[0]), temp[1], temp[2], temp[3], temp[4], temp[5]);
+			 AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(Integer.valueOf(temp[0]), temp[4], temp[6], temp[7].split("\\s*,\\s*"), temp[8], temp[9]);
 
-		        this.appointments.add(appointment);
-				this.appointmentsOutcomeRecord.add(appointmentOutcomeRecord);
-		    }
-		} catch (IOException e) {
-		    e.printStackTrace();
+		     this.appointments.add(appointment);
+		     this.appointmentsOutcomeRecord.add(appointmentOutcomeRecord);
 		}
 		
-		counter = 0;
-		try (BufferedReader br = new BufferedReader(new FileReader("./Medicine_List.csv"))) 
-		{		    
-			String line;
-    		while ((line = br.readLine()) != null) 
-    		{
-		        // Split the line into columns using the delimiter
-		        String[] data = splitCSVLine(line);
-				if (counter == 0){
-					counter = 1;
-					continue;
-				}
-		        ArrayList<String> submitter = new ArrayList<>(Arrays.asList(data[5].split("\\s*,\\s*")));
-				
-				Medicine medicine = new Medicine(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), data[3], Integer.parseInt(data[4]), submitter, data[6]);
+		tempData = new ArrayList<>();
+		tempData = medicineoperator.readFile(null, 2);
+		
+		for(String i: tempData) {
+			String[] temp = medicineoperator.splitCommaCSVLine(i);
+ 			
+			ArrayList<String> submitter = new ArrayList<>(Arrays.asList(temp[5].split("\\s*,\\s*")));
+			
+			Medicine medicine = new Medicine(temp[0], Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), temp[3], Integer.parseInt(temp[4]), submitter, temp[6]);
 
-		        this.medicines.add(medicine);
-		    }
-		} catch (IOException e) {
-		    e.printStackTrace();
+	        this.medicines.add(medicine);
 		}
 	}
 

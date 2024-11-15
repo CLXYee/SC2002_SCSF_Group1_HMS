@@ -21,6 +21,23 @@ public class MedicineCSVOperator extends CSVoperator{
 	public ArrayList<String> readFile(String id, int role)// if the role equals to 3 means it is admin, the id is not important
 	{
 		switch(role) {
+			case 2:
+				try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
+					String line;
+					int tracker = 0, counter = 0;
+					while((line = br.readLine()) != null) {
+						if(counter == 0) {
+							counter++;
+							continue;
+						}
+						
+						data.add(line);
+					}
+				}catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				break;
 			case 3:
 				try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
 					String line;
