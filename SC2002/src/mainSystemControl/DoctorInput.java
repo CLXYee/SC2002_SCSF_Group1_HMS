@@ -15,7 +15,6 @@ public class DoctorInput implements IGetOperationInput{
 	public DoctorInput(String hospitalID) {
 		this.DoctorCtrl = new DoctorCtrl(hospitalID);
 		this.menu = new ShowDoctorMenu();
-		//this.PersonalSchedule = new PersonalSchedule();
 	}
 	
 	public void showMenu() {
@@ -25,7 +24,7 @@ public class DoctorInput implements IGetOperationInput{
 	public void getOperationInput(int input) {
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
-		case 1: //DONE
+		case 1: 
 			DoctorCtrl.viewPatientIDs();
 			DoctorCtrl.showMedicalRecord(); 
 			System.out.print("Press <Enter> to continue:");
@@ -33,7 +32,7 @@ public class DoctorInput implements IGetOperationInput{
 			sc.nextLine();
 			break;
 			
-		case 2: //Pending confirmation on data type of pastDiagnosesAndTreatment
+		case 2: 
 			//update patient medical record
 			DoctorCtrl.viewPatientIDs();
 			DoctorCtrl.updateMedicalRecord(); 
@@ -54,21 +53,21 @@ public class DoctorInput implements IGetOperationInput{
 			sc.nextLine();
 			break;
 			
-		case 5: //DONE
+		case 5: 
 			//Accept or Decline Appointment Requests
 			DoctorCtrl.updateAppointmentRequest();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			break;
 			
-		case 6: //DONE
+		case 6: 
 			//View Upcoming Appointments
 			DoctorCtrl.viewUpcomingAppointment();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			break;
 			
-		case 7: //DONE
+		case 7: 
 			//Record Appointment Outcome
 			DoctorCtrl.recordAppointmentOutcome();
 			System.out.print("Press <Enter> to continue:");
@@ -78,7 +77,7 @@ public class DoctorInput implements IGetOperationInput{
 		case 8:
 			//Logout
 			System.out.println("Loging out...\n");
-			HospitalApp.getLoginInput();
+			HospitalApp.main(null);
 			break;
 	}
 	}
