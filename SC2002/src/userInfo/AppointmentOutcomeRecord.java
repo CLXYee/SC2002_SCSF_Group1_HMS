@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import CSV.AppointmentCSVOperator;
 
 public class AppointmentOutcomeRecord 
 {
@@ -15,6 +16,7 @@ public class AppointmentOutcomeRecord
 	private String[] prescribedMedications;
 	private String prescriptionStatus;
 	private String consultationNotes;
+	private AppointmentCSVOperator appointmentcsv = new AppointmentCSVOperator();
 
     public AppointmentOutcomeRecord(int aID, String dA, String tS, String[] pM, String pS, String cN) 
     {
@@ -122,4 +124,30 @@ public class AppointmentOutcomeRecord
     {
     	this.consultationNotes = notes;
     }
+    
+    public boolean recordOutcomeInCSV()
+    {
+    	ArrayList<String> dataEdit = new ArrayList<>();
+    	ArrayList<Integer> editIndex = new ArrayList<>();
+    	editIndex.add(6);
+    	editIndex.add(7);
+    	editIndex.add(8);
+    	editIndex.add(9);
+    	dataEdit.add(this.typeOfService);
+    	String prescribedMed = "";
+    	for (int i = 0; i < this.prescribedMedications.length; i++)
+    	{
+    		prescribedMed += this.prescribedMedications[i];
+    		if (i != this.prescribedMedications.length - 1)
+    		{
+    			prescribedMed += ", ";
+    		}
+    	}
+    	dataEdit.add("\"" + prescribedMed + "\"");
+    	dataEdit.add(this.prescriptionStatus);
+    	dataEdit.add("\"" + this.consultationNotes + "\"");
+    	
+    	return appointmentcsv.changeSpecificInformation(Integer.toString(this.appointmentID), editIndex, dataEdit);
+    }
 }
+

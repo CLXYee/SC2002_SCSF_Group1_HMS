@@ -18,7 +18,7 @@ public class Appointment
     private String appointmentStatus;
     private String dateOfAppointment;  //Format Example: "13/10/2025", "02/01/2022", "09/11/2011", "23/06/2019" (Always 10 chars)
     private String timeOfAppointment;  //Format Example: "09:30-10:00", "17:30-19:00", "00:00-00:30", "12:00-13:30" (Always 11 chars)
-    private  AppointmentCSVOperator appointmentcsv = new AppointmentCSVOperator();
+    private AppointmentCSVOperator appointmentcsv = new AppointmentCSVOperator();
     
     //When a patient schedules an appointment (create an Appointment object)
     //Remember to update the Doctor's available appointment slot
