@@ -147,9 +147,6 @@ public class Appointment
     	editIndex.add(3);
     	editIndex.add(4);
     	editIndex.add(5);
-    	dataEdit.add(appointmentID.toString());
-    	dataEdit.add(patientID);
-    	dataEdit.add(doctorID);
     	dataEdit.add(appointmentStatus);
     	dataEdit.add(dateOfAppointment);
     	dataEdit.add(timeOfAppointment);
