@@ -1,9 +1,17 @@
 package ShowUserMenu;
 
 
-//show the patient menu to the patient
+/**
+ * Class to display the menu options for patients.
+ * This class implements the {@link ShowMenu} interface to show specific menu options available to patients.
+ */
 public class ShowPatientMenu implements ShowMenu {
-
+	
+	/**
+     * Displays the menu options for a patient.
+     * Each number corresponds to a specific action a patient can take, such as viewing medical records,
+     * scheduling appointments, and managing existing appointments.
+     */
 	@Override
 	public void showMenu() {
 		// TODO Auto-generated method stub
@@ -17,5 +25,4 @@ public class ShowPatientMenu implements ShowMenu {
 		System.out.println("8. View Past Appointment Outcome Records");
 		System.out.println("9. Logout");
 	}
-
 }

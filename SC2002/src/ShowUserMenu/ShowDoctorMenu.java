@@ -1,8 +1,25 @@
 package ShowUserMenu;
 
-//show the doctor menu to the doctor
+/**
+ * Displays the menu options for the Doctor role in the hospital management system.
+ * Implements the {@link ShowMenu} interface.
+ */
 public class ShowDoctorMenu implements ShowMenu {
-
+	
+	/**
+     * Displays the menu options available for the Doctor.
+     * The menu includes:
+     * <ul>
+     *     <li>View Patient Medical Records</li>
+     *     <li>Update Patient Medical Records</li>
+     *     <li>View Personal Schedule</li>
+     *     <li>Set Availability for Appointments</li>
+     *     <li>Accept or Decline Appointment Requests</li>
+     *     <li>View Upcoming Appointments</li>
+     *     <li>Record Appointment Outcome</li>
+     *     <li>Logout</li>
+     * </ul>
+     */
 	@Override
 	public void showMenu() {
 		// TODO Auto-generated method stub

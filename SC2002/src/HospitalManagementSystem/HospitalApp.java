@@ -1,3 +1,7 @@
+/**
+ * The HospitalApp class serves as the entry point for the Hospital NTU Management System.
+ * It facilitates user authentication and interaction with the main control system of the hospital.
+ */
 package HospitalManagementSystem;
 
 import java.util.Scanner;
@@ -5,6 +9,10 @@ import java.util.Scanner;
 import mainSystemControl.*;
 
 public class HospitalApp{
+	/**
+	 * The HospitalApp class serves as the entry point for the Hospital NTU Management System.
+	 * It facilitates user authentication and interaction with the main control system of the hospital.
+	 */
 	public static void main(String[] args){
 		boolean isLogin = false;
 		
@@ -22,6 +30,12 @@ public class HospitalApp{
 		} while (isLogin);
     }
 	
+	/**
+     * Prompts the user for login input (role, ID, and password) and attempts to authenticate the user.
+     * Repeats until valid credentials are provided.
+     * 
+     * @return A String array containing the authenticated user's data, or null if authentication fails.
+     */
 	public static String[] getLoginInput() {
 		String loginRole;
 		String loginHospitalID;
@@ -41,6 +55,7 @@ public class HospitalApp{
 			loginRole = loginRole.toUpperCase();
 	    	data = LoginCtrl.authenticate(loginRole, loginHospitalID, loginPassword);
     	} while (data==null);
+    	
     	// Return the data of user with ID and Name
     	return data;
 	}	

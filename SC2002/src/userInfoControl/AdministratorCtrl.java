@@ -21,6 +21,10 @@ import userInfo.AppointmentOutcomeRecord;
 import userInfo.Medicine;
 import userInfo.User;
 
+/**
+ * AdministratorCtrl manages hospital staff, appointments, and medication inventory. 
+ * It provides functionalities such as adding, updating, viewing, and removing staff and medication.
+ */
 public class AdministratorCtrl implements IMedicineView, InventoryManagement, StaffManagement, IViewAppointment{
 	private String hospitalID;
 	private List<User> staffList = new ArrayList<>();
@@ -31,6 +35,11 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 	private int counter = 0; 
 	private int tracker = 0;
 	
+	/**
+     * Constructor to initialize the AdministratorCtrl with hospital ID and data from CSV files.
+     *
+     * @param hospitalID the unique identifier for the hospital
+     */
 	public AdministratorCtrl(String hospitalID) {
 		this.hospitalID = hospitalID;
 		try (BufferedReader br = new BufferedReader(new FileReader("./Staff_List.csv"))) 
@@ -115,7 +124,12 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 		}
 	}
 	
-	// Split a CSV line into the proper format (used for Appointment)
+	/**
+     * Splits a CSV line into an array of strings, handling quoted fields.
+     *
+     * @param line the CSV line to split
+     * @return an array of strings representing the line's fields
+     */
     private String[] splitCSVLine(String line) 
     {
         List<String> tokens = new ArrayList<>();
@@ -145,6 +159,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         return tokens.toArray(new String[0]);
     }
     
+    /**
+     * Displays the staff list sorted by a user-specified criterion.
+     */
     public void displayStaff() {
     	List<User> clonedStaffList = new ArrayList<>();
     	for (User staff : staffList) {
@@ -195,7 +212,10 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 	        System.out.println("---------------");
 	    }
 	}
-	
+    
+    /**
+     * Adds a new staff member to the hospital.
+     */
     public void addStaff() {
     	Scanner sc = new Scanner(System.in);
     	
@@ -262,6 +282,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         this.staffList.add(newStaff);
     }
     
+    /**
+     * Updates details of an existing staff member.
+     */
     public void updateStaff() {
         System.out.println("Please input staff ID to update: ");
         Scanner sc = new Scanner(System.in);
@@ -299,6 +322,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         System.out.println("Hospital ID "+ id + " not found.");
     }
     
+    /**
+     * Removes a staff member from the hospital.
+     */
     public void removeStaff() {
         System.out.println("Please input staff ID to remove: ");
         Scanner sc = new Scanner(System.in);
@@ -320,6 +346,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         System.out.println("Hospital ID "+ id + " not found.");
     }
     
+    /**
+     * Displays details of all appointments.
+     */
     public void viewAppointments() {
 		System.out.println("================================================================================");
 		for (int i = 0; i < this.appointmentsOutcomeRecord.size(); i++) {	
@@ -343,8 +372,11 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 			System.out.println("------------------------------------------------------------------------");
 		}
 		System.out.println("================================================================================");		
-	
     }
+    
+    /**
+     * Displays the medication inventory.
+     */
     public void viewMedicationInventory() {
 		System.out.println("================================================================================");
    		System.out.println("List of medicines");
@@ -362,6 +394,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 		System.out.println("================================================================================");
 	}
     
+    /**
+     * Adds a new medication to the inventory.
+     */
     public void addNewMedication() {
    		Scanner sc = new Scanner(System.in);
     	System.out.println("Please input new medication name: ");
@@ -377,6 +412,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         System.out.println("New medicine created successfully.");
     }
     
+    /**
+     * Removes a medication from the inventory.
+     */
     public void removeMedication() {
     	System.out.println("Please input medication name to remove: ");
         Scanner sc = new Scanner(System.in);
@@ -398,6 +436,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         System.out.println("Medication "+ medicationName + " not found.");
     }
     
+    /**
+     * Updates the stock level of a medication.
+     */
     public void updateStockLevel() {
     	System.out.println("Please input medication name to update stock level: ");
         Scanner sc = new Scanner(System.in);
@@ -414,6 +455,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         System.out.println("Medication "+ medicationName + " not found.");
     }
     
+    /**
+     * Updates the low stock level alert for a medication.
+     */
     public void updateStockLowLevelAlert() {
     	System.out.println("Please input medication name to update low stock level alert: ");
         Scanner sc = new Scanner(System.in);
@@ -430,7 +474,9 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         System.out.println("Medication "+ medicationName + " not found.");
     }
     
-    
+    /**
+     * Approves a replenish request for a medication.
+     */
     public void approveReplenishRequest() {
     	System.out.println("Please input the medicine name for replenish request:");
 		Scanner sc = new Scanner(System.in);
