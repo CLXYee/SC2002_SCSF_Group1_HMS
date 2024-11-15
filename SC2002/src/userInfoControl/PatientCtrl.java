@@ -367,44 +367,6 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 
 	}
 	
-	public void updateAppointmentCSVFile(int lineNumber, Appointment newAppointment)
-	{
-		List<String> allAppointments = new ArrayList<>();
-        
-		//Get all the appointments in the file
-        try (BufferedReader br = new BufferedReader(new FileReader("./Appointment_List.csv"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-            	allAppointments.add(line);
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the file.");
-            e.printStackTrace();
-            return;
-        }
-        
-        //Make changes to the appointment in the appointment list
-        String updatedLine = newAppointment.getAppointmentID() + "," +
-        					 newAppointment.getPatientID() + "," +
-                             newAppointment.getDoctorID() + "," +
-                             newAppointment.getAppointmentStatus() + "," +
-                             newAppointment.getDateOfAppointment() + "," +
-                             newAppointment.getTimeOfAppointment() + ",,,";
-                                 
-        allAppointments.set(lineNumber, updatedLine);
-        
-        //Make changes to the csv file
-        try (FileWriter writer = new FileWriter("./Appointment_List.csv", false)) 
-        {
-            for (String l : allAppointments) {
-                writer.write(l + "\n");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while writing to the file.");
-            e.printStackTrace();
-        }
-	}
-	
 	public void rescheduleAppointment()
 	{
 		String newDate, newTime;
@@ -738,33 +700,4 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		}
 		System.out.println("============================================================================================");
 	}
-
-    private String[] splitAppointmentCSVLine(String line) // Split a CSV line into the proper format (used for Appointment)
-    {
-        List<String> tokens = new ArrayList<>();
-        StringBuilder currentToken = new StringBuilder();
-        boolean inQuotes = false;
-
-        for (int i = 0; i < line.length(); i++) 
-        {
-            char currentChar = line.charAt(i);
-            
-            if (currentChar == '"') 
-            {
-                inQuotes = !inQuotes; 
-            } 
-            else if (currentChar == ',' && !inQuotes) 
-            {
-                tokens.add(currentToken.toString());
-                currentToken.setLength(0);
-            } 
-            else 
-            {
-                currentToken.append(currentChar);
-            }
-        }
-        
-        tokens.add(currentToken.toString());
-        return tokens.toArray(new String[0]);
-    }
 }

@@ -23,6 +23,7 @@ import userInfo.User;
 import CSV.MedicineCSVOperator;
 import CSV.StaffCSVOperator;
 import CSV.AppointmentCSVOperator;
+import CSV.DoctorCSVOperator;
 
 /**
  * AdministratorCtrl manages hospital staff, appointments, and medication inventory. 
@@ -38,6 +39,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
     private Map<String, String> password = new HashMap<>();
     private MedicineCSVOperator medicineoperator = new MedicineCSVOperator();
     private StaffCSVOperator staffoperator = new StaffCSVOperator();
+    private DoctorCSVOperator doctoroperator = new DoctorCSVOperator();
     private AppointmentCSVOperator appointmentoperator = new AppointmentCSVOperator();
 	private int counter = 0; 
 	private int tracker = 0;
@@ -220,6 +222,16 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         User newStaff = new User(role, hospitalID, name, gender, age);
         password.put(hospitalID, "password");
         this.staffList.add(newStaff);
+        
+        if(role.toString().equals("DOCTOR")) {
+        	ArrayList<String> dataAdd = new ArrayList<>();
+        	dataAdd.add(password.get(hospitalID));
+        	dataAdd.add(hospitalID);
+        	dataAdd.add(name);
+        	dataAdd.add(gender);
+        	
+        	doctoroperator.addLineToFile(dataAdd);
+        }
     }
     
     /**
@@ -276,6 +288,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
                 if ("REMOVE".equals(confirmation)) {
                     staffList.remove(i);
                     password.remove(id);
+                    doctoroperator.deleteSpecificLine(id);
                 	System.out.println("Staff removed successfully.");
                     return;
                 } else {

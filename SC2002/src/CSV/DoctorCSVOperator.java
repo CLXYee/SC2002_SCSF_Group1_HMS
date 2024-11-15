@@ -48,7 +48,15 @@ public class DoctorCSVOperator extends CSVoperator
 	
 	public boolean addLineToFile(List<String> dataAdd)
 	{
-		return true;
+		try (FileWriter writer = new FileWriter(filePath, true)) {
+	        String newLine = dataAdd.get(0) + ",DOCTOR," + dataAdd.get(1) + "," + dataAdd.get(2) + ",NA," + dataAdd.get(3) + ",NA,NA,NA";
+	        writer.write(newLine);
+
+	        return true;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 	
 	public boolean changeSpecificInformation(String id, ArrayList<Integer> indexChanges, ArrayList<String> changes)
@@ -147,6 +155,79 @@ public class DoctorCSVOperator extends CSVoperator
 	
 	public boolean deleteSpecificLine(String id)
 	{
+		String tempFile = "./temp.csv"; // temporary file for the data changing
+		BufferedReader reader = null;
+		BufferedWriter writer = null;
+		
+		try 
+		{
+			// Initialize BufferedReader and BufferedWriter inside a try block to catch exceptions
+            reader = new BufferedReader(new FileReader(filePath));
+            writer = new BufferedWriter(new FileWriter(tempFile));
+            
+            String line;
+            
+            while ((line = reader.readLine()) != null) 
+            {
+            	String[] tempData = splitCommaCSVLine(line); // Split the row into columns
+                if (tempData[2].equals(id)) 
+                {
+                	continue;
+                }
+                
+                writer.write(String.join(",", tempData));
+                writer.newLine();
+            }
+		} 
+		catch (FileNotFoundException e) 
+		{
+            System.out.println("Error: File not found. Please check the file path.");
+            e.printStackTrace();
+            return false;
+        } 
+		catch (IOException e) 
+		{
+            System.out.println("Error: An I/O error occurred while reading or writing the file.");
+            e.printStackTrace();
+            return false;
+        } 
+		finally 
+		{
+            // Close the resources in the finally block to ensure they are closed even if an exception occurs
+            try 
+            {
+                if (reader != null) 
+                {
+                    reader.close();
+                }
+                if (writer != null) 
+                {
+                    writer.close();
+                }
+            } 
+            catch (IOException e) 
+            {
+                System.out.println("Error: Failed to close the file.");
+                e.printStackTrace();
+            }
+        }
+		
+		try 
+		{
+			File originalFile = new File(filePath);
+			File newFile = new File(tempFile);
+			
+			if (originalFile.delete()) 
+			{
+				newFile.renameTo(originalFile);
+			}
+		}
+		catch (Exception e) 
+		{
+			System.out.println("Error: unable to delete or rename file.");
+			e.printStackTrace();
+			return false;
+		}
 		return true;
 	}
 	
