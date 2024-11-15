@@ -12,13 +12,32 @@ import userInfo.Medicine;
 import java.io.*;
 import java.util.*;
 
+/**
+ * The {@code PharmacistCtrl} class provides functionality to manage appointments, 
+ * appointment outcome records, and medication inventory for a pharmacist in a hospital.
+ * This includes viewing and updating prescription status, submitting replenish requests, 
+ * and saving updated information to CSV files.
+ */
 public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitReplenishRequest, IMedicineView{
+    /** The hospital ID associated with the pharmacist. */
 	private String hospitalID;
+    
+	/** List of appointments. */
 	private List<Appointment> appointments = new ArrayList<>();
+    
+	/** List of appointment outcome records. */
 	private List<AppointmentOutcomeRecord> appointmentsOutcomeRecord = new ArrayList<>();
+	
+    /** List of medicines. */
 	private List<Medicine> medicines = new ArrayList<>();
 
 	private int counter = 0; 
+	
+	/**
+     * Constructor for the {@code PharmacistCtrl} class.
+     *
+     * @param hospitalID the ID of the hospital
+     */
 	public PharmacistCtrl(String hospitalID) {
 		this.hospitalID = hospitalID;
 		
@@ -66,8 +85,13 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 		}
 	}
 
-	// Split a CSV line into the proper format (used for Appointment)
-    private String[] splitCSVLine(String line) 
+	/**
+     * Splits a CSV line into tokens, handling quoted fields.
+     *
+     * @param line the CSV line to split
+     * @return an array of tokens
+     */    
+	private String[] splitCSVLine(String line) 
     {
         List<String> tokens = new ArrayList<>();
         StringBuilder currentToken = new StringBuilder();
@@ -96,6 +120,9 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
         return tokens.toArray(new String[0]);
     }
 
+	/**
+     * Displays appointment outcome records with pending prescription statuses.
+     */
 	public void viewAppointmentOutcomeRecord() {		
     	int counter = 0;
 		System.out.println("================================================================================");
@@ -128,6 +155,9 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 		System.out.println("================================================================================");		
 	}
 	
+	/**
+     * Updates the prescription status of an appointment to fulfilled.
+     */
 	public void updateAppointmentOutcomeRecord() {
 		int Found = 0;
 		System.out.println();
@@ -175,6 +205,9 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 		System.out.println("Appointment ID " + appointmentID + " not found or prescription status not pending ");
 	}
 	
+	/**
+     * Displays the medication inventory.
+     */
 	public void viewMedicationInventory() {
 		System.out.println("================================================================================");
    		System.out.println("List of medicines");
@@ -192,6 +225,9 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 		System.out.println("================================================================================");
 	}
 	
+	/**
+     * Submits a request to replenish medicine stock.
+     */
 	public void submitReplenishRequest() {
 		System.out.println("Please input the medicine name for replenish:");
 		Scanner sc = new Scanner(System.in);
@@ -260,56 +296,63 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 		System.out.println("Medicine " + medicineName + " not found");
 	}
 	
+	/**
+     * Saves updated entities (appointments and medicines) back to their respective CSV files.
+     */
 	public void EntityUpdate() {
 		saveMedicinesToCSV();
 		saveAppointmentsToCSV();
 	}
 	
-	// Method to save updated medicines to Medicine_List.csv
-		private void saveMedicinesToCSV() {
-			try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Medicine_List.csv"))) {
-				// Write header for CSV file
-				writer.write("Medicine Name,Stock,Low Stock Level Alert\n");
-				for (Medicine medicine : medicines) {
-					writer.write(String.format("%s,%d,%d\n",
-						medicine.getName(),
-						//medicine.getInitialStock(),
-						medicine.getLowStockLevelAlert()));
-				}
-				System.out.println("Medicine inventory updated in Medicine_List.csv.");
-			} catch (IOException e) {
-				e.printStackTrace();
+	/**
+     * Saves updated medicines to the Medicine_List.csv file.
+     */		
+	private void saveMedicinesToCSV() {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Medicine_List.csv"))) {
+			// Write header for CSV file
+			writer.write("Medicine Name,Stock,Low Stock Level Alert\n");
+			for (Medicine medicine : medicines) {
+				writer.write(String.format("%s,%d,%d\n",
+					medicine.getName(),
+					//medicine.getInitialStock(),
+					medicine.getLowStockLevelAlert()));
 			}
+			System.out.println("Medicine inventory updated in Medicine_List.csv.");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
 		
-		// Method to save updated appointment records to Appointment_List.csv
-		private void saveAppointmentsToCSV() {
-			try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Appointment_List.csv"))) {
-		        // Write headers for the CSV file
-		        writer.write("Appointment ID, Patient ID, Doctor ID, Appointment Status, Date of Appointment, Time of Appointment, Type of Service, Prescribed Medications, Prescription Status, Consultation Notes\n");
+	/**
+     * Saves updated appointments and their outcome records to the Appointment_List.csv file.
+     */
+	private void saveAppointmentsToCSV() {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Appointment_List.csv"))) {
+	        // Write headers for the CSV file
+	        writer.write("Appointment ID, Patient ID, Doctor ID, Appointment Status, Date of Appointment, Time of Appointment, Type of Service, Prescribed Medications, Prescription Status, Consultation Notes\n");
 
-		        // Iterate through appointments and find corresponding outcome records
-		        for (int i = 0; i < appointments.size(); i++) {
-		            Appointment a = appointments.get(i);
-		            AppointmentOutcomeRecord b = appointmentsOutcomeRecord.get(i);
-	                String prescribedMedications = "\"" + String.join(", ", b.getPrescribedMedications()) + "\"";
-		            
-		            writer.write(String.format("%d,%s,%s,%s,%s,%s,\"%s\",%s,%s,\"%s\"\n",
-	                    a.getAppointmentID(),
-	                    a.getPatientID(),
-	                    a.getDoctorID(),
-	                    a.getAppointmentStatus(),
-	                    a.getDateOfAppointment(),
-	                    a.getTimeOfAppointment(),
-	                    b.getTypeOfService(),
-	                    prescribedMedications,
-	                    b.getPrescriptionStatus(),
-	                    b.getConsultationNotes()));	 
-		        }
+	        // Iterate through appointments and find corresponding outcome records
+	        for (int i = 0; i < appointments.size(); i++) {
+	            Appointment a = appointments.get(i);
+	            AppointmentOutcomeRecord b = appointmentsOutcomeRecord.get(i);
+                String prescribedMedications = "\"" + String.join(", ", b.getPrescribedMedications()) + "\"";
+	            
+	            writer.write(String.format("%d,%s,%s,%s,%s,%s,\"%s\",%s,%s,\"%s\"\n",
+                    a.getAppointmentID(),
+                    a.getPatientID(),
+                    a.getDoctorID(),
+                    a.getAppointmentStatus(),
+                    a.getDateOfAppointment(),
+                    a.getTimeOfAppointment(),
+                    b.getTypeOfService(),
+                    prescribedMedications,
+                    b.getPrescriptionStatus(),
+                    b.getConsultationNotes()));	 
+	        }
 
-		        System.out.println("Appointments and outcomes updated in Appointment_List.csv.");
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }
+	        System.out.println("Appointments and outcomes updated in Appointment_List.csv.");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 		}
 }
