@@ -2,6 +2,7 @@ package userInfoControl;
 
 import CSV.MedicalRecordCSVOperator;
 import CSV.DoctorCSVOperator;
+import CSV.AppointmentCSVOperator;
 
 import java.util.Scanner;
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -154,7 +156,7 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		this.schedule.viewSchedule();
 		System.out.println("\n===============================================================================================================================================");
 	}
-
+	
 	
 	public void setAvailability() 
 	{
@@ -308,52 +310,84 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	public void updateAppointmentRequest() {
 	    Scanner sc = new Scanner(System.in);
 	    
-	    // File path for the appointment list
-	    String filePath = "./Appointment_List.csv";
-	    List<String[]> appointments = new ArrayList<>();
-
-	    // Reading the CSV file
-	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-	        String line;
-	        while ((line = br.readLine()) != null) {
-	            String[] appointment = line.split(",");
-	            appointments.add(appointment);
-	        }
-	    } catch (IOException e) {
-	        System.out.println("Error reading file: " + e.getMessage());
-	        return;
+	    AppointmentCSVOperator appcsv = new AppointmentCSVOperator();
+	    ArrayList<String> appointmentsraw = new ArrayList<>();
+	    appointmentsraw = appcsv.readFile(this.doctorID, 1);
+	    
+	    ArrayList<Appointment> appointmentsList = new ArrayList<>();
+	    
+	    for (String appointment : appointmentsraw) {
+	    	String[] formatted = appointment.split(";");
+	    	Appointment app = new Appointment(Integer.valueOf(formatted[0]), formatted[1], formatted[2], formatted[3], formatted[4], formatted[5]);
+	    	if (app.getAppointmentStatus().equals("Pending") || app.getAppointmentStatus().equals("Confirmed"))
+	    	{
+	    		appointmentsList.add(app);
+	    	}
 	    }
-
-	    System.out.println("=====Showing Appointment Requests and Status=====");
+	    
+	    System.out.println("===== Showing Appointment Requests and Status =====");
 	    // Display relevant appointments
-	    for (String[] appointment : appointments) {
-	        if (appointment[2].equals(this.doctorID)) {  
-	            System.out.printf("Appointment ID: %s, Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n", 
-	                              appointment[0], appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
-	        }
+	    for (Appointment appointment : appointmentsList) {
+	    	System.out.printf("Appointment ID: %d, Patient ID: %s, Status: %s, Date: %s, Time: %s\n", 
+	                           appointment.getAppointmentID(), appointment.getPatientID(), appointment.getAppointmentStatus(), 
+	                           appointment.getDateOfAppointment(), appointment.getTimeOfAppointment());
 	    }
 
 	    System.out.println("\nUpdating Appointment Status for Appointment ID:");
-	    String appointmentID = sc.next();
+	    int appointmentID = sc.nextInt();
 	    
 	    System.out.println("Choose status to update:");
 	    System.out.println("1. Confirmed");
-	    System.out.println("2. Cancelled");
-	    System.out.println("3. Pending");
+	    System.out.println("2. Canceled");
+	    System.out.println("3. Completed");
 	    int choice = sc.nextInt();
 	    
 	    String status;
 	    switch (choice) {
 	        case 1 -> status = "Confirmed";
-	        case 2 -> status = "Cancelled";
+	        case 2 -> status = "Canceled";
+	        case 3 -> status = "Completed";
 	        default -> status = "Pending";
 	    }
 
 	    // Update the appointment status in the list
 	    boolean updated = false;
-	    for (String[] appointment : appointments) {
-	        if (appointment[0].equals(appointmentID) && appointment[2].equals(doctorID)) {  // Check patient and doctor IDs
-	            appointment[3] = status; 
+	    for (Appointment appointment : appointmentsList) {
+	        if (appointment.getAppointmentID().equals(appointmentID) && appointment.getDoctorID().equals(this.doctorID)) {  // Check patient and doctor IDs
+	            appointment.setAppointmentStatus(status);
+	            
+	            // Delete the appointment from the doctor's personal schedule 
+	            if (status.equals("Canceled") || status.equals("Completed"))
+	            {
+	            	String[] timeSlots = {"10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"};
+	        		List<String> timeSlotList = Arrays.asList(timeSlots);
+	        		
+	        		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("d/M/yyyy");
+	                LocalDate olddate = LocalDate.parse(appointment.getDateOfAppointment(), formatter2);
+	                DayOfWeek olddayOfWeek = olddate.getDayOfWeek();
+	                
+	        		int oldday = olddayOfWeek.getValue() - 1;
+	        	    int oldstart = timeSlotList.indexOf(appointment.getTimeOfAppointment().substring(0,5));
+	        	    int oldend = timeSlotList.indexOf(appointment.getTimeOfAppointment().substring(6)) - 1;
+	        	    System.out.println(oldday);
+	        	    System.out.println(oldstart);
+	        	    System.out.println(oldend);
+	        		this.schedule.editSchedule(oldday, oldstart, oldend, 'F');
+	        		
+	        		// Update the Doctor CSV File
+	        		ArrayList<Integer> indexChanges = new ArrayList<>(Arrays.asList(9));
+	        		ArrayList<String> changes = new ArrayList<>(Arrays.asList("","","","","","","","","",schedule.translateSchedule()));
+	        		this.csv.changeSpecificInformation(this.doctorID, indexChanges, changes);
+	        		
+	        		System.out.println("Personal Schedule Updated!");
+	            }
+	            
+	            // Update the Appointment CSV File
+	            if(appointment.rescheduleAppointmentInCSV()) {
+	    			System.out.println("Appointment Request Updated!");
+	    		}else {
+	    			System.out.println("Failed to update request!");
+	    		}
 	            updated = true;
 	            break;
 	        }
@@ -362,64 +396,53 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	        System.out.println("Appointment not found for the given Patient ID and Doctor ID.");
 	        return;
 	    }
-
-	    // Write updated data back to the CSV file
-	    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-	        for (String[] appointment : appointments) {
-	            bw.write(String.join(",", appointment));
-	            bw.newLine();
-	        }
-	    } catch (IOException e) {
-	        System.out.println("Error writing to file: " + e.getMessage());
-	        return;
-	    }
-
-	    System.out.println("Appointment Request Updated!");
 	}
 	
 	
 	
 	public void viewUpcomingAppointment() {
-		String filePath = "./Appointment_List.csv";
-	    List<String[]> appointments = new ArrayList<>();
-
-	    // Reading the CSV file
-	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-	        String line;
-	        while ((line = br.readLine()) != null) {
-	            String[] appointment = line.split(",");
-	            appointments.add(appointment);
-	        }
-	    } catch (IOException e) {
-	        System.out.println("Error reading file: " + e.getMessage());
-	        return;
+		AppointmentCSVOperator appcsv = new AppointmentCSVOperator();
+	    ArrayList<String> appointmentsraw = new ArrayList<>();
+	    appointmentsraw = appcsv.readFile(this.doctorID, 1);
+	    
+	    ArrayList<Appointment> appointmentsList = new ArrayList<>();
+	    
+	    for (String appointment : appointmentsraw) {
+	    	String[] formatted = appointment.split(";");
+	    	Appointment app = new Appointment(Integer.valueOf(formatted[0]), formatted[1], formatted[2], formatted[3], formatted[4], formatted[5]);
+	    	if (app.getAppointmentStatus().equals("Pending") || app.getAppointmentStatus().equals("Confirmed"))
+	    	{
+	    		appointmentsList.add(app);
+	    	}
 	    }
-
-	    System.out.println("=====Showing Upcoming Appointments=====");
 	    
 	    // Define date format
 	    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy");
 	    LocalDate today = LocalDate.now();
-
+	    
+	    System.out.println("===== Showing Upcoming Appointments =====");
 	    // Display relevant appointments
-	    for (String[] appointment : appointments) {
-	        try {
-	            // Check if doctor ID matches
-	            if (appointment[2].equals(this.doctorID)) {
-	                // Parse only the date field
-	                String date = appointment[4].trim();
-	                LocalDate appointmentDate = LocalDate.parse(date, dateFormatter);
+	    boolean showed = false;
+	    for (Appointment appointment : appointmentsList) {
+	    	String date = appointment.getDateOfAppointment().trim();
+            LocalDate appointmentDate = LocalDate.parse(date, dateFormatter);
 
-	                // Display only if the appointment date is in the future
-	                if (appointmentDate.isAfter(today)) {
-	                    System.out.printf("Appointment ID: %s, Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n",
-	                            appointment[0], appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
-	                }
-	            }
-	        } catch (Exception e) {
-	            System.out.println("Error parsing date for an appointment: " + e.getMessage());
-	        }
+            // Display only if the appointment date is in the future
+            if (appointmentDate.isAfter(today))
+            {
+            	showed = true;
+            	System.out.printf("Appointment ID: %d, Patient ID: %s, Status: %s, Date: %s, Time: %s\n", 
+                        		   appointment.getAppointmentID(), appointment.getPatientID(), appointment.getAppointmentStatus(), 
+                        		   appointment.getDateOfAppointment(), appointment.getTimeOfAppointment());
+            }
 	    }
+	    
+	    if (showed == false)
+	    {
+	    	System.out.print("You have no upcoming appointments!\n");
+	    }
+	    
+	    System.out.println();
 	}
 	
 	
@@ -427,63 +450,70 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	public void recordAppointmentOutcome() {
 		Scanner sc = new Scanner(System.in);
 		// File path for the appointment list
-	    String filePath = "./Appointment_List.csv";
-	    List<String[]> appointments = new ArrayList<>();
-
-	    // Reading the CSV file
-	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-	        String line;
-	        while ((line = br.readLine()) != null) {
-	            String[] appointment = line.split(",");
-	            appointments.add(appointment);
-	        }
-	    } catch (IOException e) {
-	        System.out.println("Error reading file: " + e.getMessage());
-	        return;
+		AppointmentCSVOperator appcsv = new AppointmentCSVOperator();
+	    ArrayList<String> appointmentsraw = new ArrayList<>();
+	    appointmentsraw = appcsv.readFile(this.doctorID, 1);
+	    
+	    ArrayList<Appointment> appointmentsList = new ArrayList<>();
+	    
+	    for (String appointment : appointmentsraw) {
+	    	String[] formatted = appointment.split(";");
+	    	Appointment app = new Appointment(Integer.valueOf(formatted[0]), formatted[1], formatted[2], formatted[3], formatted[4], formatted[5]);
+	    	if (app.getAppointmentStatus().equals("Completed") && formatted[6].equals("NA"))
+	    	{
+	    		appointmentsList.add(app);
+	    	}
 	    }
-
-	    System.out.println("=====Showing Appointment Requests and Status=====");
+	    
+	    System.out.println("======= Showing Appointment Requests and Status =======");
 	    // Display relevant appointments
-	    for (String[] appointment : appointments) {
-	        if (appointment[2].equals(this.doctorID)) {  
-	            System.out.printf("Appointment ID: %s, Patient ID: %s, Status: %s, Date: %s, Time: %s, Service: %s%n", 
-	                              appointment[0], appointment[1], appointment[3], appointment[4], appointment[5], appointment[6]);
-	        }
+	    if (appointmentsList.isEmpty())
+	    {
+	    	System.out.println("You have no completed appointments pending outcome record!");
+	    	return;
 	    }
+	    for (Appointment appointment : appointmentsList) {
+	    	System.out.printf("Appointment ID: %d, Patient ID: %s, Status: %s, Date: %s, Time: %s\n", 
+	                           appointment.getAppointmentID(), appointment.getPatientID(), appointment.getAppointmentStatus(), 
+	                           appointment.getDateOfAppointment(), appointment.getTimeOfAppointment());
+	    }
+
 	    //choose appointment ID to update
 	    System.out.println("\nUpdating Appointment Outcome for Appointment ID:");
-	    String appointmentID = sc.next();
+	    int appointmentID = sc.nextInt();
 		
-		System.out.println("Enter Date of Appointment (d/M/yyyy): "); 
-		String appointmentDate = sc.next();
 		System.out.println("Type of service provided: ");
-		String serviceType = sc.next();
-		System.out.println("Enter Prescribed medication: ");
-		String prescribedMedication = sc.next();	
-		System.out.println("Choose Prescription Status: ");
-		System.out.println("1. Completed");
-		System.out.println("2. Cancelled");
-		System.out.println("3. Pending");
-		int choice = sc.nextInt();
-		String prescriptionStatus;
-		switch (choice) {
-		case 1 -> prescriptionStatus = "Completed";
-		case 2 -> prescriptionStatus = "Cancelled";
-		default -> prescriptionStatus = "Pending";
+		String serviceType = sc.nextLine(); // Acts as a dummy
+		serviceType = sc.nextLine();
+		System.out.println("Enter Prescribed medication: (Write each medicine in a new line, type -1 to stop)");
+		ArrayList<String> prescribedMed = new ArrayList<>();
+		while (true)
+		{
+			String med = sc.nextLine();
+			if (med.equals("-1"))
+			{
+				break;
+			}
+			prescribedMed.add(med);
 		}
+		String[] prescribedMedication = prescribedMed.toArray(new String[0]);
 		
 		System.out.println("Consultation notes: ");
-		String notes = sc.next();
+		String notes = sc.nextLine();
 		
 		// Update the appointment outcome in the list
 	    boolean updated = false;
-	    for (String[] appointment : appointments) {
-	        if (appointment[0].equals(appointmentID) && appointment[2].equals(doctorID)) {  // Check patient and doctor IDs
-	            appointment[4] = appointmentDate;
-	            appointment[6] = serviceType;
-	            appointment[7] = prescribedMedication;
-	            appointment[8] = prescriptionStatus;
-	            appointment[9] = notes;
+	    for (Appointment appointment : appointmentsList) {
+	        if (appointment.getAppointmentID().equals(appointmentID)) {
+	        	AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(appointmentID, appointment.getDateOfAppointment(), serviceType, prescribedMedication, "Pending", notes);
+	        	if (record.recordOutcomeInCSV())
+	        	{
+	        		System.out.println("Appointment outcome recorded successfully!");
+	        	}
+	        	else
+	        	{
+	        		System.out.println("Failed to record appointment outcome!");
+	        	}
 	            updated = true;
 	            break;
 	        }
@@ -492,20 +522,6 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	        System.out.println("Appointment not found for the given Patient ID and Doctor ID.");
 	        return;
 	    }
-
-	    // Write updated data back to the CSV file
-	    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-	        for (String[] appointment : appointments) {
-	            bw.write(String.join(",", appointment));
-	            bw.newLine();
-	        }
-	    } catch (IOException e) {
-	        System.out.println("Error writing to file: " + e.getMessage());
-	        return;
-	    }
-
-	    System.out.println("Appointment Outcome Updated!");
-		
 	}
 
 
