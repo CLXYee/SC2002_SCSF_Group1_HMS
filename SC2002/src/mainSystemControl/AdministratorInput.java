@@ -63,7 +63,7 @@ public class AdministratorInput implements IGetOperationInput{
 	 *                  <li>4: Logout and save updates to the entity.</li>
 	 *              </ul>
 	 */
-	public void getOperationInput(int input) {
+	public boolean getOperationInput(int input) {
 		Scanner sc = new Scanner(System.in);
 		int choice;
 		switch(input) {
@@ -95,11 +95,11 @@ public class AdministratorInput implements IGetOperationInput{
 				staffManagement.updateStaffEntity();
 				break;
 			}
-			break;
+			return true;
 		// View Appointments
 		case 2:
 			iViewAppointment.viewAppointments();
-			break;
+			return true;
 		// Medication Inventory Management
 		case 3:
 			iMedicineView.viewMedicationInventory();
@@ -131,12 +131,13 @@ public class AdministratorInput implements IGetOperationInput{
 			default:
 				break;
 			}
-			break;
+			return true;
 		case 4:
 			System.out.println("Loging out...\n");
-			HospitalApp.main(null);
-			break;
+			return false;
 		}
-		System.out.println();
+		administratorCtrl.EntityUpdate();
+		System.out.println("Loging out...\n");
+		return false;
 	}
 }

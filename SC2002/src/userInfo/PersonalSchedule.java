@@ -1,5 +1,8 @@
 package userInfo;
 
+import java.time.LocalDate;
+import java.time.DayOfWeek;
+
 import java.util.ArrayList;
 import java.util.List;
 import CSV.DoctorCSVOperator;
@@ -137,6 +140,73 @@ public class PersonalSchedule
 			for (int j = 0; j < 16; j++)
 			{
 				System.out.print("\t" + this.schedule[i][j]);
+			}
+			System.out.println();
+		}
+	}
+	
+	public boolean slotsAreFree(int day, int startTime, int endTime)
+	{
+		for (int time = startTime; time <= endTime; time++)
+		{
+			if (!this.schedule[day][time].equals('F'))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public void viewFreeSlots()
+	{
+		LocalDate today = LocalDate.now(); // Get today's date
+		DayOfWeek dayOfWeek = today.getDayOfWeek(); // Get today's day
+        
+		System.out.println("O  : Available Slot");
+		System.out.println("-  : Not Available");
+		System.out.println("*** Note that you are only allowed to book appointments at least one day before the appointment ***\n");
+		System.out.println("\t  10:00\t  10:30\t  11:00\t  11:30\t  12:00\t  12:30\t  13:00\t  13:30\t"
+						 + "  14:00\t  14:30\t  15:00\t  15:30\t  16:00\t  16:30\t  17:00\t  17:30\t  18:00");
+		
+		// It will only show the schedule for the next day until the end of the week (Sunday)
+		// So the patient can only book appointments for the next day onwards (Sunday shows nothing)
+		for (int i = 0 + dayOfWeek.getValue(); i < 7; i++)
+		{
+			switch (i)
+			{
+				case 0:
+					System.out.print("Monday\t");
+					break;
+				case 1:
+					System.out.print("Tuesday\t");
+					break;
+				case 2:
+					System.out.print("Wednesday");
+					break;
+				case 3:
+					System.out.print("Thursday");
+					break;
+				case 4:
+					System.out.print("Friday\t");
+					break;
+				case 5:
+					System.out.print("Saturday");
+					break;
+				case 6:
+					System.out.print("Sunday\t");
+					break;
+			}
+			
+			for (int j = 0; j < 16; j++)
+			{
+				if (this.schedule[i][j].equals('F'))
+				{
+					System.out.print("\tO");
+				}
+				else
+				{
+					System.out.print("\t-");
+				}
 			}
 			System.out.println();
 		}

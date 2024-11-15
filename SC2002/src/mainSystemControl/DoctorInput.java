@@ -21,7 +21,7 @@ public class DoctorInput implements IGetOperationInput{
 		menu.showMenu();
 	}
 	
-	public void getOperationInput(int input) {
+	public boolean getOperationInput(int input) {
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
 		case 1: 
@@ -30,8 +30,8 @@ public class DoctorInput implements IGetOperationInput{
 			System.out.print("Press <Enter> to continue:");
 			// Dummy scanner to let the system stop for user to check information
 			sc.nextLine();
-			break;
-			
+			return true;
+		
 		case 2: 
 			//update patient medical record
 			DoctorCtrl.viewPatientIDs();
@@ -39,11 +39,13 @@ public class DoctorInput implements IGetOperationInput{
 			System.out.print("Press <Enter> to continue:");
 			// Dummy scanner to let the system stop for user to check information
 			sc.nextLine();
+			return true;
+
 			
 		case 3:
 			//view personal schedule
 			DoctorCtrl.viewPersonalSchedule();
-			break;
+			return true;
 			
 		case 4:
 			//Set availability for appointment
@@ -51,34 +53,37 @@ public class DoctorInput implements IGetOperationInput{
 			DoctorCtrl.setAvailability();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
-			break;
+			return true;
 			
 		case 5: 
 			//Accept or Decline Appointment Requests
 			DoctorCtrl.updateAppointmentRequest();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
-			break;
+			return true;
 			
 		case 6: 
 			//View Upcoming Appointments
 			DoctorCtrl.viewUpcomingAppointment();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
-			break;
+			return true;
 			
 		case 7: 
 			//Record Appointment Outcome
 			DoctorCtrl.recordAppointmentOutcome();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
-			break;
+			return true;
 			
 		case 8:
 			//Logout
 			System.out.println("Loging out...\n");
-			HospitalApp.main(null);
-			break;
-	}
+			return false;
+		default:
+			//Logout
+			System.out.println("Loging out...\n");
+			return false;
+		}
 	}
 }
