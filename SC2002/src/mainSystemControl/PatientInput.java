@@ -40,6 +40,9 @@ public class PatientInput implements IGetOperationInput {
 			return true;
 		case 3:
 			//View Available Appointment Slots
+			patientCtrl.viewAvailableSlots();
+			System.out.print("Press <Enter> to continue:");
+			sc.nextLine();
 			return true;
 		case 4:
 			//Schedule an Appointment
