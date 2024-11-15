@@ -26,7 +26,7 @@ public class PatientInput implements IGetOperationInput {
 		menu.showMenu();
 	}
 	
-	public void getOperationInput(int input) {
+	public boolean getOperationInput(int input) {
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
 		case 1:
@@ -34,48 +34,53 @@ public class PatientInput implements IGetOperationInput {
 			System.out.print("Press <Enter> to continue:");
 			// Dummy scanner to let the system stop for user to check information
 			sc.nextLine();
-			break;
+			return true;
 		case 2:
 			medicalRecordCtrl.updateMedicalRecord();
-			break;
+			return true;
 		case 3:
 			//View Available Appointment Slots
-			break;
+			return true;
 		case 4:
 			//Schedule an Appointment
 			appointmentCtrl.scheduleAppointment();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
-			break;
+			return true;
 		case 5:
 			//Reschedule an Appointment
 			appointmentCtrl.rescheduleAppointment();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
-			break;
+			return true;
 		case 6:
 			//Cancel an Appointment
 			appointmentCtrl.cancelAppointment();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
-			break;
+			return true;
 		case 7:
 			//View Scheduled Appointments
 			appointmentCtrl.viewScheduledAppointment();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
-			break;
+			return true;
 		case 8:
 			//View Past Appointment Outcome Records
 			patientCtrl.viewPastRecords();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
-			break;
+			return true;
 		case 9:
 			//Logout
 			System.out.println("Loging out...\n");
 			HospitalApp.main(null);
-			break;
+			return false;
+		default:
+			//Logout
+			System.out.println("Loging out...\n");
+			HospitalApp.main(null);
+			return false;
 		}
 	}
 

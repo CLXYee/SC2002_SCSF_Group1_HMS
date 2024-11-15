@@ -49,32 +49,37 @@ public class PharmacistInput implements IGetOperationInput{
      * @param input The input corresponding to the pharmacist's chosen operation.
      *              Options include viewing or updating appointment outcomes, viewing inventory, submitting replenish requests, or logging out.
      */
-	public void getOperationInput(int input) {
+	public boolean getOperationInput(int input) {
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
 		case 1:
             // View appointment outcome records
 			appointmentOutcomeRecordCtrl.viewAppointmentOutcomeRecord();
-			break;
+			return true;
 		case 2:
             // Update appointment outcome records
 			appointmentOutcomeRecordCtrl.updateAppointmentOutcomeRecord();
-			break;
+			return true;
 		case 3:
             // View medication inventory
 			iMedicineView.viewMedicationInventory();
-			break;
+			return true;
 		case 4:
             // Submit a replenish request
 			iSubmitReplenishRequest.submitReplenishRequest();;
-			break;
+			return true;
 		case 5:
 			//Logout
 			pharmacistCtrl.EntityUpdate();
 			System.out.println("Loging out...\n");
 			HospitalApp.main(null);
-			break;
+			return false;	
+		default:
+			//Logout
+			pharmacistCtrl.EntityUpdate();
+			System.out.println("Loging out...\n");
+			HospitalApp.main(null);
+			return false;
 		}
-		System.out.println();
 	}
 }
