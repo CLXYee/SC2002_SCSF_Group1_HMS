@@ -1,4 +1,4 @@
 Medicine Name,Stock Level,Low Stock Level Alert,Replenish Request Status,Replenish Request Amount,Replenish Request Submitted By,Replenish Request Approved By
-Paracetamol,100,20,Pending,10,H1001,NA
+Paracetamol,110,20,Pending,10,H1001,NA
 Ibuprofen,50,10,Approved,20,H1001,NA
 Amoxicillin,75,15,NA,0,NA,NA

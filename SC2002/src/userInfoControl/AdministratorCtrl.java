@@ -429,6 +429,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
    	                String confirmation = sc.next();
    	                if ("APPROVE".equals(confirmation)) {
    	                	medicines.get(i).setReplenishRequestStatus("Approved");
+   	                	medicines.get(i).setReplenishRequestApprovedBy(hospitalID);
    	   	   				medicines.get(i).setStockLevel(medicines.get(i).getStockLevel() + medicines.get(i).getReplenishRequestAmount());
    	   	   				System.out.println("Replenish request for " + medicineName + " approved");
    	                    return;
@@ -462,6 +463,17 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 		}
 		
 		if(staffoperator.updateCSVForAdmin(dataStore)) return true;
+		return false;
+	}
+	
+	public boolean updateMedicineEntity() {
+		ArrayList<String> dataStore = new ArrayList<>(); //use to pass the entity class to the database
+		
+		for(Medicine i: medicines) {
+			dataStore.add(String.format("%s,%s,%s,%s,%s,%s,%s", i.getName(), i.getStockLevel(), i.getLowStockLevelAlert(), i.getReplenishRequestAmount(), i.getReplenishRequestStatus(), i.getReplenishRequestSubmittedBy(), i.getReplenishRequestApprovedBy()));
+		}
+		
+		if(medicineoperator.updateCSVForAdmin(dataStore)) return true;
 		return false;
 	}
 	

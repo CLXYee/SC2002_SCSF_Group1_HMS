@@ -113,20 +113,26 @@ public class AdministratorInput implements IGetOperationInput{
 			switch(choice) {
 			case 1:
 				inventoryManagement.addNewMedication();
+				inventoryManagement.updateMedicineEntity();
 				break;
 			case 2:
 				inventoryManagement.removeMedication();
+				inventoryManagement.updateMedicineEntity();
 				break;
 			case 3:
-				inventoryManagement.updateStockLevel();;
+				inventoryManagement.updateStockLevel();
+				inventoryManagement.updateMedicineEntity();
 				break;
 			case 4:
 				inventoryManagement.updateStockLowLevelAlert();
+				inventoryManagement.updateMedicineEntity();
 				break;
 			case 5:
 				inventoryManagement.approveReplenishRequest();
+				inventoryManagement.updateMedicineEntity();
 				break;
 			case 6:
+				inventoryManagement.updateMedicineEntity();
 				break;
 			default:
 				break;
@@ -136,7 +142,6 @@ public class AdministratorInput implements IGetOperationInput{
 			System.out.println("Loging out...\n");
 			return false;
 		}
-		administratorCtrl.EntityUpdate();
 		System.out.println("Loging out...\n");
 		return false;
 	}

@@ -6,4 +6,5 @@ public interface InventoryManagement {
 	public abstract void updateStockLevel();
 	public abstract void updateStockLowLevelAlert();
 	public abstract void approveReplenishRequest();
+	public abstract boolean updateMedicineEntity();
 }
