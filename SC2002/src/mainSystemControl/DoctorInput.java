@@ -71,6 +71,9 @@ public class DoctorInput implements IGetOperationInput{
 		case 3:
 			//view personal schedule
 			iSchedule.viewPersonalSchedule();
+			System.out.print("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return true;
 			
 		case 4:
