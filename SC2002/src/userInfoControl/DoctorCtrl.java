@@ -149,12 +149,13 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 	              .anyMatch(ID -> ID.equals(patientID))) {
 			MedicalRecord medicalRecord = new MedicalRecord(patientID);
 			System.out.println("You are now adding new diagnoses, presecription, and treatment plan under the patient");
+			sc.nextLine();
 			System.out.println("Enter new diagnoses");
-			String diagnose = sc.next();
+			String diagnose = sc.nextLine();
 			System.out.println("Enter prescriptions");
-			String prescription = sc.next();
+			String prescription = sc.nextLine();
 			System.out.println("Enter treatment plans");
-			String plan = sc.next();
+			String plan = sc.nextLine();
 		
 			medicalRecord.addPastDiagnosisAndTreatment(diagnose, prescription, plan);
 			System.out.println("New record added successfully");

@@ -89,7 +89,10 @@ public class MedicalRecord {
         
         String diagnosesTreatmentData = data.get(11);
         
-        this.pastDiagnosesTreatment = new ArrayList<>(Arrays.asList(diagnosesTreatmentData.split("]; \\[")));
+        this.pastDiagnosesTreatment = new ArrayList<>(
+        	    Arrays.asList(diagnosesTreatmentData.split("(?<=\\])\\s*;\\s*(?=\\[)"))
+        	);
+        System.out.println(pastDiagnosesTreatment);
     }
 
     /**
