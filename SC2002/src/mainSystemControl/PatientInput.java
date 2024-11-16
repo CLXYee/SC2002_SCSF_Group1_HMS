@@ -106,9 +106,9 @@ public class PatientInput implements IGetOperationInput {
 			System.out.println("Loging out...\n");
 			return false;
 		default:
-			//Logout
-			System.out.println("Loging out...\n");
-			return false;
+			//Invalid input
+			System.out.println("Invalid input\n");
+			return true;
 		}
 	}
 

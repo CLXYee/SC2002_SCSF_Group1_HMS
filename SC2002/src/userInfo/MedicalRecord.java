@@ -221,7 +221,7 @@ public class MedicalRecord {
             }
         }
         
-        System.out.println("Debug: " + diagnosesString);
+        // System.out.println("Debug: " + diagnosesString);
 
         ArrayList<Integer> changesIndex = new ArrayList<>();
         ArrayList<String> changes = new ArrayList<>();

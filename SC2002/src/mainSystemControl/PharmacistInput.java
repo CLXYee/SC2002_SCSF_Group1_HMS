@@ -76,10 +76,9 @@ public class PharmacistInput implements IGetOperationInput{
 			pharmacistCtrl.updateMedicineEntity();
 			return false;	
 		default:
-			//logging out
-			System.out.println("Loging out...\n");
-			pharmacistCtrl.updateMedicineEntity();
-			return false;
+			//Invalid input
+			System.out.println("Invalid input\n");
+			return true;
 		}
 	}
 }

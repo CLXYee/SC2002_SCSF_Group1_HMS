@@ -145,8 +145,10 @@ public class AdministratorInput implements IGetOperationInput{
 		case 4:
 			System.out.println("Loging out...\n");
 			return false;
+		default:
+			//Invalid input
+			System.out.println("Invalid input\n");
+			return true;
 		}
-		System.out.println("Loging out...\n");
-		return false;
 	}
 }

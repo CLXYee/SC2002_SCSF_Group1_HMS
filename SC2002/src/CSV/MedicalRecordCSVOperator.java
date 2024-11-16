@@ -93,7 +93,7 @@ public class MedicalRecordCSVOperator extends CSVoperator{
             String line;
             
             while ((line = reader.readLine()) != null) {
-            	System.out.println(line);
+            	// System.out.println(line);
                 String[] tempData = line.split(","); // Split the row into columns
                 
                 if(tempData[2].equals(id)) {

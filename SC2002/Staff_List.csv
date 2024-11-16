@@ -1,7 +1,7 @@
 Password,Role,Staff ID,Name,Gender,Age,ID Tracker
-password,DOCTOR,D1001,John Smith,Male,45,1013
-password,DOCTOR,D1001,John Smith,Male,45,1001
-password,DOCTOR,D1001,John Smith,Male,45,1001
+doctortest,DOCTOR,D1001,John Smith,Male,45,1013
+doctortest,DOCTOR,D1001,John Smith,Male,45,1001
+doctortest,DOCTOR,D1001,John Smith,Male,45,1001
 password,DOCTOR,D1002,Emily Clarke,Female,38
 password,DOCTOR,D1003,Magnus Carlsen,Male,55
 password,DOCTOR,D1004,Anna Cramling,Female,46

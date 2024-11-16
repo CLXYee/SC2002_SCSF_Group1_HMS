@@ -33,22 +33,26 @@ public class LoginCtrl {
 		String csvSplitBy = ","; // Delimiter for CSV columns
 		
         // Determine the role and corresponding file path
-		Role role = Role.valueOf(loginRole);
-		switch (role) {
-		case PATIENT:
-			csvFile = "./Patient_List.csv";
-			break;
-		case DOCTOR:
-			csvFile = "./Staff_List.csv";
-			break;
-		case PHARMACIST:
-			csvFile = "./Staff_List.csv";
-			break;
-		case ADMINISTRATOR:
-			csvFile = "./Staff_List.csv";
-			break;
+		try {
+			Role role = Role.valueOf(loginRole);
+			switch (role) {
+			case PATIENT:
+				csvFile = "./Patient_List.csv";
+				break;
+			case DOCTOR:
+				csvFile = "./Staff_List.csv";
+				break;
+			case PHARMACIST:
+				csvFile = "./Staff_List.csv";
+				break;
+			case ADMINISTRATOR:
+				csvFile = "./Staff_List.csv";
+				break;
+			}
+		} catch (IllegalArgumentException e) {
+			System.out.println("Invalid Role, please try again!");
+			return null;
 		}
-
         // Attempt to read and authenticate from the CSV file 
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {		    
 			while ((line = br.readLine()) != null) {

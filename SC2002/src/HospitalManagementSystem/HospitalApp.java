@@ -32,6 +32,8 @@ public class HospitalApp{
 		do {
 			isLogin = mainCtrl.getInput();
 		} while (isLogin);
+		
+		System.exit(0);
     }
 	
 	/**
