@@ -4,6 +4,7 @@
  */
 package HospitalManagementSystem;
 
+import java.io.File;
 import java.util.Scanner;
 
 import mainSystemControl.*;
@@ -15,6 +16,7 @@ public class HospitalApp{
 	 */
 	public static void main(String[] args){
 		boolean isLogin = false;
+		updateData();
 		
 		System.out.println("Welcome to Hospital NTU.");
 		System.out.println("Please login to system to continue.");
@@ -58,6 +60,24 @@ public class HospitalApp{
     	
     	// Return the data of user with ID and Name
     	return data;
-	}	
+	}
+	
+	public static void updateData() {
+		File updatedFile1 = new File("./tempStaff.csv");
+		File updatedFile2 = new File("./tempPatient.csv");
+		
+        if (updatedFile1.exists()) {
+        	File originalFile = new File("./Staff_List.csv");
+        	if (originalFile.delete()) {
+                updatedFile1.renameTo(originalFile);
+            }
+        }else if (updatedFile2.exists()) {
+        	File originalFile = new File("./Patient_List.csv");
+        	if (originalFile.delete()) {
+                updatedFile2.renameTo(originalFile);
+            }
+        }else System.out.println("Data updated");
+        
+	}
 	
 }

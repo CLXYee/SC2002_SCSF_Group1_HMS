@@ -43,7 +43,9 @@ public class ResetPasswordCtrl {
     }
 	
 	private static void updatePasswordInFile(String loginHospitalID, String newPassword, String csvFile) {
-		String tempFile = "./temp.csv";
+		String tempFile;
+		if (csvFile.equals("./Patient_List.csv")) tempFile = "./tempPatient.csv";
+		else tempFile = "./tempStaff.csv";
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile));
              BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile))) {
             String line;
@@ -61,13 +63,6 @@ public class ResetPasswordCtrl {
             e.printStackTrace();
         }
 
-        // Replace the original file with the updated file
-        
-        File originalFile = new File(csvFile);
-        File updatedFile = new File(tempFile);
-        if (originalFile.delete()) {
-            updatedFile.renameTo(originalFile);
-        }
         System.out.println("Password successfully updated.");
     }
 }
