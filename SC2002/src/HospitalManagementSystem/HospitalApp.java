@@ -1,7 +1,3 @@
-/**
- * The HospitalApp class serves as the entry point for the Hospital NTU Management System.
- * It facilitates user authentication and interaction with the main control system of the hospital.
- */
 package HospitalManagementSystem;
 
 import java.io.File;
@@ -9,11 +5,17 @@ import java.util.Scanner;
 
 import mainSystemControl.*;
 
+/**
+ * The HospitalApp class serves as the entry point for the Hospital NTU Management System.
+ * It facilitates user authentication and interaction with the main control system of the hospital.
+ */
 public class HospitalApp{
 	/**
-	 * The HospitalApp class serves as the entry point for the Hospital NTU Management System.
-	 * It facilitates user authentication and interaction with the main control system of the hospital.
-	 */
+     * The main method serves as the entry point of the Hospital NTU Management System.
+     * It prompts the user to log in, authenticates the user, and then allows interaction with the system.
+     * 
+     * @param args Command line arguments (not used in this implementation).
+     */
 	public static void main(String[] args){
 		boolean isLogin = false;
 		updateData();
@@ -62,6 +64,11 @@ public class HospitalApp{
     	return data;
 	}
 	
+	/**
+     * Checks for the existence of temporary files that store updated staff and patient data.
+     * If the files exist, it renames them to replace the original CSV files.
+     * If no updates are detected, it prints a message indicating no updates.
+     */
 	public static void updateData() {
 		File updatedFile1 = new File("./tempStaff.csv");
 		File updatedFile2 = new File("./tempPatient.csv");

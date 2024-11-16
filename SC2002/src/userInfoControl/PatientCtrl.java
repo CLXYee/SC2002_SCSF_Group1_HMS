@@ -15,6 +15,11 @@ import java.util.*;
 import CSV.AppointmentCSVOperator;
 import CSV.DoctorCSVOperator;
 
+/**
+ * PatientCtrl is responsible for managing patient-related operations, including viewing and updating medical records,
+ * scheduling appointments, and viewing available slots for doctors.
+ * It also interacts with various CSV operators to handle patient data, appointments, and medical records.
+ */
 public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	private Patient patient;
 	private MedicalRecord medicalRecord;
@@ -25,6 +30,15 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	private List<Integer> rows = new ArrayList<>();
 	private Integer counter; // use to remark the most bottom line in the CSV file of appointment
 	
+	/**
+     * Constructs a new PatientCtrl instance with the provided patient details.
+     * It reads all appointments for the given patient and categorizes them into appointments and completed outcome records.
+     *
+     * @param hospitalID The unique identifier for the patient in the hospital system.
+     * @param name The name of the patient.
+     * @param gender The gender of the patient.
+     * @param age The age of the patient.
+     */
 	public PatientCtrl(String hospitalID, String name, String gender, int age) {
 		this.patient = new Patient(hospitalID, name, gender, age);
 		this.medicalRecord = new MedicalRecord(hospitalID);
@@ -53,6 +67,9 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		counter = appointmentcsv.getCounter();
 	}
 	
+	/**
+     * Displays the medical record of the patient, including personal details and past diagnoses and treatments.
+     */
 	public void showMedicalRecord() {
 		System.out.println("Show medical record for patient");
 		System.out.println("=================================================");
@@ -85,6 +102,10 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 	    }
 	}
 	
+	/**
+     * Allows the user to update their medical record. The patient can modify their phone number or email address.
+     * After updating, changes are saved to the corresponding CSV file.
+     */
 	public void updateMedicalRecord() {
 		Scanner sc = new Scanner(System.in);
 		int input;
@@ -142,6 +163,9 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		}while(input != 3);
 	}
 	
+	/**
+     * Displays a list of available doctors and allows the user to view the available slots of a chosen doctor.
+     */
 	public void viewAvailableSlots()
 	{
 		DoctorCSVOperator doctorcsv = new DoctorCSVOperator();
@@ -189,6 +213,10 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		}
 	}
 	
+	/**
+     * Handles the scheduling of an appointment for the patient. The user selects a doctor, date, and time slot for the appointment.
+     * The system checks for availability and confirms the booking.
+     */
 	public void scheduleAppointment()
 	{
 		int day = -2, start = -2, end = -2;
@@ -367,6 +395,11 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 
 	}
 	
+	/**
+     * Reschedules an existing appointment by allowing the user to select a new date and time.
+     * Updates both the user's and the doctor's schedules, and modifies the CSV files accordingly.
+     * The user can cancel the rescheduling process at any time by entering -1.
+     */
 	public void rescheduleAppointment()
 	{
 		String newDate, newTime;
@@ -572,6 +605,11 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		doctorcsv.changeSpecificInformation(newAppointment.getDoctorID(), indexChanges, changes);
 	}
 	
+	/**
+     * Cancels an existing appointment. The appointment is marked as "Canceled" in the system 
+     * and the doctor's schedule is updated accordingly. The user can exit the cancellation process 
+     * by entering -1.
+     */
 	public void cancelAppointment()
 	{
 		int appNum = -1;
@@ -643,6 +681,10 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		doctorcsv.changeSpecificInformation(newAppointment.getDoctorID(), indexChanges, changes);
 	}
 	
+	/**
+     * Displays a list of all scheduled appointments for the user, including details like the doctor's ID, 
+     * appointment status, date, and time. If there are no scheduled appointments, it notifies the user.
+     */
 	public void viewScheduledAppointment()
 	{
 		if (this.appointments.size() == 0)
@@ -670,6 +712,11 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		System.out.println("============================================================================================");
 	}
 	
+	/**
+     * Displays the user's past completed appointment records. Each record includes the appointment date, 
+     * type of service, prescribed medications, and consultation notes. If there are no completed appointments, 
+     * it notifies the user.
+     */
 	public void viewPastRecords()
 	{
 		if (this.appointmentOutcomeRecords.size() == 0)

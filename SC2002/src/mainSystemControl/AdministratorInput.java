@@ -16,7 +16,11 @@ import userInfoControl.IViewAppointment;
 import userInfoControl.StaffManagement;
 import userInfoControl.InventoryManagement;
 
-
+/**
+ * The AdministratorInput class manages the operations and interactions for hospital administrators.
+ * It handles input for various administrative tasks such as staff management, appointment viewing,
+ * and medication inventory management.
+ */
 public class AdministratorInput implements IGetOperationInput{
 	private AdministratorCtrl administratorCtrl = null;
 	private IMedicineView iMedicineView;

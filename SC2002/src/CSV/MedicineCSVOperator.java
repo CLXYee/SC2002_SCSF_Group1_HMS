@@ -10,14 +10,43 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides methods for managing medicine records in a CSV file.
+ * It extends the abstract class {@link CSVoperator} and implements functionalities for reading,
+ * updating, and modifying the medicine records based on different user roles.
+ *
+ * <p> The CSV file is expected to contain medicine data, and the class allows the following operations:</p>
+ * <ul>
+ *   <li>Reading the file contents based on user role.</li>
+ *   <li>Adding a new medicine record (placeholder method).</li>
+ *   <li>Updating specific medicine information (placeholder method).</li>
+ *   <li>Deleting a specific medicine record (placeholder method).</li>
+ *   <li>Updating the CSV file for an admin user, including adding new data.</li>
+ * </ul>
+ * 
+ * <p> The data in the CSV file is structured with columns for each medicine record. The class handles
+ * different functionalities based on the role of the user (admin or non-admin). </p>
+ */
 public class MedicineCSVOperator extends CSVoperator{
 	private String filePath;
 	private ArrayList<String> data = new ArrayList<>();
 	
+	/**
+     * Constructor that initializes the file path for the medicine CSV file.
+     * The default file path is set to "./Medicine_List.csv".
+     */
 	public MedicineCSVOperator() {
 		filePath = "./Medicine_List.csv";
 	}
 	
+	/**
+     * Reads the contents of the CSV file based on the user role.
+     * 
+     * @param id The ID of the user (not used in this implementation for role 3).
+     * @param role The role of the user. If the role is 3, the user is an admin, and the ID is not required.
+     *             For role 2, the data is fetched based on the user's permissions.
+     * @return A list of strings containing the data from the file, or an empty list if no data is found.
+     */
 	public ArrayList<String> readFile(String id, int role)// if the role equals to 3 means it is admin, the id is not important
 	{
 		switch(role) {
@@ -60,20 +89,50 @@ public class MedicineCSVOperator extends CSVoperator{
 		return data;
 	}
 	
+	/**
+     * Placeholder method for adding a new medicine record to the CSV file.
+     * Currently, this method does nothing but should be implemented to add a new line to the file.
+     * 
+     * @param dataAdd A list containing the new medicine record data.
+     * @return {@code true} if the new record is successfully added; {@code false} otherwise.
+     */
 	public boolean addLineToFile(List<String> dataAdd){
 		return true;
 	}
 	
+	/**
+     * Placeholder method for changing a specific block of data in the CSV file.
+     * Currently, this method does nothing but should be implemented to update specific fields.
+     * 
+     * @param id The ID of the medicine record to be changed.
+     * @param changesIndex A list of indices representing the columns to be updated.
+     * @param changes A list of new values for the specified columns.
+     * @return {@code true} if the information was successfully updated; {@code false} otherwise.
+     */
 	// changing a specific block in CSV
 	public boolean changeSpecificInformation(String id,ArrayList<Integer> changesIndex, ArrayList<String> changes) {
 		return true;
 	}
 	
+	/**
+     * Placeholder method for deleting a specific medicine record from the CSV file.
+     * Currently, this method does nothing but should be implemented to remove the specific line.
+     * 
+     * @param id The ID of the medicine record to be deleted.
+     * @return {@code true} if the record is successfully deleted; {@code false} otherwise.
+     */
 	// delete a specific line
 	public boolean deleteSpecificLine(String id) {
 		return true;
 	}
 	
+	/**
+     * Updates the CSV file for an admin user, including adding new data.
+     * The method reads the existing data, appends the provided new data, and writes it back to the file.
+     * 
+     * @param dataStore A list of strings representing the new data to be added to the file.
+     * @return {@code true} if the update is successful; {@code false} otherwise.
+     */
 	public boolean updateCSVForAdmin(ArrayList<String> dataStore) {
 		String tempFile = "./temp.csv"; // temporary file for the data changing
 		

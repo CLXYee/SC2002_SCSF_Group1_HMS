@@ -20,20 +20,32 @@ import java.util.List;
 import userInfo.*;
 import userInfoControl.*;
 
+/**
+ * Controller class that handles the doctor's medical record, appointment scheduling,
+ * personal schedule management, and other related functions.
+ * Implements the MedicalRecordCtrl, IDocAppointmentCtrl, ISchedule, and AppointmentOutcomeRecordCtrl interfaces.
+ */
 public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISchedule, AppointmentOutcomeRecordCtrl{
 	private String doctorID = null;
 	private String[] myPatientID = null;
 	private PersonalSchedule schedule = null;
 	private DoctorCSVOperator csv = new DoctorCSVOperator();
 	
+	/**
+     * Constructor that initializes the DoctorCtrl with the given hospital ID.
+     * @param hospitalID the unique identifier for the doctor at the hospital
+     */
 	public DoctorCtrl(String hospitalID) {
 		this.doctorID = hospitalID;
 		this.myPatientID = getPatientList(hospitalID);
 		this.schedule = new PersonalSchedule(hospitalID);
 	}
 	
-	
-	
+	/**
+     * Retrieves the list of patient IDs assigned to the doctor based on the hospital ID.
+     * @param doctorID the unique identifier for the doctor
+     * @return an array of patient IDs assigned to the doctor
+     */
 	public static String[] getPatientList(String doctorID) {
 	    ArrayList<String> patientIDs = new ArrayList<>();
 	    String filePath = "./Patient_List.csv";  
@@ -60,8 +72,9 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	    return patientIDs.toArray(new String[0]);
 	}
 	
-	
-	
+	/**
+     * Displays the list of patient IDs assigned to the doctor.
+     */
 	public void viewPatientIDs() {
 	    if (myPatientID.length == 0) {
 	        System.out.println("No patients found under your record.");
@@ -74,7 +87,9 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	    }
 	}
 
-
+	/**
+     * Allows the doctor to view a patient's medical record based on the patient ID.
+     */
 	public void showMedicalRecord() {
 		Scanner sc = new Scanner(System.in);
 		if (myPatientID.length == 0) return;
@@ -121,8 +136,10 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		}
 	}
 
-	
-	
+	/**
+     * Allows the doctor to update a patient's medical record by adding new diagnoses,
+     * prescriptions, and treatment plans.
+     */
 	public void updateMedicalRecord() { 
 		if (myPatientID.length == 0) return;
 		Scanner sc = new Scanner(System.in);
@@ -147,8 +164,9 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 			}
 	}
 	
-	
-	
+	/**
+     * Displays the doctor's personal schedule.
+     */
 	public void viewPersonalSchedule() {
 		System.out.println("===============================================================================================================================================");
 		System.out.println("                                                           Showing Personal Schedule                                                           ");
@@ -157,7 +175,9 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		System.out.println("\n===============================================================================================================================================");
 	}
 	
-	
+	/**
+     * Allows the doctor to set their availability for specific times and dates.
+     */
 	public void setAvailability() 
 	{
 		int choice = -1, day = -1, start = -1, end = -1;
@@ -305,8 +325,9 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 		this.csv.changeSpecificInformation(doctorID, indexChanges, changes);
 	}
 	
-	
-	
+	/**
+     * Updates the status of an appointment (e.g., Confirmed, Canceled, Completed).
+     */
 	public void updateAppointmentRequest() {
 	    Scanner sc = new Scanner(System.in);
 	    
@@ -398,8 +419,11 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	    }
 	}
 	
-	
-	
+	/**
+	 * Displays the list of upcoming appointments that are either pending or confirmed.
+	 * The list is filtered by checking the date and only shows appointments that occur in the future.
+	 * Displays the appointment ID, patient ID, status, date, and time.
+	 */
 	public void viewUpcomingAppointment() {
 		AppointmentCSVOperator appcsv = new AppointmentCSVOperator();
 	    ArrayList<String> appointmentsraw = new ArrayList<>();
@@ -445,8 +469,10 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	    System.out.println();
 	}
 	
-	
-	
+	/**
+	 * Records the outcome of completed appointments. This includes collecting the service type, prescribed medication,
+	 * and consultation notes for the appointment. The system will then update the outcome record for the specified appointment.
+	 */
 	public void recordAppointmentOutcome() {
 		Scanner sc = new Scanner(System.in);
 		// File path for the appointment list
@@ -524,14 +550,19 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISche
 	    }
 	}
 
-
+	/**
+	 * Displays the appointment outcome records for completed appointments.
+	 * The method retrieves and shows the records of outcomes for appointments that are marked as completed.
+	 */
 	public void viewAppointmentOutcomeRecord() {
 		// TODO Auto-generated method stub
 		
 	}
 
-
-
+	/**
+	 * Updates the appointment outcome record. This method allows modifications to existing outcome records.
+	 * The details can include updating service type, prescribed medication, or consultation notes.
+	 */
 	public void updateAppointmentOutcomeRecord() {
 		// TODO Auto-generated method stub
 		

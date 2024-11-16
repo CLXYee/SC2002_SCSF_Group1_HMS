@@ -10,16 +10,43 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides methods for reading, writing, updating, and deleting records
+ * in a CSV file specifically related to doctor data.
+ * It extends the abstract class {@link CSVoperator}.
+ * 
+ * <p> The CSV file is expected to contain doctor data, and this class allows operations like: </p>
+ * <ul>
+ *   <li>Reading a specific doctor's data by ID.</li>
+ *   <li>Adding a new doctor record.</li>
+ *   <li>Updating specific fields for a doctor record.</li>
+ *   <li>Deleting a doctor record.</li>
+ * </ul>
+ * 
+ * <p> This class assumes the CSV file format follows a specific structure where columns
+ * represent various data points such as doctor ID, name, schedule, etc. </p>
+ */
 public class DoctorCSVOperator extends CSVoperator
 {
 	private String filePath;
 	private ArrayList<String> data = new ArrayList<>();
 	
+	/**
+     * Constructor that initializes the file path for the CSV file.
+     * The default file path is set to "./Doctor_List.csv".
+     */
 	public DoctorCSVOperator()
 	{
 		this.filePath = "./Doctor_List.csv";
 	}
 	
+	/**
+     * Reads the CSV file and retrieves the data for a specific doctor based on the given ID.
+     * 
+     * @param id The ID of the doctor whose data is to be retrieved.
+     * @param role The role of the user (not used in this implementation but can be extended for role-based data retrieval).
+     * @return A list of strings containing the doctor's data, or an empty list if the doctor is not found.
+     */
 	public ArrayList<String> readFile(String id, int role)
 	{
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
@@ -46,6 +73,13 @@ public class DoctorCSVOperator extends CSVoperator
 		return data;
 	}
 	
+	/**
+     * Adds a new line to the CSV file with the data for a new doctor.
+     * 
+     * @param dataAdd A list containing the new doctor's data.
+     * @return {@code true} if the new line is successfully added; {@code false} otherwise.
+     */
+
 	public boolean addLineToFile(List<String> dataAdd)
 	{
 		try (FileWriter writer = new FileWriter(filePath, true)) {
@@ -59,6 +93,15 @@ public class DoctorCSVOperator extends CSVoperator
 	    }
 	}
 	
+	/**
+     * Changes specific information for a doctor in the CSV file.
+     * The fields to be updated are identified by their column indices, and the new values are provided in the {@code changes} list.
+     * 
+     * @param id The ID of the doctor whose information is to be changed.
+     * @param indexChanges A list of indices representing the columns to be updated.
+     * @param changes A list of new values for the specified columns.
+     * @return {@code true} if the information was successfully updated; {@code false} otherwise.
+     */
 	public boolean changeSpecificInformation(String id, ArrayList<Integer> indexChanges, ArrayList<String> changes)
 	{
 		String tempFile = "./temp.csv"; // temporary file for the data changing
@@ -152,7 +195,12 @@ public class DoctorCSVOperator extends CSVoperator
 	}
 	
 	
-	
+	/**
+     * Deletes the record of a specific doctor from the CSV file.
+     * 
+     * @param id The ID of the doctor to be deleted.
+     * @return {@code true} if the record was successfully deleted; {@code false} otherwise.
+     */
 	public boolean deleteSpecificLine(String id)
 	{
 		String tempFile = "./temp.csv"; // temporary file for the data changing
@@ -231,6 +279,13 @@ public class DoctorCSVOperator extends CSVoperator
 		return true;
 	}
 	
+	/**
+     * Splits a CSV line into its individual tokens, considering quoted fields.
+     * This method ensures that commas inside quoted strings do not split the field.
+     * 
+     * @param line The CSV line to be split.
+     * @return An array of strings, where each element represents a token (column) from the CSV line.
+     */
 	public String[] splitCommaCSVLine(String line) // Split a CSV line into the proper format (used for Appointment)
     {
         List<String> tokens = new ArrayList<>();

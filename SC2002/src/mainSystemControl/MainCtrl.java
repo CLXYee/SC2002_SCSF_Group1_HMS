@@ -42,10 +42,13 @@ public class MainCtrl {
 		}
 	}
 	
-	 /**
-     * Displays the menu and processes the user's selected operation input.
-     * Delegates operations to the role-specific input handler.
-     */
+	/**
+	 * Displays the menu to the user and processes their selected operation.
+	 * Delegates the execution of the selected operation to the appropriate input handler.
+	 * 
+	 * @return true if the operation was successfully executed and the user wishes to continue, 
+	 *         false if the operation involves logging out or exiting.
+	 */
 	public boolean getInput() {
 		operationInput.showMenu();
 		return operationInput.getOperationInput(getOperationInput());

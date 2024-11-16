@@ -10,15 +10,41 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The AppointmentCSVOperator class handles operations related to reading from and writing to
+ * the appointment data CSV file. It provides methods for reading specific appointment data,
+ * adding new appointment records, changing specific information in an appointment, and updating
+ * the CSV file for administrative purposes.
+ * 
+ * This class extends {@link CSVoperator} and provides synchronized methods for ensuring thread safety
+ * when modifying the appointment CSV file.
+ */
 public class AppointmentCSVOperator extends CSVoperator{
 	private String filePath;
 	private ArrayList<String> data = new ArrayList<>();
 	private Integer counter = 0;
 	
+	/**
+     * Constructs an AppointmentCSVOperator instance.
+     * Initializes the file path to the default appointment CSV file location.
+     */
 	public AppointmentCSVOperator() {
 		this.filePath = "./Appointment_List.csv";
 	}
 	
+	/**
+     * Reads the appointment CSV file and returns the specific data based on the user's role.
+     * 
+     * @param id The ID used to filter the data (e.g., patient ID, doctor ID).
+     * @param role The role of the user that determines which data is retrieved:
+     *             <ul>
+     *                 <li>0: Patient role</li>
+     *                 <li>1: Doctor role</li>
+     *                 <li>2: Administrator role (skip the first line)</li>
+     *                 <li>3: Administrator role (skip the first line, for a different purpose)</li>
+     *             </ul>
+     * @return An ArrayList containing the filtered data from the CSV file.
+     */
 	public synchronized ArrayList<String> readFile(String id, int role) // read the file of the CSV and return the specific line of data we need
 	{
 		switch(role) {
@@ -110,10 +136,21 @@ public class AppointmentCSVOperator extends CSVoperator{
 		return data;
 	}
 	
+	/**
+     * Gets the current line count for the appointment CSV file.
+     * 
+     * @return The number of lines read from the file.
+     */
 	public Integer getCounter() {
 		return counter;
 	}
 	
+	/**
+     * Adds a new line to the appointment CSV file.
+     * 
+     * @param dataAdd A list of strings containing the data to be added.
+     * @return True if the new line is successfully added, false otherwise.
+     */
 	public synchronized boolean addLineToFile(List<String> dataAdd) {
 	    try (FileWriter writer = new FileWriter(filePath, true)) {
 	        String newLine = dataAdd.get(0) + "," + dataAdd.get(1) + "," + dataAdd.get(2) + "," + dataAdd.get(3) + "," + dataAdd.get(4) + "," + dataAdd.get(5) + "," + "NA" + "," + "NA" + "," + "NA" + "," + "NA" + "\n";
@@ -126,7 +163,14 @@ public class AppointmentCSVOperator extends CSVoperator{
 	    }
 	}
 	
-	
+	/**
+     * Changes specific information in a particular appointment record identified by its ID.
+     * 
+     * @param id The ID of the appointment to be updated.
+     * @param changesIndex An ArrayList of indexes specifying which columns to update.
+     * @param changes An ArrayList of strings representing the new values for the specified columns.
+     * @return True if the update is successful, false otherwise.
+     */
 	public boolean changeSpecificInformation(String id,ArrayList<Integer> changesIndex, ArrayList<String> changes)//change a specific information with the specific index and this changes
 	{
 		String tempFile = "./temp.csv"; // temporary file for the data changing
@@ -195,11 +239,24 @@ public class AppointmentCSVOperator extends CSVoperator{
 		return true;
 	}
 	
+	/**
+     * Deletes a specific line from the appointment CSV file based on the appointment ID.
+     * 
+     * @param id The ID of the appointment to be deleted.
+     * @return True if the line is successfully deleted, false otherwise.
+     */
 	public boolean deleteSpecificLine(String id) // delete a specific line
 	{
 		return true;
 	}
 	
+	/**
+     * Updates the CSV file with new data for the administrator.
+     * This method overwrites the first line and appends the new data below it.
+     * 
+     * @param dataStore An ArrayList containing the new data to be stored.
+     * @return True if the update is successful, false otherwise.
+     */
 	public boolean updateCSVForAdmin(ArrayList<String> dataStore) {
 		String tempFile = "./temp.csv"; // temporary file for the data changing
 		

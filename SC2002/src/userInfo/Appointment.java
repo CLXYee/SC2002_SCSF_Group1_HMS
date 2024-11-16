@@ -10,6 +10,11 @@ import java.util.List;
 import CSV.AppointmentCSVOperator;
 
 
+/**
+ * Represents an appointment for a patient with a doctor. It stores details like the appointment ID, patient ID,
+ * doctor ID, status, date, and time. The class provides methods to add, reschedule, or cancel appointments,
+ * and to interact with the underlying CSV file for persistence.
+ */
 public class Appointment 
 {
 	private Integer appointmentID;
@@ -62,6 +67,17 @@ public class Appointment
     	a. Check if Appointment Status == "Completed"
     		i. Create an AppointmentOutcomeRecord object and 
     */
+    
+    /**
+     * Constructs an Appointment object with the specified details.
+     *
+     * @param aID The ID of the appointment.
+     * @param pID The ID of the patient.
+     * @param dID The ID of the doctor.
+     * @param aS The status of the appointment (e.g., "Pending", "Confirmed", "Completed").
+     * @param dA The date of the appointment (in the format "dd/MM/yyyy").
+     * @param tA The time of the appointment (in the format "HH:mm-HH:mm").
+     */
     public Appointment(Integer aID, String pID, String dID, String aS, String dA, String tA)
     {
     	this.appointmentID = aID;
@@ -72,48 +88,99 @@ public class Appointment
     	this.timeOfAppointment = tA;
     }
     
+    /**
+     * Gets the appointment ID.
+     *
+     * @return The appointment ID.
+     */
     public Integer getAppointmentID()
     {
     	return this.appointmentID;
     }
     
+    /**
+     * Gets the patient ID.
+     *
+     * @return The patient ID.
+     */
     public String getPatientID()
     {
     	return this.patientID;
     }
     
+    /**
+     * Gets the doctor ID.
+     *
+     * @return The doctor ID.
+     */
     public String getDoctorID()
     {
     	return this.doctorID;
     }
     
+    /**
+     * Gets the current status of the appointment (e.g., "Pending", "Confirmed", "Completed").
+     *
+     * @return The appointment status.
+     */
     public String getAppointmentStatus()
     {
     	return this.appointmentStatus;
     }
     
+    /**
+     * Gets the date of the appointment.
+     *
+     * @return The appointment date in the format "dd/MM/yyyy".
+     */
     public String getDateOfAppointment()
     {
     	return this.dateOfAppointment;
     }
     
+    /**
+     * Gets the time of the appointment.
+     *
+     * @return The appointment time in the format "HH:mm-HH:mm".
+     */
     public String getTimeOfAppointment()
     {
     	return this.timeOfAppointment;
     }
     
+    /**
+     * Reschedules the appointment by updating the date of the appointment.
+     *
+     * @param date The new date for the appointment.
+     */
     //When a patient reschedule appointment
     public void setDateOfAppointment(String date)
     {
     	this.dateOfAppointment = date;
     }
     
+    /**
+     * Reschedules the appointment by updating the time of the appointment.
+     *
+     * @param time The new time for the appointment.
+     */
     //When a patient reschedule appointment
     public void setTimeOfAppointment(String time)
     {
     	this.timeOfAppointment = time;
     }
     
+    /**
+     * Updates the status of the appointment (e.g., "Canceled", "Confirmed", "Completed").
+     * When this happens:
+     * 1. Patient cancels appointment (set to Canceled)
+     * 2. Doctor accepts appointment request (set to Confirmed)
+     * 3. Doctor declines appointment request (set to Canceled)
+     * 4. Doctor completes the appointment (set to Completed)
+     *    a. Remember to create an AppointmentOutcomeRecord object when appointment is completed
+     *
+     * @param Status The new status for the appointment.
+     */
     //When the following happens:
     /*
     1. Patient cancel appointment (set to Canceled)
@@ -127,6 +194,11 @@ public class Appointment
     	this.appointmentStatus = Status;
     }
     
+    /**
+     * Adds the new appointment to the CSV file for persistence.
+     *
+     * @return true if the appointment was successfully added, false otherwise.
+     */
     public boolean addNewAppointmentToCSV() 
     {
     	ArrayList<String> dataAdd = new ArrayList<>();
@@ -140,6 +212,11 @@ public class Appointment
     	return appointmentcsv.addLineToFile(dataAdd);
     }
     
+    /**
+     * Reschedules the appointment and updates the corresponding CSV record.
+     *
+     * @return true if the appointment was successfully rescheduled, false otherwise.
+     */
     public boolean rescheduleAppointmentInCSV()
     {
     	ArrayList<String> dataEdit = new ArrayList<>();
