@@ -6,7 +6,7 @@ NTU AY2024/25 Semester 1 SC2002 Group Project - Hospital Management System (HMS)
 
 HMS is an application aimed at automating the management of hospital operations, including patient management, appointment scheduling, staff management, and billing.<br>
 The system is expected to facilitate efficient management of hospital resources, enhance patient care, and streamline administrative processes.<br>
-This project is written in https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
+This project is written in <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/>
 # Features
 ## Patient 
 - View Medical Record
