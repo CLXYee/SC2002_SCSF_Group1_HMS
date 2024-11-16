@@ -14,7 +14,6 @@ public class ShowPatientMenu implements ShowMenu {
      */
 	@Override
 	public void showMenu() {
-		// TODO Auto-generated method stub
 		System.out.println("1. View Medical Record");
 		System.out.println("2. Update Personal Information");
 		System.out.println("3. View Available Appointment Slots");

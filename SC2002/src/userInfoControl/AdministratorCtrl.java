@@ -461,7 +461,17 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
     }
     
 	
-	public boolean updateStaffEntity() {
+    /**
+     * Updates the staff entity records by preparing data from the `staffList` 
+     * and formatting it into CSV rows. Includes special handling for initial roleIdCounter  
+     * (Doctor, Pharmacist, Administrator) based on the `roleIdCounters` map.
+     *
+     * Each staff record includes password, role, hospital ID, name, gender, age, 
+     * and optionally a role ID for specific roles.
+     *
+     * @return {@code true} if the CSV file was successfully updated; {@code false} otherwise.
+     */
+    public boolean updateStaffEntity() {
 		ArrayList<String> dataStore = new ArrayList<>();// use to pass the entity class to the database
 		int checker = 0; // use to store back the id tracker
 		
@@ -479,7 +489,17 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 		return false;
 	}
 	
-	public boolean updateMedicineEntity() {
+    /**
+     * Updates the medicine entity records by preparing data from the `medicines` list
+     * and formatting it into CSV rows. Each medicine's details, including replenish
+     * request information, are processed and converted into a CSV-compatible format.
+     *
+     * Special handling is applied to the `ReplenishRequestSubmittedBy` field to format 
+     * the list as a comma-separated string enclosed in double quotes.
+     *
+     * @return {@code true} if the CSV file was successfully updated; {@code false} otherwise.
+     */
+    public boolean updateMedicineEntity() {
 		ArrayList<String> dataStore = new ArrayList<>(); //use to pass the entity class to the database
 		
 		for(Medicine i: medicines) {
@@ -492,22 +512,4 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
 		if(medicineoperator.updateCSVForAdmin(dataStore)) return true;
 		return false;
 	}
-	
-	// Method to save updated medicines to Medicine_List.csv
-//	private void saveMedicinesToCSV() {
-//		try (BufferedWriter writer = new BufferedWriter(new FileWriter("./Medicine_List.csv"))) {
-//			// Write header for CSV file
-//			writer.write("Medicine Name,Stock,Low Stock Level Alert\n");
-//			for (Medicine medicine : medicines) {
-//				writer.write(String.format("%s,%d,%d\n",
-//					medicine.getName(),
-//					//medicine.getInitialStock(),
-//					medicine.getLowStockLevelAlert()));
-//			}
-//			System.out.println("Medicine inventory updated in Medicine_List.csv.");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
 }

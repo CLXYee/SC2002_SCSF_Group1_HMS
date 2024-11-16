@@ -7,11 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 import CSV.DoctorCSVOperator;
 
+/**
+ * Represents a doctor's personal schedule and provides methods for managing and viewing their schedule.
+ * The schedule consists of 7 days (Monday to Sunday), each with 16 time slots.
+ * Each time slot can be marked as Free (F) or assigned to a specific task such as meetings, surgical operations, etc.
+ */
 public class PersonalSchedule 
 {
 	private DoctorCSVOperator csv = new DoctorCSVOperator();
 	private Object[][] schedule = new Object[7][16];
 	
+	/**
+     * Constructs a PersonalSchedule object for a specific doctor based on the provided doctorID.
+     * Initializes the schedule with data read from a CSV file, setting each time slot to 'F' (Free) initially.
+     *
+     * @param doctorID the ID of the doctor whose schedule is being initialized
+     */
 	public PersonalSchedule(String doctorID)
 	{
 		int day, startTime, endTime;
@@ -48,7 +59,14 @@ public class PersonalSchedule
 		}
 	}
 	
-	
+	/**
+     * Edits the schedule by assigning a task to a specific time range.
+     *
+     * @param day the day of the week (0 = Monday, 6 = Sunday)
+     * @param startTime the starting time slot
+     * @param endTime the ending time slot
+     * @param task the task to assign (e.g., 'M' for meeting, 'S' for surgery)
+     */
 	public void editSchedule(int day, int startTime, int endTime, Object task)
 	{
 		for (int time = startTime; time <= endTime; time++)
@@ -58,6 +76,12 @@ public class PersonalSchedule
 	}
 	
 	
+	/**
+     * Translates the schedule into a string representation suitable for saving or displaying.
+     * The translation lists day, start time, end time, and task for each task block.
+     *
+     * @return the string representation of the schedule
+     */
 	public String translateSchedule()
 	{
 		int startTime, endTime;
@@ -98,6 +122,10 @@ public class PersonalSchedule
 	}
 	
 	
+	/**
+     * Displays the current schedule, showing each day's tasks in a time slot grid.
+     * It labels each task with a specific character code (e.g., 'M' for meeting, 'S' for surgery, etc.).
+     */
 	public void viewSchedule()
 	{
 		System.out.println("F  : Free Slot");
@@ -145,6 +173,14 @@ public class PersonalSchedule
 		}
 	}
 	
+	/**
+     * Checks if the given time range is free for a specific day.
+     *
+     * @param day the day of the week (0 = Monday, 6 = Sunday)
+     * @param startTime the starting time slot
+     * @param endTime the ending time slot
+     * @return true if the time range is free, false otherwise
+     */
 	public boolean slotsAreFree(int day, int startTime, int endTime)
 	{
 		for (int time = startTime; time <= endTime; time++)
@@ -157,6 +193,10 @@ public class PersonalSchedule
 		return true;
 	}
 	
+	/**
+     * Displays the available slots for appointment booking from the next day until the end of the week.
+     * Available slots are marked as 'O', and unavailable slots are marked as '-'.
+     */
 	public void viewFreeSlots()
 	{
 		LocalDate today = LocalDate.now(); // Get today's date

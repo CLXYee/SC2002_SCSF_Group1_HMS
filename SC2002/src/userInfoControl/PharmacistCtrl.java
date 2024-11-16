@@ -250,6 +250,16 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 	}
 	
 	
+	/**
+     * Updates the medicine entity records by preparing data from the `medicines` list
+     * and formatting it into CSV rows. Each medicine's details, including replenish
+     * request information, are processed and converted into a CSV-compatible format.
+     *
+     * Special handling is applied to the `ReplenishRequestSubmittedBy` field to format 
+     * the list as a comma-separated string enclosed in double quotes.
+     *
+     * @return {@code true} if the CSV file was successfully updated; {@code false} otherwise.
+     */
 	public boolean updateMedicineEntity() {
 		ArrayList<String> dataStore = new ArrayList<>(); //use to pass the entity class to the database
 		
@@ -265,6 +275,16 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 		return false;
 	}
 	
+	/**
+	 * Updates the appointment entity records by combining data from the `appointments` list
+	 * and the corresponding `appointmentsOutcomeRecord` list. The combined data is formatted
+	 * into CSV rows and passed to the CSV updater.
+	 *
+	 * Each record includes details such as appointment ID, patient ID, doctor ID, status,
+	 * date and time, type of service, prescribed medications, prescription status, and consultation notes.
+	 *
+	 * @return {@code true} if the CSV file was successfully updated; {@code false} otherwise.
+	 */
 	public boolean updateAppointmentEntity() {
 		ArrayList<String> dataStore = new ArrayList<>();
 		
