@@ -86,9 +86,6 @@ public class PharmacistInput implements IGetOperationInput{
 			//Logout
 			System.out.println("Loging out...\n");
 			pharmacistCtrl.updateMedicineEntity();
-			System.out.print("Press <Enter> to continue:");
-			// Dummy scanner to let the system stop for user to check information
-			sc.nextLine();
 			return false;	
 		default:
 			//Invalid input
