@@ -64,6 +64,9 @@ public class PatientInput implements IGetOperationInput {
 			return true;
 		case 2:
 			medicalRecordCtrl.updateMedicalRecord();
+			System.out.print("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return true;
 		case 3:
 			//View Available Appointment Slots

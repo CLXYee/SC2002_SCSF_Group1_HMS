@@ -55,25 +55,40 @@ public class PharmacistInput implements IGetOperationInput{
 		case 1:
             // View appointment outcome records
 			appointmentOutcomeRecordCtrl.viewAppointmentOutcomeRecord();
+			System.out.print("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return true;
 		case 2:
             // Update appointment outcome records
 			appointmentOutcomeRecordCtrl.updateAppointmentOutcomeRecord();
 			pharmacistCtrl.updateAppointmentEntity();
+			System.out.print("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return true;
 		case 3:
             // View medication inventory
 			iMedicineView.viewMedicationInventory();
+			System.out.print("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return true;
 		case 4:
             // Submit a replenish request
 			iSubmitReplenishRequest.submitReplenishRequest();
 			iMedicineView.updateMedicineEntity();
+			System.out.print("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return true;
 		case 5:
 			//Logout
 			System.out.println("Loging out...\n");
 			pharmacistCtrl.updateMedicineEntity();
+			System.out.print("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return false;	
 		default:
 			//Invalid input
