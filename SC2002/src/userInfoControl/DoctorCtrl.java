@@ -3,6 +3,7 @@ package userInfoControl;
 import CSV.MedicalRecordCSVOperator;
 import CSV.DoctorCSVOperator;
 import CSV.AppointmentCSVOperator;
+import CSV.MedicineCSVOperator;
 
 import java.util.Scanner;
 import java.io.BufferedReader;
@@ -30,6 +31,9 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 	private String[] myPatientID = null;
 	private PersonalSchedule schedule = null;
 	private DoctorCSVOperator csv = new DoctorCSVOperator();
+	private MedicineCSVOperator medicineoperator = new MedicineCSVOperator();
+	private List<Medicine> medicines = new ArrayList<>();
+
 	
 	/**
      * Constructor that initializes the DoctorCtrl with the given hospital ID.
@@ -39,6 +43,19 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 		this.doctorID = hospitalID;
 		this.myPatientID = getPatientList(hospitalID);
 		this.schedule = new PersonalSchedule(hospitalID);
+		
+		ArrayList<String> tempData = new ArrayList<>();
+		tempData = medicineoperator.readFile(null, 2);
+		
+		for(String i: tempData) {
+			String[] temp = medicineoperator.splitCommaCSVLine(i);
+ 			
+			ArrayList<String> submitter = new ArrayList<>(Arrays.asList(temp[5].split("\\s*,\\s*")));
+			
+			Medicine medicine = new Medicine(temp[0], Integer.parseInt(temp[1]), Integer.parseInt(temp[2]), temp[3], Integer.parseInt(temp[4]), submitter, temp[6]);
+
+	        this.medicines.add(medicine);
+		}
 	}
 	
 	/**
@@ -152,8 +169,29 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 			sc.nextLine();
 			System.out.println("Enter new diagnoses");
 			String diagnose = sc.nextLine();
-			System.out.println("Enter prescriptions");
-			String prescription = sc.nextLine();
+			// To ensure Doctor input a valid medicine
+			boolean Found = false;
+			String prescription= null;
+			while (!Found) {
+				System.out.print("Medicines available: ");
+				for (int i = 0; i < this.medicines.size(); i++) {
+		   			System.out.print(medicines.get(i).getName() + "; ");
+		   		}
+				System.out.println();
+				System.out.println("Enter prescriptions");
+				prescription = sc.nextLine();
+	
+				for (int k = 0; k < medicines.size(); k++) {
+					if (prescription.equals(medicines.get(k).getName())){
+						Found = true;
+						break;
+					}
+				}
+				if (!Found) {
+					System.out.println(prescription + " not found. Please enter a valid medicine.");
+				}
+			}
+
 			System.out.println("Enter treatment plans");
 			String plan = sc.nextLine();
 		
