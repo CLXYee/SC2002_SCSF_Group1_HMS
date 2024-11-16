@@ -67,7 +67,7 @@ public class PatientInput implements IGetOperationInput {
 			return true;
 		case 3:
 			//View Available Appointment Slots
-			patientCtrl.viewAvailableSlots();
+			appointmentCtrl.viewAvailableSlots();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			return true;
@@ -97,7 +97,7 @@ public class PatientInput implements IGetOperationInput {
 			return true;
 		case 8:
 			//View Past Appointment Outcome Records
-			patientCtrl.viewPastRecords();
+			appointmentCtrl.viewPastRecords();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			return true;

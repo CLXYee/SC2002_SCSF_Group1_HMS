@@ -7,6 +7,11 @@ package userInfoControl;
 public interface AppointmentCtrl {
 	
 	/**
+     * View available timing slot for appointment
+     */
+	public abstract void viewAvailableSlots();
+	
+	/**
      * Schedules a new appointment based on the provided details.
      */
 	public abstract void scheduleAppointment();
@@ -25,4 +30,9 @@ public interface AppointmentCtrl {
      * Views the details of scheduled appointments.
      */
 	public abstract void viewScheduledAppointment();
+	
+	/**
+     * View past appointment outcome record
+     */
+	public abstract void viewPastRecords();
 }

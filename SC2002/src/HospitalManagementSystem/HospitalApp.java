@@ -74,16 +74,19 @@ public class HospitalApp{
 		File updatedFile2 = new File("./tempPatient.csv");
 		
         if (updatedFile1.exists()) {
-        	File originalFile = new File("./Staff_List.csv");
-        	if (originalFile.delete()) {
-                updatedFile1.renameTo(originalFile);
+        	File originalFile1 = new File("./Staff_List.csv");
+        	if (originalFile1.delete()) {
+                updatedFile1.renameTo(originalFile1);
             }
-        }else if (updatedFile2.exists()) {
-        	File originalFile = new File("./Patient_List.csv");
-        	if (originalFile.delete()) {
-                updatedFile2.renameTo(originalFile);
+        }
+        if (updatedFile2.exists()) {
+        	File originalFile2 = new File("./Patient_List.csv");
+        	if (originalFile2.delete()) {
+                updatedFile2.renameTo(originalFile2);
             }
-        }else System.out.println("Data updated");
+        }
+        
+        System.out.println("Data updated");
         
 	}
 	
