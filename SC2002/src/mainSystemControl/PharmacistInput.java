@@ -73,12 +73,10 @@ public class PharmacistInput implements IGetOperationInput{
 		case 5:
 			//Logout
 			System.out.println("Loging out...\n");
-			HospitalApp.main(null);
 			return false;	
 		default:
 			//logging out
 			System.out.println("Loging out...\n");
-			HospitalApp.main(null);
 			return false;
 		}
 	}

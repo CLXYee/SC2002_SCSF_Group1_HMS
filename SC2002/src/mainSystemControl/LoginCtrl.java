@@ -1,9 +1,16 @@
 package mainSystemControl;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * Handles user authentication for the hospital management system.
@@ -50,6 +57,9 @@ public class LoginCtrl {
 		        
 		        if (loginHospitalID.equals(data[2]) && loginPassword.equals(data[0])) {
 		        	System.out.println("Login successful");
+		        	if ("password".equals(data[0])) {
+		        		ResetPasswordCtrl resetPwd = new ResetPasswordCtrl(csvFile,loginHospitalID);
+                    }
 		        	// Return the list of data read
 		        	data = Arrays.copyOfRange(data, 1, 6);
 		        	return data;
@@ -63,4 +73,5 @@ public class LoginCtrl {
 		System.out.println("Invalid ID or password, please try again");
 		return null;
 	}
+	
 }
