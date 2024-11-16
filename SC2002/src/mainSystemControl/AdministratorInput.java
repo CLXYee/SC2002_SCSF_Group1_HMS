@@ -71,6 +71,7 @@ public class AdministratorInput implements IGetOperationInput{
 		Scanner sc = new Scanner(System.in);
 		int choice;
 		switch(input) {
+		
 		// Staff Management
 		case 1:
 			staffManagement.displayStaff();

@@ -1,6 +1,7 @@
 package mainSystemControl;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 import userInfo.User;
 
@@ -51,7 +52,18 @@ public class MainCtrl {
 	 */
 	public boolean getInput() {
 		operationInput.showMenu();
-		return operationInput.getOperationInput(getOperationInput());
+		int input = 0;
+		boolean correctInput=false;
+		while (!correctInput) {
+			try {
+				input = getOperationInput();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input, try again.");
+				continue;
+			}
+			correctInput=true;
+		}
+		return operationInput.getOperationInput(input);
 	}
 	
 	/**

@@ -92,7 +92,7 @@ public class MedicalRecord {
         this.pastDiagnosesTreatment = new ArrayList<>(
         	    Arrays.asList(diagnosesTreatmentData.split("(?<=\\])\\s*;\\s*(?=\\[)"))
         	);
-        System.out.println(pastDiagnosesTreatment);
+        // System.out.println(pastDiagnosesTreatment);
     }
 
     /**

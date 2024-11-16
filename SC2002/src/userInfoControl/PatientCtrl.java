@@ -256,19 +256,29 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		
 		while (day < 0 + dayOfWeek.getValue() || day > 7)
 		{
-			System.out.println("===========================================");
-			System.out.println("              Day of the Week              ");
-			System.out.println("===========================================");
-			System.out.println("1. Monday");
-			System.out.println("2. Tuesday");
-			System.out.println("3. Wednesday");
-			System.out.println("4. Thursday");
-			System.out.println("5. Friday");
-			System.out.println("6. Saturday");
-			System.out.println("7. Sunday");
-			System.out.println("===========================================");
-			System.out.print("Enter your choice: ");
-			day = sc.nextInt();
+			boolean correctInput = false;
+			while (!correctInput) {
+				System.out.println("===========================================");
+				System.out.println("              Day of the Week              ");
+				System.out.println("===========================================");
+				System.out.println("1. Monday");
+				System.out.println("2. Tuesday");
+				System.out.println("3. Wednesday");
+				System.out.println("4. Thursday");
+				System.out.println("5. Friday");
+				System.out.println("6. Saturday");
+				System.out.println("7. Sunday");
+				System.out.println("===========================================");
+				System.out.print("Enter your choice: ");
+				
+				try {
+					day = sc.nextInt();
+					correctInput = true;
+				} catch (InputMismatchException e) {
+					sc.next();
+				}
+			}
+			
 			if (day == -1)
 			{
 				System.out.println("Booking is cancelled!");
@@ -300,14 +310,14 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 				System.out.println("===========================================");
 				System.out.println("           Starting Time Session           ");
 				System.out.println("===========================================");
-				System.out.println("1.  10:00 - 10:30\t 9.  14:00 - 14:30");
-				System.out.println("2.  10:30 - 11:00\t 10. 14:30 - 15:00");
-				System.out.println("3.  11:00 - 11:30\t 11. 15:00 - 15:30");
-				System.out.println("4.  11:30 - 12:00\t 12. 15:30 - 16:00");
-				System.out.println("5.  12:00 - 12:30\t 13. 16:00 - 16:30");
-				System.out.println("6.  12:30 - 13:00\t 14. 16:30 - 17:00");
-				System.out.println("7.  13:00 - 13:30\t 15. 17:00 - 17:30");
-				System.out.println("8.  13:30 - 14:00\t 16. 17:30 - 18:00");
+				System.out.println("1.  10:00\t 9.  14:00");
+				System.out.println("2.  10:30\t 10. 14:30");
+				System.out.println("3.  11:00\t 11. 15:00");
+				System.out.println("4.  11:30\t 12. 15:30");
+				System.out.println("5.  12:00\t 13. 16:00");
+				System.out.println("6.  12:30\t 14. 16:30");
+				System.out.println("7.  13:00\t 15. 17:00");
+				System.out.println("8.  13:30\t 16. 17:30");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
 				start = sc.nextInt();
@@ -331,14 +341,14 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 				System.out.println("===========================================");
 				System.out.println("            Ending Time Session            ");
 				System.out.println("===========================================");
-				System.out.println("1.  10:00 - 10:30\t 9.  14:00 - 14:30");
-				System.out.println("2.  10:30 - 11:00\t 10. 14:30 - 15:00");
-				System.out.println("3.  11:00 - 11:30\t 11. 15:00 - 15:30");
-				System.out.println("4.  11:30 - 12:00\t 12. 15:30 - 16:00");
-				System.out.println("5.  12:00 - 12:30\t 13. 16:00 - 16:30");
-				System.out.println("6.  12:30 - 13:00\t 14. 16:30 - 17:00");
-				System.out.println("7.  13:00 - 13:30\t 15. 17:00 - 17:30");
-				System.out.println("8.  13:30 - 14:00\t 16. 17:30 - 18:00");
+				System.out.println("1.  10:30\t 9.  14:30");
+				System.out.println("2.  11:00\t 10. 15:00");
+				System.out.println("3.  11:30\t 11. 15:30");
+				System.out.println("4.  12:00\t 12. 16:00");
+				System.out.println("5.  12:30\t 13. 16:30");
+				System.out.println("6.  13:00\t 14. 17:00");
+				System.out.println("7.  13:30\t 15. 17:30");
+				System.out.println("8.  14:00\t 16. 18:00");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
 				end = sc.nextInt();
@@ -492,14 +502,14 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 				System.out.println("===========================================");
 				System.out.println("           Starting Time Session           ");
 				System.out.println("===========================================");
-				System.out.println("1.  10:00 - 10:30\t 9.  14:00 - 14:30");
-				System.out.println("2.  10:30 - 11:00\t 10. 14:30 - 15:00");
-				System.out.println("3.  11:00 - 11:30\t 11. 15:00 - 15:30");
-				System.out.println("4.  11:30 - 12:00\t 12. 15:30 - 16:00");
-				System.out.println("5.  12:00 - 12:30\t 13. 16:00 - 16:30");
-				System.out.println("6.  12:30 - 13:00\t 14. 16:30 - 17:00");
-				System.out.println("7.  13:00 - 13:30\t 15. 17:00 - 17:30");
-				System.out.println("8.  13:30 - 14:00\t 16. 17:30 - 18:00");
+				System.out.println("1.  10:00\t 9.  14:00");
+				System.out.println("2.  10:30\t 10. 14:30");
+				System.out.println("3.  11:00\t 11. 15:00");
+				System.out.println("4.  11:30\t 12. 15:30");
+				System.out.println("5.  12:00\t 13. 16:00");
+				System.out.println("6.  12:30\t 14. 16:30");
+				System.out.println("7.  13:00\t 15. 17:00");
+				System.out.println("8.  13:30\t 16. 17:30");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
 				start = sc.nextInt();
@@ -523,14 +533,14 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 				System.out.println("===========================================");
 				System.out.println("            Ending Time Session            ");
 				System.out.println("===========================================");
-				System.out.println("1.  10:00 - 10:30\t 9.  14:00 - 14:30");
-				System.out.println("2.  10:30 - 11:00\t 10. 14:30 - 15:00");
-				System.out.println("3.  11:00 - 11:30\t 11. 15:00 - 15:30");
-				System.out.println("4.  11:30 - 12:00\t 12. 15:30 - 16:00");
-				System.out.println("5.  12:00 - 12:30\t 13. 16:00 - 16:30");
-				System.out.println("6.  12:30 - 13:00\t 14. 16:30 - 17:00");
-				System.out.println("7.  13:00 - 13:30\t 15. 17:00 - 17:30");
-				System.out.println("8.  13:30 - 14:00\t 16. 17:30 - 18:00");
+				System.out.println("1.  10:30\t 9.  14:30");
+				System.out.println("2.  11:00\t 10. 15:00");
+				System.out.println("3.  11:30\t 11. 15:30");
+				System.out.println("4.  12:00\t 12. 16:00");
+				System.out.println("5.  12:30\t 13. 16:30");
+				System.out.println("6.  13:00\t 14. 17:00");
+				System.out.println("7.  13:30\t 15. 17:30");
+				System.out.println("8.  14:00\t 16. 18:00");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
 				end = sc.nextInt();
@@ -636,7 +646,7 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 			appNum = sc.nextInt();
 			if (appNum == -1)
 			{
-				System.out.println("Rescheduling is cancelled!");
+				System.out.println("Cancellation is terminated!");
 				return;
 			}
 			if (appNum <= 0 || appNum > appointments.size())
