@@ -68,7 +68,7 @@ public class PharmacistInput implements IGetOperationInput{
 		case 4:
             // Submit a replenish request
 			iSubmitReplenishRequest.submitReplenishRequest();
-			pharmacistCtrl.updateMedicineEntity();
+			iMedicineView.updateMedicineEntity();
 			return true;
 		case 5:
 			//Logout

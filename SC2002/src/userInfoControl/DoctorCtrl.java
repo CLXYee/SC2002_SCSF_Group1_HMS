@@ -20,7 +20,7 @@ import java.util.List;
 import userInfo.*;
 import userInfoControl.*;
 
-public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, ISchedule, AppointmentOutcomeRecordCtrl{
+public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPatientList, ISchedule, AppointmentOutcomeRecordCtrl{
 	private String doctorID = null;
 	private String[] myPatientID = null;
 	private PersonalSchedule schedule = null;

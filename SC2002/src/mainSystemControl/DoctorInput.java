@@ -8,13 +8,20 @@ import ShowUserMenu.ShowDoctorMenu;
 import userInfoControl.*;
 
 public class DoctorInput implements IGetOperationInput{
-	private DoctorCtrl DoctorCtrl = null;
+	private DoctorCtrl doctorCtrl = null;
 	private ShowMenu menu = null;
-	//private PersonalSchedule PersonalSchedule = null;
+	private MedicalRecordCtrl medicalRecordCtrl=null;
+	private IDocAppointmentCtrl iDocAppointmentCtrl;
+	private IPatientList iPatientList;
+	private ISchedule iSchedule;
 
 	public DoctorInput(String hospitalID) {
-		this.DoctorCtrl = new DoctorCtrl(hospitalID);
+		this.doctorCtrl = new DoctorCtrl(hospitalID);
 		this.menu = new ShowDoctorMenu();
+		this.medicalRecordCtrl = this.doctorCtrl;
+		this.iDocAppointmentCtrl = this.doctorCtrl;
+		this.iPatientList = this.doctorCtrl;
+		this.iSchedule = this.doctorCtrl;
 	}
 	
 	public void showMenu() {
@@ -25,8 +32,8 @@ public class DoctorInput implements IGetOperationInput{
 		Scanner sc = new Scanner(System.in);
 		switch(input) {
 		case 1: 
-			DoctorCtrl.viewPatientIDs();
-			DoctorCtrl.showMedicalRecord(); 
+			iPatientList.viewPatientIDs();
+			medicalRecordCtrl.showMedicalRecord(); 
 			System.out.print("Press <Enter> to continue:");
 			// Dummy scanner to let the system stop for user to check information
 			sc.nextLine();
@@ -34,8 +41,8 @@ public class DoctorInput implements IGetOperationInput{
 		
 		case 2: 
 			//update patient medical record
-			DoctorCtrl.viewPatientIDs();
-			DoctorCtrl.updateMedicalRecord(); 
+			iPatientList.viewPatientIDs();
+			medicalRecordCtrl.updateMedicalRecord(); 
 			System.out.print("Press <Enter> to continue:");
 			// Dummy scanner to let the system stop for user to check information
 			sc.nextLine();
@@ -44,34 +51,34 @@ public class DoctorInput implements IGetOperationInput{
 			
 		case 3:
 			//view personal schedule
-			DoctorCtrl.viewPersonalSchedule();
+			iSchedule.viewPersonalSchedule();
 			return true;
 			
 		case 4:
 			//Set availability for appointment
-			DoctorCtrl.viewPersonalSchedule();
-			DoctorCtrl.setAvailability();
+			iSchedule.viewPersonalSchedule();
+			iSchedule.setAvailability();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			return true;
 			
 		case 5: 
 			//Accept or Decline Appointment Requests
-			DoctorCtrl.updateAppointmentRequest();
+			iDocAppointmentCtrl.updateAppointmentRequest();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			return true;
 			
 		case 6: 
 			//View Upcoming Appointments
-			DoctorCtrl.viewUpcomingAppointment();
+			iDocAppointmentCtrl.viewUpcomingAppointment();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			return true;
 			
 		case 7: 
 			//Record Appointment Outcome
-			DoctorCtrl.recordAppointmentOutcome();
+			iDocAppointmentCtrl.recordAppointmentOutcome();
 			System.out.print("Press <Enter> to continue:");
 			sc.nextLine();
 			return true;

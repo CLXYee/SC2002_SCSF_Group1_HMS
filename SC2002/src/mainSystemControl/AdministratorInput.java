@@ -113,26 +113,26 @@ public class AdministratorInput implements IGetOperationInput{
 			switch(choice) {
 			case 1:
 				inventoryManagement.addNewMedication();
-				inventoryManagement.updateMedicineEntity();
+				iMedicineView.updateMedicineEntity();
 				break;
 			case 2:
 				inventoryManagement.removeMedication();
-				inventoryManagement.updateMedicineEntity();
+				iMedicineView.updateMedicineEntity();
 				break;
 			case 3:
 				inventoryManagement.updateStockLevel();
-				inventoryManagement.updateMedicineEntity();
+				iMedicineView.updateMedicineEntity();
 				break;
 			case 4:
 				inventoryManagement.updateStockLowLevelAlert();
-				inventoryManagement.updateMedicineEntity();
+				iMedicineView.updateMedicineEntity();
 				break;
 			case 5:
 				inventoryManagement.approveReplenishRequest();
-				inventoryManagement.updateMedicineEntity();
+				iMedicineView.updateMedicineEntity();
 				break;
 			case 6:
-				inventoryManagement.updateMedicineEntity();
+				iMedicineView.updateMedicineEntity();
 				break;
 			default:
 				break;
