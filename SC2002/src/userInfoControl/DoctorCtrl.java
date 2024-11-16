@@ -429,9 +429,9 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 	        		int oldday = olddayOfWeek.getValue() - 1;
 	        	    int oldstart = timeSlotList.indexOf(appointment.getTimeOfAppointment().substring(0,5));
 	        	    int oldend = timeSlotList.indexOf(appointment.getTimeOfAppointment().substring(6)) - 1;
-	        	    System.out.println(oldday);
-	        	    System.out.println(oldstart);
-	        	    System.out.println(oldend);
+	        	    //System.out.println(oldday);
+	        	    //System.out.println(oldstart);
+	        	    //System.out.println(oldend);
 	        		this.schedule.editSchedule(oldday, oldstart, oldend, 'F');
 	        		
 	        		// Update the Doctor CSV File
@@ -551,15 +551,37 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 		String serviceType = sc.nextLine(); // Acts as a dummy
 		serviceType = sc.nextLine();
 		System.out.println("Enter Prescribed medication: (Write each medicine in a new line, type -1 to stop)");
+		
 		ArrayList<String> prescribedMed = new ArrayList<>();
+		
 		while (true)
 		{
-			String med = sc.nextLine();
-			if (med.equals("-1"))
+			// To ensure Doctor input a valid medicine
+			boolean Found = false;
+			String prescription= null;
+			while (!Found) {
+				System.out.print("Medicines available: ");
+				for (int i = 0; i < this.medicines.size(); i++) {
+		   			System.out.print(medicines.get(i).getName() + "; ");
+		   		}
+				prescription = sc.nextLine();
+
+				for (int k = 0; k < medicines.size(); k++) {
+					if (prescription.equals(medicines.get(k).getName()) || prescription.equals("-1")){
+						Found = true;
+						break;
+					}
+				}
+				if (!Found) {
+					System.out.println(prescription + " not found. Please enter a valid medicine.");
+				}
+			}
+			
+			if (prescription.equals("-1"))
 			{
 				break;
 			}
-			prescribedMed.add(med);
+			prescribedMed.add(prescription);
 		}
 		String[] prescribedMedication = prescribedMed.toArray(new String[0]);
 		
