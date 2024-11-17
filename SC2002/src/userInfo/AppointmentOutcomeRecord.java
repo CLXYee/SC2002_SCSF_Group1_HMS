@@ -74,7 +74,7 @@ public class AppointmentOutcomeRecord {
      * @return An array of prescribed medications.
      */
     public String[] getPrescribedMedications() {
-        return this.prescribedMedications;
+    	return this.prescribedMedications[0].split("; ");
     }
 
     /**
@@ -149,7 +149,7 @@ public class AppointmentOutcomeRecord {
         dataEdit.add(this.typeOfService);
 
         // Format prescribed medications as a comma-separated string
-        String prescribedMed = String.join(", ", this.prescribedMedications);
+        String prescribedMed = String.join("; ", this.prescribedMedications);
         dataEdit.add("\"" + prescribedMed + "\"");
 
         // Add prescription status to dataEdit list
