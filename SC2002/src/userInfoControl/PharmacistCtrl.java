@@ -1,8 +1,5 @@
 package userInfoControl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import userInfo.Appointment;
@@ -116,7 +113,15 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
 		System.out.println();
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Please input the appointment ID for the appointment to change: ");
-		int appointmentID = sc.nextInt();
+		int appointmentID = -1;
+		
+		try {
+			appointmentID = sc.nextInt();
+		} catch (InputMismatchException e) {
+			System.out.println("Invalid input. Please enter a nmumber.");
+			return;
+		}
+		
 		for (int i = 0; i < appointmentsOutcomeRecord.size(); i++) {
 			if (appointmentsOutcomeRecord.get(i).getAppointmentID() == appointmentID && appointmentsOutcomeRecord.get(i).getPrescriptionStatus().equals("Pending")) {
 				String[] prescribedMedicines = appointmentsOutcomeRecord.get(i).getPrescribedMedications();
@@ -189,7 +194,16 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
    			if (medicineName.equalsIgnoreCase(medicines.get(i).getName())){
    				if (medicines.get(i).getReplenishRequestSubmittedBy().get(0).equals("NA")) {
    					System.out.println("Please input the replenish request amount: ");
-   	   				int amount = sc.nextInt();
+   	   				int amount = -1;
+   	   				
+	   	   			try {
+	   	   				amount = sc.nextInt();
+	   				} catch (InputMismatchException e) {
+	   					System.out.println("Invalid input. Please enter a number.");
+	   					sc.next();
+	   					return;
+	   				}
+   	   				
 	   	   			System.out.println("Please type 'CONFIRM' if you insist on requesting: ");
 	                String confirmation = sc.next();
 	                if ("CONFIRM".equals(confirmation)) {
@@ -210,7 +224,16 @@ public class PharmacistCtrl implements AppointmentOutcomeRecordCtrl, ISubmitRepl
    	   					return;
    					}
    					System.out.println("Please input the replenish request amount: ");
-   	   				int amount = sc.nextInt();
+   	   				int amount = -1;
+   	   				
+	   	   			try {
+	   	   				amount = sc.nextInt();
+	   				} catch (InputMismatchException e) {
+	   					System.out.println("Invalid input. Please enter a number.");
+	   					sc.next();
+	   					return;
+	   				}
+   	   				
    	   				int previousRequest = medicines.get(i).getReplenishRequestAmount();
 	   	   			System.out.println("Please type 'CONFIRM' if you insist on requesting: ");
 	                String confirmation = sc.next();
