@@ -12,6 +12,7 @@ import java.util.Scanner;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 
 
@@ -113,16 +114,27 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
     	    }
     	}
 
-    	
-    	System.out.println("Staff list sort by: ");
-    	System.out.println("1. Role");
-    	System.out.println("2. Name");
-    	System.out.println("3. Age");
-    	System.out.println("4. Gender");
-    	System.out.println("5. Hospital ID");
-
     	Scanner sc = new Scanner(System.in);
-    	int choice = sc.nextInt();
+    	boolean correctInput = false;
+    	int choice = -1;
+    	do {
+	    	System.out.println("Staff list sort by: ");
+	    	System.out.println("1. Role");
+	    	System.out.println("2. Name");
+	    	System.out.println("3. Age");
+	    	System.out.println("4. Gender");
+	    	System.out.println("5. Hospital ID");
+	
+	    	try {
+				choice = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number.");
+				sc.next();
+				continue;
+			}
+	    	correctInput = true;
+    	} while (!correctInput);
+	    
     	switch (choice) {
 	        case 1:
 	            Collections.sort(staffList, Comparator.comparing(User::getRole));
@@ -160,11 +172,23 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
     public void addStaff() {
     	Scanner sc = new Scanner(System.in);
     	
-    	System.out.println("Please select role: ");
-    	System.out.println("1. Doctor");
-    	System.out.println("2. Pharmacist");
-    	System.out.println("3. Administrator");
-    	int choice = sc.nextInt();
+    	boolean correctInput = false;
+    	int choice = -1;
+    	do {
+	    	System.out.println("Please select role: ");
+	    	System.out.println("1. Doctor");
+	    	System.out.println("2. Pharmacist");
+	    	System.out.println("3. Administrator");
+	    	try {
+				choice = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number.");
+				sc.next();
+				continue;
+			}
+	    	correctInput = true;
+    	} while (!correctInput);
+    	
     	Role role = Role.DOCTOR;
     	switch (choice) {
     		case 1:
@@ -201,10 +225,22 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         System.out.println("Please input name: ");
         String name = sc.next();
         
-        System.out.println("Please select gender: ");
-        System.out.println("1. Male");
-    	System.out.println("2. Female");
-    	choice = sc.nextInt();
+        correctInput = false;
+        choice = -1;
+        do {
+	        System.out.println("Please select gender: ");
+	        System.out.println("1. Male");
+	    	System.out.println("2. Female");
+	    	
+	    	try {
+				choice = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number.");
+				sc.next();
+				continue;
+			}
+	    	correctInput = true;
+        } while (!correctInput);
     	String gender  = "Male";
     	switch (choice) {
     		case 1:
@@ -216,7 +252,18 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
     	}
     	
         System.out.println("Please input age: ");
-        int age = sc.nextInt();
+        correctInput = false;
+        int age = -1;
+        do {
+	    	try {
+				age = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number.");
+				sc.next();
+				continue;
+			}
+	    	correctInput = true;
+        } while (!correctInput);
         
         System.out.println(role.toString() + " " + hospitalID + " added.");
         User newStaff = new User(role, hospitalID, name, gender, age);
@@ -243,12 +290,23 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         String id = sc.next();
         for (int i = 0; i < staffList.size(); i++) {
         	if (staffList.get(i).getHospitalId().equals(id)) {
-                System.out.println("Please select the following to update: ");
-                System.out.println("1. Name ");
-                System.out.println("2. Age ");
-                System.out.println("3. Gender ");
-                int choice = sc.nextInt();
-                sc.nextLine();
+                boolean correctInput = false;
+                int choice = -1;
+        		do {
+	        		System.out.println("Please select the following to update: ");
+	                System.out.println("1. Name ");
+	                System.out.println("2. Age ");
+	                System.out.println("3. Gender ");
+	                try {
+						choice = sc.nextInt();
+					} catch (InputMismatchException e) {
+						System.out.println("Invalid input. Please enter a number.");
+						sc.next();
+						continue;
+					}
+					correctInput = true;
+                } while (!correctInput);
+        		
                 switch (choice) {
                 	case 1:
                         System.out.print("Please input updated name: ");
@@ -258,14 +316,50 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
                         return;
                 	case 2:
                         System.out.print("Please input updated age: ");
-                        int newAge = sc.nextInt();
+                        correctInput = false;
+                        int newAge = -1;
+                        do {
+                        	try {
+        						newAge = sc.nextInt();
+        					} catch (InputMismatchException e) {
+        						System.out.println("Invalid input. Please enter a number.");
+        						sc.next();
+        						continue;
+        					}
+        					correctInput = true;
+                        } while (!correctInput);
                         staffList.get(i).setAge(newAge);
                         System.out.println("Age updated");
                         return;
                 	case 3:
-                        System.out.print("Please input updated gender: ");
-                        String newGender = sc.nextLine();
-                        staffList.get(i).setGender(newGender);
+                        correctInput = false;
+                        choice = -1;
+                        do {
+                	        System.out.println("Please select gender: ");
+                	        System.out.println("1. Male");
+                	    	System.out.println("2. Female");
+                	    	
+                	    	try {
+                				choice = sc.nextInt();
+                			} catch (InputMismatchException e) {
+                				System.out.println("Invalid input. Please enter a number.");
+                				sc.next();
+                				continue;
+                			}
+                	    	correctInput = true;
+                        } while (!correctInput);
+                        
+                    	String gender  = "Male";
+                    	switch (choice) {
+                    		case 1:
+                    			gender = "Male";
+                    			break;
+                    		case 2:
+                    			gender = "Female";
+                    			break;
+                    	}
+                        
+                        staffList.get(i).setGender(gender);
                         System.out.println("Gender updated");
                         return;
                 }
@@ -353,12 +447,37 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
      */
     public void addNewMedication() {
    		Scanner sc = new Scanner(System.in);
+   		
     	System.out.println("Please input new medication name: ");
     	String newMedicationName = sc.nextLine();
     	System.out.println("Please input new medication stock level: ");
-    	int stockLevel = sc.nextInt();
+    	boolean correctInput = false;
+   		int stockLevel = -1;
+   		do {
+	    	try {
+				stockLevel = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number.");
+				sc.next();
+				continue;
+			}
+	    	correctInput = true;
+        } while (!correctInput);
+    	
     	System.out.println("Please input new medication low stock level alert: ");
-    	int lowStockLevelAlert = sc.nextInt();
+    	correctInput = false;
+    	int lowStockLevelAlert = -1;
+    	do {
+	    	try {
+	    		lowStockLevelAlert = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number.");
+				sc.next();
+				continue;
+			}
+	    	correctInput = true;
+        } while (!correctInput);
+    	
     	ArrayList <String> requester = new ArrayList<String>();
     	requester.add("NA");
     	Medicine newMedicine = new Medicine(newMedicationName, stockLevel, lowStockLevelAlert, "NA", 0, requester, "NA");
@@ -400,8 +519,20 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         for (int i = 0; i < medicines.size(); i++) {
         	if (medicines.get(i).getName().equalsIgnoreCase(medicationName)) {
                 System.out.println("Please input new stock level: ");
-                int newStockLevel = sc.nextInt();
-                medicines.get(i).setStockLevel(newStockLevel);
+                boolean correctInput = false;
+           		int newStockLevel = -1;
+           		do {
+        	    	try {
+        	    		newStockLevel = sc.nextInt();
+        			} catch (InputMismatchException e) {
+        				System.out.println("Invalid input. Please enter a number.");
+        				sc.next();
+        				continue;
+        			}
+        	    	correctInput = true;
+                } while (!correctInput);
+           		
+                medicines.get(i).setStockLevel(newStockLevel );
                 System.out.println("New stock level updated successfully.");
                 return;
         	}
@@ -419,7 +550,19 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
         for (int i = 0; i < medicines.size(); i++) {
         	if (medicines.get(i).getName().equalsIgnoreCase(medicationName)) {
                 System.out.println("Please input new low stock level alert: ");
-                int newLowStockLevel = sc.nextInt();
+                boolean correctInput = false;
+           		int newLowStockLevel = -1;
+           		do {
+        	    	try {
+        	    		newLowStockLevel = sc.nextInt();
+        			} catch (InputMismatchException e) {
+        				System.out.println("Invalid input. Please enter a number.");
+        				sc.next();
+        				continue;
+        			}
+        	    	correctInput = true;
+                } while (!correctInput);
+           		
                 medicines.get(i).setLowStockLevelAlert(newLowStockLevel);
                 System.out.println("New low stock level alert updated successfully.");
                 return;

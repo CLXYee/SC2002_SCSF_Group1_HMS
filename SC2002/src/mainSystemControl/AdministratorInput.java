@@ -4,6 +4,7 @@
  */
 package mainSystemControl;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import HospitalManagementSystem.HospitalApp;
@@ -69,17 +70,27 @@ public class AdministratorInput implements IGetOperationInput{
 	 */
 	public boolean getOperationInput(int input) {
 		Scanner sc = new Scanner(System.in);
-		int choice;
+		int choice=-1;
+		boolean correctInput = false;
 		switch(input) {
-		
 		// Staff Management
 		case 1:
 			staffManagement.displayStaff();
-			System.out.println("1. Add staff");
-			System.out.println("2. Update staff");
-			System.out.println("3. Remove staff");
-			System.out.println("4. Exit");
-			choice = sc.nextInt();
+			do {
+				System.out.println("1. Add staff");
+				System.out.println("2. Update staff");
+				System.out.println("3. Remove staff");
+				System.out.println("4. Exit");
+				try {
+					choice = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a number.");
+					sc.next();
+					continue;
+				}
+				correctInput = true;
+			} while (!correctInput);
+			
 			switch(choice) {
 			case 1:
 				staffManagement.addStaff();
@@ -100,21 +111,37 @@ public class AdministratorInput implements IGetOperationInput{
 				staffManagement.updateStaffEntity();
 				break;
 			}
+			System.out.println("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return true;
 		// View Appointments
 		case 2:
 			iViewAppointment.viewAppointments();
+			System.out.println("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return true;
 		// Medication Inventory Management
 		case 3:
-			iMedicineView.viewMedicationInventory();
-			System.out.println("1. Add new medication");
-			System.out.println("2. Remove medication");
-			System.out.println("3. Update medication stock level");
-			System.out.println("4. Update medication low stock level alert");
-			System.out.println("5. Approve medication replenish request");
-			System.out.println("6. Exit");
-			choice = sc.nextInt();
+			iMedicineView.viewMedicationInventory();			
+			do {
+				System.out.println("1. Add new medication");
+				System.out.println("2. Remove medication");
+				System.out.println("3. Update medication stock level");
+				System.out.println("4. Update medication low stock level alert");
+				System.out.println("5. Approve medication replenish request");
+				System.out.println("6. Exit");
+				try {
+					choice = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a number.");
+					sc.next();
+					continue;
+				}
+				correctInput = true;
+			} while (!correctInput);
+			
 			switch(choice) {
 			case 1:
 				inventoryManagement.addNewMedication();
@@ -142,6 +169,9 @@ public class AdministratorInput implements IGetOperationInput{
 			default:
 				break;
 			}
+			System.out.println("Press <Enter> to continue:");
+			// Dummy scanner to let the system stop for user to check information
+			sc.nextLine();
 			return true;
 		case 4:
 			System.out.println("Loging out...\n");
