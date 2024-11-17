@@ -39,7 +39,8 @@ View and Manage Hospital Staff
 - View and Manage Medication Inventory
 - Approve Replenishment Requests
 - Logout 
-# Documentation
+# Java Doc
+Can be accessed from `./SC2002/doc`
 # Contributors
 |Name|Github Username|
 |----|----|
