@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.InputMismatchException;
 
 import userInfo.*;
 import userInfoControl.*;
@@ -239,7 +240,14 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 				System.out.println("7. Sunday");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
-				day = sc.nextInt();
+				try {
+					day = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a number.");
+					sc.next();
+					continue;
+				}
+				
 				switch (day)
 				{
 					case 1, 2, 3, 4, 5, 6, 7:
@@ -265,7 +273,14 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 				System.out.println("8.  13:30\t 16. 17:30");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
-				start = sc.nextInt();
+				try {
+					start = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a number.");
+					sc.next();
+					continue;
+				}
+				
 				switch (start)
 				{
 					case 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16:
@@ -291,7 +306,14 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 				System.out.println("8.  14:00\t 16. 18:00");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
-				end = sc.nextInt();
+				try {
+					end = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a number.");
+					sc.next();
+					continue;
+				}
+				
 				switch (end)
 				{
 					case 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16:
@@ -300,6 +322,14 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 					default:
 						System.out.println("Invalid Choice! Please choose again!");
 				}
+			}
+			
+			if (end<start) {
+				day = -1;
+				start = -1;
+				end = -1;
+				System.out.println("Invalid choice! Ending time cannot be earlier than starting time");
+				continue;
 			}
 			
 			while (choice <= 0 || choice > 16)
@@ -315,7 +345,14 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 				System.out.println("6: Personal Leave");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
-				choice = sc.nextInt();
+				try {
+					choice = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a nmumber.");
+					sc.next();
+					continue;
+				}
+				
 				switch (choice)
 				{
 					case 1:
@@ -347,7 +384,18 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 			System.out.println("===========================================");
 			System.out.println("1: Keep Editing");
 			System.out.println("2: Quit");
-			choice = sc.nextInt();
+			boolean correctInput = false;
+			do {
+				try {
+					choice = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a nmumber.");
+					sc.next();
+					continue;
+				}
+				correctInput = true;
+			} while (!correctInput);
+			
 			switch (choice)
 			{
 				case 1:
@@ -393,14 +441,33 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 	                           appointment.getDateOfAppointment(), appointment.getTimeOfAppointment());
 	    }
 
+	    if (appointmentsList.isEmpty()) {
+	    	System.out.println("You have no upcoming appointments!");
+	    	return;
+	    }
+	    
 	    System.out.println("\nUpdating Appointment Status for Appointment ID:");
-	    int appointmentID = sc.nextInt();
+		int appointmentID = -1;
+    	try {
+    		appointmentID = sc.nextInt();
+    	} catch (InputMismatchException e) {
+			System.out.println("Invalid input. Please enter a number.");
+			sc.next();
+			return;
+		}
 	    
 	    System.out.println("Choose status to update:");
 	    System.out.println("1. Confirmed");
 	    System.out.println("2. Canceled");
 	    System.out.println("3. Completed");
-	    int choice = sc.nextInt();
+	    int choice = -1;
+	    try {
+	    	choice = sc.nextInt();
+    	} catch (InputMismatchException e) {
+			System.out.println("Invalid input. Please enter a number.");
+			sc.next();
+			return;
+		}
 	    
 	    String status;
 	    switch (choice) {
@@ -545,7 +612,14 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 
 	    //choose appointment ID to update
 	    System.out.println("\nUpdating Appointment Outcome for Appointment ID:");
-	    int appointmentID = sc.nextInt();
+	    int appointmentID = -1;
+	    try {
+    		appointmentID = sc.nextInt();
+    	} catch (InputMismatchException e) {
+			System.out.println("Invalid input. Please enter a number.");
+			sc.next();
+			return;
+		}
 		
 		System.out.println("Type of service provided: ");
 		String serviceType = sc.nextLine(); // Acts as a dummy
