@@ -16,3 +16,5 @@ Appointment ID,Patient ID,Doctor ID,Appointment Status,Date of Appointment,Time 
 15,P1003,D1001,Canceled,17/11/2024,10:00-10:30,NA,NA,NA,"NA"""""
 16,P1003,D1003,Completed,24/11/2024,17:30-18:00,NA,NA,NA,"NA"""""
 17,P1003,D1003,Canceled,24/11/2024,10:30-12:00,NA,NA,NA,"NA"""""
+18,P1003,D1003,Pending,21/11/2024,11:30-10:30,NA,NA,NA,NA
+19,P1003,D1003,Canceled,21/11/2024,11:30-10:30,NA,NA,NA,NA

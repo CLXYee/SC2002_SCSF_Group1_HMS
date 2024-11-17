@@ -108,7 +108,7 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
      */
 	public void updateMedicalRecord() {
 		Scanner sc = new Scanner(System.in);
-		int input;
+		int input = 0;
 		boolean checker;
 		do {
 			System.out.println();
@@ -119,7 +119,13 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 			System.out.println("3. Exit");
 			System.out.println("=========================================================");
 			System.out.println();
-			input = sc.nextInt();
+			try {
+				input = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a nmumber.");
+				sc.next();
+				continue;
+			}
 			
 			switch(input){
 				case 1:
@@ -256,27 +262,25 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		
 		while (day < 0 + dayOfWeek.getValue() || day > 7)
 		{
-			boolean correctInput = false;
-			while (!correctInput) {
-				System.out.println("===========================================");
-				System.out.println("              Day of the Week              ");
-				System.out.println("===========================================");
-				System.out.println("1. Monday");
-				System.out.println("2. Tuesday");
-				System.out.println("3. Wednesday");
-				System.out.println("4. Thursday");
-				System.out.println("5. Friday");
-				System.out.println("6. Saturday");
-				System.out.println("7. Sunday");
-				System.out.println("===========================================");
-				System.out.print("Enter your choice: ");
-				
-				try {
-					day = sc.nextInt();
-					correctInput = true;
-				} catch (InputMismatchException e) {
-					sc.next();
-				}
+			System.out.println("===========================================");
+			System.out.println("              Day of the Week              ");
+			System.out.println("===========================================");
+			System.out.println("1. Monday");
+			System.out.println("2. Tuesday");
+			System.out.println("3. Wednesday");
+			System.out.println("4. Thursday");
+			System.out.println("5. Friday");
+			System.out.println("6. Saturday");
+			System.out.println("7. Sunday");
+			System.out.println("===========================================");
+			System.out.print("Enter your choice: ");
+			
+			try {
+				day = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number.");
+				sc.next();
+				continue;
 			}
 			
 			if (day == -1)
@@ -320,7 +324,15 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 				System.out.println("8.  13:30\t 16. 17:30");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
-				start = sc.nextInt();
+				
+				try {
+					start = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a number.");
+					sc.next();
+					continue;
+				}
+				
 				if (start == -1)
 				{
 					System.out.println("Booking is cancelled!");
@@ -351,7 +363,15 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 				System.out.println("8.  14:00\t 16. 18:00");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
-				end = sc.nextInt();
+				
+				try {
+					end = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a number.");
+					sc.next();
+					continue;
+				}
+				
 				if (end == -1)
 				{
 					System.out.println("Booking is cancelled!");
@@ -365,6 +385,12 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 					default:
 						System.out.println("Invalid Choice! Please choose again!");
 				}
+				
+			}
+			
+			if (end<start) {
+				System.out.println("Invalid choice! Ending time cannot be earlier than starting time");
+				continue;
 			}
 			
 			if (!schedule.slotsAreFree(day, start, end))
@@ -440,7 +466,14 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		while (appNum <= 0 || appNum > appointments.size())
 		{
 			System.out.print("Appointment Number: ");
-			appNum = sc.nextInt();
+			
+			try {
+				appNum = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a nmumber.");
+				sc.next();
+				continue;
+			}
 			if (appNum == -1)
 			{
 				System.out.println("Rescheduling is cancelled!");
@@ -470,7 +503,15 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 			System.out.println("7. Sunday");
 			System.out.println("===========================================");
 			System.out.print("Enter your choice: ");
-			day = sc.nextInt();
+			
+			try {
+				day = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a number.");
+				sc.next();
+				continue;
+			}
+			
 			if (day == -1)
 			{
 				System.out.println("Rescheduling is cancelled!");
@@ -512,7 +553,15 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 				System.out.println("8.  13:30\t 16. 17:30");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
-				start = sc.nextInt();
+				
+				try {
+					start = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a number.");
+					sc.next();
+					continue;
+				}
+				
 				if (start == -1)
 				{
 					System.out.println("Rescheduling is cancelled!");
@@ -543,7 +592,15 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 				System.out.println("8.  14:00\t 16. 18:00");
 				System.out.println("===========================================");
 				System.out.print("Enter your choice: ");
-				end = sc.nextInt();
+				
+				try {
+					end = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Invalid input. Please enter a number.");
+					sc.next();
+					continue;
+				}
+				
 				if (end == -1)
 				{
 					System.out.println("Rescheduling is cancelled!");
@@ -557,6 +614,11 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 					default:
 						System.out.println("Invalid Choice! Please choose again!");
 				}
+			}
+			
+			if (end<start) {
+				System.out.println("Invalid choice! Ending time cannot be earlier than starting time");
+				continue;
 			}
 			
 			if (!schedule.slotsAreFree(day, start, end))
@@ -643,7 +705,15 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		while (appNum <= 0 || appNum > appointments.size())
 		{
 			System.out.print("Appointment Number: ");
-			appNum = sc.nextInt();
+			
+			try {
+				appNum = sc.nextInt();
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid input. Please enter a nmumber.");
+				sc.next();
+				continue;
+			}
+			
 			if (appNum == -1)
 			{
 				System.out.println("Cancellation is terminated!");
