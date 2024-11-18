@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"HospitalManagementSystem","l":"CSV"},{"m":"HospitalManagementSystem","l":"HospitalManagementSystem"},{"m":"HospitalManagementSystem","l":"mainSystemControl"},{"m":"HospitalManagementSystem","l":"ShowUserMenu"},{"m":"HospitalManagementSystem","l":"userInfo"},{"m":"HospitalManagementSystem","l":"userInfoControl"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"HospitalManagementSystem","l":"userInfoControl"}];updateSearchResults();
