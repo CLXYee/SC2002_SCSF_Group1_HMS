@@ -27,7 +27,7 @@ import userInfoControl.*;
  * personal schedule management, and other related functions.
  * Implements the MedicalRecordCtrl, IDocAppointmentCtrl, ISchedule, and AppointmentOutcomeRecordCtrl interfaces.
  */
-public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPatientList, ISchedule, AppointmentOutcomeRecordCtrl{
+public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPatientList, ISchedule{
 	private String doctorID = null;
 	private String[] myPatientID = null;
 	private PersonalSchedule schedule = null;
@@ -683,24 +683,6 @@ public class DoctorCtrl implements MedicalRecordCtrl, IDocAppointmentCtrl, IPati
 	        System.out.println("Appointment not found for the given Patient ID and Doctor ID.");
 	        return;
 	    }
-	}
-
-	/**
-	 * Displays the appointment outcome records for completed appointments.
-	 * The method retrieves and shows the records of outcomes for appointments that are marked as completed.
-	 */
-	public void viewAppointmentOutcomeRecord() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * Updates the appointment outcome record. This method allows modifications to existing outcome records.
-	 * The details can include updating service type, prescribed medication, or consultation notes.
-	 */
-	public void updateAppointmentOutcomeRecord() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }
