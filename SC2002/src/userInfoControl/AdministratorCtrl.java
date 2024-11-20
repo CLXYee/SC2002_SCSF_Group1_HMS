@@ -31,7 +31,7 @@ import CSV.DoctorCSVOperator;
  * It provides functionalities such as adding, updating, viewing, and removing staff and medication.
  */
 public class AdministratorCtrl implements IMedicineView, InventoryManagement, StaffManagement, IViewAppointment{
-	private String hospitalID;
+	private String curHospitalID;
 	private List<User> staffList = new ArrayList<>();
 	private List<Appointment> appointments = new ArrayList<>();
 	private List<AppointmentOutcomeRecord> appointmentsOutcomeRecord = new ArrayList<>();
@@ -51,7 +51,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
      * @param hospitalID the unique identifier for the hospital
      */
 	public AdministratorCtrl(String hospitalID) {
-		this.hospitalID = hospitalID;
+		this.curHospitalID = hospitalID;
 		ArrayList<String> tempData = new ArrayList<>();
 		
 		tempData = staffoperator.readFile(null, 3);
@@ -220,7 +220,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
                 throw new IllegalArgumentException("Invalid role: " + role);
         }
 
-        hospitalID = rolePrefix + String.format("%04d", nextIdNumber);
+        String hospitalID = rolePrefix + String.format("%04d", nextIdNumber);
         
         System.out.println("Please input name: ");
         String name = sc.next();
@@ -585,7 +585,7 @@ public class AdministratorCtrl implements IMedicineView, InventoryManagement, St
    	                String confirmation = sc.next();
    	                if ("APPROVE".equals(confirmation)) {
    	                	medicines.get(i).setReplenishRequestStatus("Approved");
-   	                	medicines.get(i).setReplenishRequestApprovedBy(hospitalID);
+   	                	medicines.get(i).setReplenishRequestApprovedBy(curHospitalID);
    	   	   				medicines.get(i).setStockLevel(medicines.get(i).getStockLevel() + medicines.get(i).getReplenishRequestAmount());
    	   	   				System.out.println("Replenish request for " + medicineName + " approved");
    	                    return;
