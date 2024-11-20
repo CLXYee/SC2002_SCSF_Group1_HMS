@@ -1,5 +1,5 @@
-﻿Password,Role,Doctor ID,Name,Date of Birth,Gender,Phone Number,Contact Information,Blood Type,"Personal Schedule"
-password,DOCTOR,D1001,Levy Rozman,5/12/1995,Male,12345678,levy.rozman@example.com,A+,"0,4,5,B,0,6,7,M,1,0,15,S,2,0,2,T,2,4,5,B,3,4,5,B,5,4,5,B,5,6,7,M,6,4,5,B,6,11,13,P,6,15,15,15"
+Password,Role,Doctor ID,Name,Date of Birth,Gender,Phone Number,Contact Information,Blood Type,"Personal Schedule"
+password,DOCTOR,D1001,Levy Rozman,5/12/1995,Male,12345678,levy.rozman@example.com,A+,"0,4,5,B,0,6,7,M,1,0,15,S,2,0,2,T,2,4,5,B,3,4,5,B,4,1,1,21,5,0,0,20,5,3,3,21,5,4,5,B,5,6,7,M,5,14,15,23,6,4,5,B,6,11,13,P,6,15,15,15"
 password,DOCTOR,D1002,Daniel Naroditsky,9/11/1995,Male,87654321,daniel.naro@example.com,B+,"0,0,15,S,1,0,1,M,1,6,7,B,2,6,7,B,3,0,15,S,4,0,2,T,4,6,7,B,5,0,1,M,5,6,7,B,6,0,15,S"
 password,DOCTOR,D1003,Magnus Carlsen,30/11/1990,Male,77112233,magnuscarlsen@example.com,O-,"0,4,5,B,0,6,7,M,1,4,5,B,2,0,15,S,3,0,2,T,3,4,5,B,4,4,5,B,5,4,5,B,5,6,7,M,6,1,3,17,6,4,5,B,6,15,15,16"
 password,DOCTOR,D1004,Anna Cramling,27/9/1998,Female,29356239,anna.cramling@example.com,AB-,"0,7,7,4,1,0,1,M,1,6,7,B,2,0,2,T,2,6,7,B,3,6,7,B,4,6,7,B,4,9,11,P,5,0,15,S,6,0,15,S"

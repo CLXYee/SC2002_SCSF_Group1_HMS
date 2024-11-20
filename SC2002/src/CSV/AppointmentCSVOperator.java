@@ -155,6 +155,7 @@ public class AppointmentCSVOperator extends CSVoperator{
 	    try (FileWriter writer = new FileWriter(filePath, true)) {
 	        String newLine = dataAdd.get(0) + "," + dataAdd.get(1) + "," + dataAdd.get(2) + "," + dataAdd.get(3) + "," + dataAdd.get(4) + "," + dataAdd.get(5) + "," + "NA" + "," + "NA" + "," + "NA" + "," + "NA" + "\n";
 	        writer.write(newLine);
+	        counter++;
 
 	        return true;
 	    } catch (IOException e) {
