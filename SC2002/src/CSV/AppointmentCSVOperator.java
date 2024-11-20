@@ -145,6 +145,10 @@ public class AppointmentCSVOperator extends CSVoperator{
 		return counter;
 	}
 	
+	public void addCounter() {
+		counter = counter + 1;
+	}
+	
 	/**
      * Adds a new line to the appointment CSV file.
      * 

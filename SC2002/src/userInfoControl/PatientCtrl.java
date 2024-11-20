@@ -417,6 +417,7 @@ public class PatientCtrl implements MedicalRecordCtrl, AppointmentCtrl {
 		
 		Appointment appointment = new Appointment(appointmentcsv.getCounter(), this.medicalRecord.getPatientID(), doctorID, "Pending", dateOfAppointment, timeOfAppointment);
 		this.appointments.add(appointment);
+		appointmentcsv.addCounter();
 		
 		if(appointment.addNewAppointmentToCSV()) {
 			System.out.println("Schedule add successfully!");
